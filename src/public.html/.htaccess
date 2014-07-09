@@ -1,0 +1,6 @@
+# Rewriting
+RewriteEngine on
+
+RewriteRule ^(resources/.+) $1 [L]
+#RewriteRule (\w+)/(\w+)(/.+)?$ dispatcher.php?controller=$1&method=$2 [L]
+RewriteRule (\w+):(\w+)(/(.+)?)?$ dispatcher.php?controller=$1&method=$2&$4 [L]
