@@ -10,9 +10,8 @@ class FormSectionCreate extends Form {
 		parent::__construct('formSectionCreate', 'Section Create');
 
 		$sectionToEdit = san()->filterUint('sectionToEdit');
-		$section = $this->getSection($sectionToEdit);
 
-		$this->addElement(new ElementInput('title', 'Title', $section['title']));
+		$this->addElement(new ElementInput('title', 'Title'));
 		$this->addDefaultButtons();
 	}
 

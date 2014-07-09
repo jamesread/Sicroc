@@ -17,7 +17,7 @@
 		<p>No subsections. </p>
 	{else}
 		<ul class = "navigation">
-		{foreach from = "$navigation" item = "link"}
+		{foreach from = $navigation item = "link"}
 			<li><a href = "{$link.url}">{$link.caption}</a></li>
 		{/foreach}
 		</ul>
@@ -33,10 +33,11 @@
 					<li><a href = "?pageIdent=LOGOUT">Logout</a></li>
 				{/if}
 					<li><strong>Section</strong></li>
+					<li><a href = "?pageIdent=SECTION_CREATE">Create section</a></li>
 					<li><a href = "?pageIdent=SECTION_UPDATE&sectionToEdit={$section.id}">Update section</a></li>
 					<li><strong>Page</strong></li>
-					<li><a href = "?page=4">Create page</a>
-					<li><a href = "?page=6&pageToEdit={$page.id}">Update page</a></li>
+					<li><a href = "?pageIdent=PAGE_CREATE">Create page</a>
+					<li><a href = "?pageIdent=PAGE_UPDATE&pageToEdit={$page.id}">Update page</a></li>
 					<li><strong>Widgets</strong></li>
 					<li><a href = "?pageIdent=WIDGET_CREATE">Create Widget Instance</a></li>
 					<li><a href = "?pageIdent=WIDGET_REGISTER">Register widget class</a></li>

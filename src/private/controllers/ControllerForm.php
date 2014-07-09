@@ -10,7 +10,9 @@ class ControllerForm extends ViewableController {
 		$principle = $this->getArgumentValue('formClass');
 
 		if (!empty($principle)) {
-			require_once CONTROLLERS_DIR . $principle . '.php';
+			if (!@include_once CONTROLLERS_DIR . $principle . '.php') {
+				throw new Exception('Could not include PHP class for form: ' . CONTROLLERS_DIR . $principle . '.php');
+			}
 			$this->f = new $principle($this);
 			$this->f->addElementDetached(new ElementHidden('page', null, LayoutManager::getPage()->getId()));
 		}
@@ -47,19 +49,18 @@ class ControllerForm extends ViewableController {
 			$tpl->display('simple.tpl');
 		}
 
-		$tpl->assignForm($this->f);
 	}
 
 	public function render() {
 		global $tpl;
 
 		if (isset($this->f)) {
+			$tpl->assignForm($this->f);
 			$tpl->display('form.tpl');
 		} else {
 			$tpl->assign('message', 'This widget is assigned with a form controller, but no form has been constructed, possibly due to some sort of error. Sorry that this message is mostly useless.');
 			$tpl->display('simple.tpl');
 		}
-
 	}
 
 	public function validate() {
