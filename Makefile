@@ -1,7 +1,9 @@
 default:
 	rm -rf pkg
 	mkdir -p pkg
-	zip -r pkg/foo.zip src/public.html
-	zip -r pkg/foo.zip src/public.json
-	zip -r pkg/foo.zip src/private
+	./id.sh > buildinfo.txt
+	zip -r pkg/Sicroc.zip buildinfo.txt
+	zip -r pkg/Sicroc.zip src/public.html
+	zip -r pkg/Sicroc.zip src/public.json
+	zip -r pkg/Sicroc.zip src/private
 
