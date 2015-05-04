@@ -12,7 +12,7 @@ class FormPageUpdate extends Form {
 		parent::__construct('pageEdit', 'Page update');
 
 		$this->page = $this->getPage();
-	
+
 		$this->addElement(new ElementInput('title', 'Title', $this->page['title']));
 
 		$this->addElement(new ElementHidden('pageToEdit', 'Page to edit', Sanitizer::getInstance()->filterUint('pageToEdit')));

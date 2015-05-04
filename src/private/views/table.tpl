@@ -1,7 +1,7 @@
 <table>
 	<thead>
 		<tr>
-		{foreach from = "$headers" item = "header"} 
+		{foreach from = $headers item = "header"} 
 			<th>
 				{$header.name} 
 				<span class = "subtle">{if isset($header.native_type)}{$header.native_type}{else}???{/if}</span>

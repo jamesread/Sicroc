@@ -20,10 +20,6 @@ class Page extends ViewableController {
 	private function getPageById() {
 		$pageId = Sanitizer::getInstance()->filterUint('page');
 
-		if ($pageId == 0) {
-			$pageId = 9;
-		}
-
 		$sql = 'SELECT p.id, p.title, p.layout FROM pages p WHERE p.id = :id LIMIT 1';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':id', $pageId);
@@ -128,12 +124,16 @@ class Page extends ViewableController {
 	public static function resolveWidget($widget, $page = null) {
 		$widgetRet = $widget;
 
-		assert(!empty($widget['method']));
-		assert(!empty($widget['viewableController']));
-
-		require_once CONTROLLERS_DIR . $widget['viewableController'] . '.php';
-
 		try {
+			if (empty($widget['method'])) {
+				$widget['method'] = 'display';
+			}
+			assert(!empty($widget['viewableController']));
+
+			if (!@include_once(CONTROLLERS_DIR . $widget['viewableController'] . '.php')) {
+				throwException('Cannot include widget PHP class: ' . CONTROLLERS_DIR . $widget['viewableController'] . '.php');
+			}
+
 			$widgetRet['inst'] = $inst = new $widget['viewableController']($widget['principle']);
 			$widgetRet['inst']->page = $page;
 			$widgetRet['inst']->widgetId = $widget['id'];
@@ -176,12 +176,13 @@ class Page extends ViewableController {
 	public function resolve() {
 		$this->widgets = array();
 
+		global $tpl;
+		$tpl->assign('isLoggedIn', Session::isLoggedIn());
+
 		try { 
 			$this->page = $this->getPage();
 
-			global $tpl;
 			$tpl->assign('page', $this->page);
-			$tpl->assign('isLoggedIn', Session::isLoggedIn());
 		} catch (Exception $e) {
 			$this->page = array(
 				'id' => 0,
@@ -190,7 +191,6 @@ class Page extends ViewableController {
 			);
 			$this->widgets = array();
 
-			global $tpl;
 			$tpl->assign('message', '<a href = "?pageIdent=PAGE_CREATE">Create?</a>');
 			$tpl->display('simple.tpl');
 			return;

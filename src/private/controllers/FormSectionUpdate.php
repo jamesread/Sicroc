@@ -42,6 +42,7 @@ class FormSectionUpdate extends Form {
 		$stmt->execute();
 
 		$el = new ElementSelect('master', 'Master section');
+		$el->addOption('(none)', null);
 
 		foreach ($stmt->fetchAll() as $section) {
 			$el->addOption($section['title'], $section['id']);

@@ -8,9 +8,9 @@
 	{foreach from = $widgets item = widget}  
 	<div class = "widget">
 		{if sizeof($widgets) > 1}
-		<h3><abbr title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</abbr> <a href = "?controller=Page&amp;page=11&amp;widgetToUpdate={$widget.id}">&#x270E;</a></h3>
+		<h3><abbr title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</abbr> <a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a></h3>
 		{else}
-		<a href = "?controller=Page&amp;page=11&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
+		<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
 		{/if}
 		{if isset($widget.inst->navigation) && $widget.inst->navigation->hasLinks()}
 			<div class = "toolbar">

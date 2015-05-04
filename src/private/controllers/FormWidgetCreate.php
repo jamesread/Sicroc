@@ -8,6 +8,7 @@ use \libAllure\DatabaseFactory;
 class FormWidgetCreate extends Form {
 	public function __construct() {
 		$this->addElement($this->getElementType());
+		$this->addElement(new ElementInput('title', 'Title'));
 		$this->addElement(new ElementInput('principle', 'Principle'));
 		$this->addElement(new ElementInput('method', 'Method', 'display'));
 		$this->addDefaultButtons();
@@ -32,11 +33,12 @@ class FormWidgetCreate extends Form {
 	}
 
 	public function process() {
-		$sql = 'INSERT INTO widget_instances (principle, method, type) VALUES (:principle, :method, :type) ';
+		$sql = 'INSERT INTO widget_instances (principle, method, type, title) VALUES (:principle, :method, :type, :title) ';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$this->bindElementToStatement($stmt, 'principle');
 		$this->bindElementToStatement($stmt, 'method');
 		$this->bindElementToStatement($stmt, 'type');
+		$this->bindElementToStatement($stmt, 'title');
 		$stmt->execute();
 	}
 }

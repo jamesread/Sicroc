@@ -44,7 +44,9 @@ require_once 'libAllure/ErrorHandler.php';
 
 \libAllure\ErrorHandler::getInstance()->beGreedy();
 
-require_once 'config.php';
+if (!@include_once 'config.php') {
+	throw new Exception('Cannot include config file called config.php. It should be in one of these directories: ' . get_include_path());
+}
 
 require_once 'procedural/interface.php';
 require_once 'libAllure/util/shortcuts.php';

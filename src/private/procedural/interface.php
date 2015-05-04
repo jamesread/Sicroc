@@ -74,4 +74,8 @@ function implodeQuoted($a, $quoteChar = '"') {
 function redirect($url) {
 	header('Location:' . $url);
 }
+
+function throwException($message) {
+	throw new Exception($message);
+}
 ?>
