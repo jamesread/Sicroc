@@ -105,9 +105,7 @@ abstract class ViewableController extends Controller {
 
 		$query = http_build_query($params);
 
-		//return $controller . '/' . $method . '/' . $query;
-		// If not mod rw
-		return 'dispatcher.php?controller=' . $controller . '&amp;method=' . $method . '&amp;page=' . $params['page'];
+		return '?controller=' . $controller . '&amp;method=' . $method . '&amp;page=' . $params['page'];
 	}
 
 
