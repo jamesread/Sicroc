@@ -1,4 +1,9 @@
-default:
+default: test package
+
+test:
+	phpunit tests/Test*
+
+package:
 	rm -rf pkg
 	mkdir -p pkg
 	./buildinfo.sh > buildinfo.txt
@@ -7,3 +12,4 @@ default:
 	zip -r pkg/Sicroc.zip src/public.json
 	zip -r pkg/Sicroc.zip src/private
 
+.PHONY: default test
