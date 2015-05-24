@@ -1,6 +1,40 @@
 #!/usr/bin/php
 <?php 
 
-require_once __DIR__ . '/../private/common.php';
+require_once __DIR__ . '/../private/init.php';
+
+if (isset($argv[1])) {
+	$command = $argv[1];
+} else {
+	$command = null;
+}
+
+switch ($command) {
+	case 'init':
+		Config::write();
+
+		echo "Config written.\n";
+
+		break;
+
+	case 'install-links':
+		symlink(BASE_DIR . 'public.html/index.php', 'index.php');
+		symlink(BASE_DIR . 'public.html/resources', 'resources');
+
+		break;
+
+	case 'status':
+	default:
+		ob_start();
+
+		echo "Sicroc\n\n";
+		echo "Available commands: init, install-links, status\n";
+
+		require_once PRIVATE_DIR . 'common.php';
+
+		ob_end_flush();
+
+		//echo "Database:" . $db->isConnected();
+}
 
 ?>
