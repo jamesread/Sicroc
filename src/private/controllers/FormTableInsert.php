@@ -1,39 +1,29 @@
 <?php
 
 use \libAllure\Form;
-use \libAllure\ElementInput;
 
 class FormTableInsert extends Form {
 	public function __construct($controller) {
 		parent::__construct('formTableInsert', 'Insert into table');
 
-		$tbl = $controller->getArgumentValue('table');
-		$tbl = san()->filterString('table');
+		$table = san()->filterString('table');
 
 		try {
-			$sql = 'SELECT * FROM ' . $tbl . ' LIMIT 1';
+			$sql = 'SELECT * FROM ' . $table . ' LIMIT 1';
 			$stmt = db()->prepare($sql);
 			$stmt->execute();
 		} catch (Exception $e) {
-			throw new Exception("Can't get initial table info.");
+			throw new Exception("Can't even select 1 row from table:" . $table);
 		}
 
 		$fields = array();
 
+		$foreignKeys = Table::getForeignKeys($table);
+
 		foreach ($this->getHeaders($stmt) as $header) {
 			$fields[] = $header['name'];
 
-			switch ($header['native_type']) {
-				case 'FLOAT':
-					$this->addElement(new ElementInput($header['name'], $header['name'], '0.0'));
-					$this->getElement($header['name'])->setMinMaxLengths(0, 64);
-					break;
-				case 'VAR_STRING':
-					$this->addElement(new ElementInput($header['name'], $header['name']));
-					break;
-				default: 
-					$this->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')' , '', $header['name']);	
-			}
+			Table::handleHeaderElement($this, $header, $foreignKeys);
 		}
 
 		$this->fields = $fields;

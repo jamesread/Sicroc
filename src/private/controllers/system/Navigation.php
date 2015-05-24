@@ -10,7 +10,7 @@ class Navigation extends Controller {
 	private function getSection() {
 		global $tpl;
 
-		$sql = 'SELECT s.id, s.title FROM sections s WHERE s.id = :id ORDER BY s.title ASC LIMIT 1';
+		$sql = 'SELECT s.id, s.title FROM sections s WHERE s.id = :id ORDER BY s.ordinal ASC LIMIT 1';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':id', 1);
 		$stmt->execute();
@@ -23,7 +23,7 @@ class Navigation extends Controller {
 	}
 	
 	private function getSubsections() {
-		$sql = 'SELECT s.title, s.master, s.index FROM sections s WHERE s.master = :masterSectionId ORDER BY s.title ASC';
+		$sql = 'SELECT s.title, s.master, s.index FROM sections s WHERE s.master = :masterSectionId ORDER BY s.ordinal, s.title ASC';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':masterSectionId', $this->section['id']);
 		$stmt->execute();

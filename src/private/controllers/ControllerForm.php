@@ -13,6 +13,7 @@ class ControllerForm extends ViewableController {
 			if (!@include_once CONTROLLERS_DIR . $principle . '.php') {
 				throw new Exception('Could not include PHP class for form: ' . CONTROLLERS_DIR . $principle . '.php');
 			}
+			
 			$this->f = new $principle($this);
 			$this->f->addElementDetached(new ElementHidden('page', null, LayoutManager::getPage()->getId()));
 		}

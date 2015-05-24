@@ -40,6 +40,8 @@ class FormWidgetCreate extends Form {
 		$this->bindElementToStatement($stmt, 'type');
 		$this->bindElementToStatement($stmt, 'title');
 		$stmt->execute();
+
+		$this->redirectUrl = '?pageIdent=WIDGET_INSTANCE_UPDATE&widgetToUpdate=' . DatabaseFactory::getInstance()->lastInsertId();
 	}
 }
 

@@ -1,5 +1,5 @@
 body, td, input {
-	font-family: Verdana, Sans-Serif;
+	font-family: Sans-Serif;
 	font-size: 9pt;
 	margin: 0;
 	line-height: 1.5;
@@ -378,11 +378,12 @@ a.button {
 	border: 1px solid #999;
 	color: black;
 	margin: .2em;
+	background-color: white;
 }
 
 a.button:hover {
 	text-decoration: none;
-	background-color: white;
+	background-color: #CDEB8B;
 }
 
 td.keyCol {

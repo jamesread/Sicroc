@@ -25,7 +25,13 @@ class FormWidgetUpdate extends Form {
 			$argValues = $this->widget['inst']->getArgumentValues();
 
 			foreach ($this->widget['inst']->getArguments() as $arg) {
-				$el = $this->widget['inst']->getArgumentElement($arg['name'], $argValues[$arg['name']]);
+				$value = null;
+
+				if (isset($argValues[$arg['name']])) {
+					$value = $argValues[$arg['name']];
+				}
+
+				$el = $this->widget['inst']->getArgumentElement($arg['name'], $value);
 				$el->description = $arg['description'];
 
 				$this->addElement($el);

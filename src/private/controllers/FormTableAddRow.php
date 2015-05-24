@@ -13,6 +13,7 @@ class FormTableAddRow extends Form {
 		$this->addElement(new ElementInput('name', 'Name'));
 		$el = new ElementSelect('type', 'Type');
 		$el->addOption('varchar(255)');
+		$el->addOption('float(8,2)');
 		$el->addOption('tinyint(1)');
 		$el->addOption('int');
 		$this->addElement($el);

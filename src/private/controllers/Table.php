@@ -1,19 +1,29 @@
 <?php
 
 use \libAllure\DatabaseFactory;
+use \libAllure\ElementInput;
 use \libAllure\ElementSelect;
+use \libAllure\ElementCheckbox;
+
 
 class Table extends ViewableController {
 	public $page;
+	public $displayEdit = false;
+
+	private $keycol = null;
+	private $headers = array();
+	private $rows = array();
 
 	public function __construct($principle = null, $singleRowId = null) {
 		parent::__construct();
 		global $db;
 
+		$this->argValues['table'] = $principle;
+
 		$this->singleRowId = $singleRowId;
+	}
 
-		$this->principle = $principle;
-
+	public function widgetSetupCompleted() {
 		$this->rows = $this->getRowData();
 		$this->headers = $this->getHeaders();
 		$this->rows = $this->mangleForeignData();
@@ -69,15 +79,17 @@ class Table extends ViewableController {
 	}
 
 	private function getRowData() {
-		if ($this->principle == null) {
+		$table = $this->getArgumentValue('table');
+		
+		if ($table == null) {
 			$this->keycol = null;
 			$this->stmt = null;
 			return array();
 		};
 
-		$foreignKeys = self::getForeignKeys($this->principle);
+		$foreignKeys = self::getForeignKeys($table);
 
-		$sql = 'SELECT ' . $this->principle . '.*';
+		$sql = 'SELECT ' . $table . '.*';
 
 		$ftables = array();
 		if (count($foreignKeys) > 0) {
@@ -90,7 +102,7 @@ class Table extends ViewableController {
 			$sql[strlen($sql) - 1] = ' ';
 		}
 
-		$sql .=' FROM `' . $this->principle . '`'; 
+		$sql .=' FROM `' . $table . '`'; 
 
 		if (count($ftables) > 0) {
 			foreach ($foreignKeys as $fk) {
@@ -99,10 +111,10 @@ class Table extends ViewableController {
 		}
 
 		if (isset($this->singleRowId)) {
-			$sql .= ' WHERE '. $this->principle .'.id = ' . $this->singleRowId . ' ';
+			$sql .= ' WHERE '. $table .'.id = ' . $this->singleRowId . ' ';
 		}
 
-		$sql .= ' GROUP BY ' . $this->principle . '.id';
+		$sql .= ' GROUP BY ' . $table . '.id';
 
 		$this->stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$this->stmt->execute();
@@ -165,8 +177,10 @@ class Table extends ViewableController {
 	public function index() {
 		global $tpl;
 
-		$this->navigation->add('?pageIdent=TABLE_INSERT&amp;table=' . $this->principle, 'Insert');
-		$this->navigation->add('dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;table=' . $this->principle, 'Structure...');
+		$this->navigation->add('?pageIdent=TABLE_INSERT&amp;table=' . $this->getArgumentValue('table'), 'Insert');
+		$this->navigation->addSeparator();
+		$this->navigation->add('dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;table=' . $this->getArgumentValue('table'), 'Structure...');
+		$this->navigation->add('?pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate=' . $this->widgetId, 'Update widget');
 
 		foreach ($this->headers as $col => $header) {
 			if (strpos($col, '_fk') !== false) {
@@ -180,7 +194,7 @@ class Table extends ViewableController {
 		global $tpl;
 		$tpl->assign('headers', $this->headers);
 		$tpl->assign('rows', $this->getRows());
-		$tpl->assign('table', array('name' => $this->principle, 'primaryKey' => $this->keycol));
+		$tpl->assign('table', array('name' => $this->getArgumentValue('table'), 'primaryKey' => $this->keycol));
 
 		$tpl->display('table.tpl');
 	}
@@ -194,6 +208,8 @@ class Table extends ViewableController {
 
 			$el = new ElementSelect($name, $name);
 
+			$el->addOption('---', null);
+
 			foreach ($stmt->fetchAll() as $row) {
 				$el->addOption($row['Tables_in_Sicroc']);
 			}
@@ -203,6 +219,57 @@ class Table extends ViewableController {
 			return $el;
 		default:
 			return parent::getArgumentElement($name, $default);
+		}
+	}
+
+	public static function handleHeaderElement($form, $header, $foreignKeys, $row = null) {
+		if (isset($row[$header['name']])) {
+			$val= $row[$header['name']];
+		} else {
+			$val = '';
+		}
+
+		if (!isset($header['native_type'])) {
+			$header['native_type'] = 'BOOLEAN';
+		}
+
+		if (in_array($header['name'], array_keys($foreignKeys))) {
+			$header['native_type'] = 'FK';
+		}
+
+		switch ($header['native_type']) {
+			case 'LONG':
+			case 'FLOAT':
+				$form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
+				$form->getElement($header['name'])->setMinMaxLengths(0, 64);
+				break;
+			case 'VAR_STRING':
+				$form->addElement(new ElementInput($header['name'], $header['name'], $row[$header['name']], $header['native_type']));
+				break;
+			case 'BOOLEAN':
+				$form->addElement(new ElementCheckbox($header['name'], $header['name'], $val));
+				break;
+			case 'FK':
+				$key = $header['name'];
+				$fk = $foreignKeys[$header['name']];
+
+				$sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'];
+				$stmt = db()->prepare($sql);
+				$stmt->execute();
+
+				$el = new ElementSelect($key, $key);
+				$el->addOption('--null--', '');
+
+				foreach ($stmt->fetchAll() as $frow) {
+					$el->addOption($frow['description'], $frow['fkey']);
+				}
+
+				$el->setValue($val);
+
+				$form->addElement($el);
+				break;
+			default: 
+				$form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')' , $row[$header['name']], $header['name']);	
 		}
 	}
 }

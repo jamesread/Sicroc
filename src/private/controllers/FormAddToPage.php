@@ -13,7 +13,7 @@ class FormAddToPage extends Form {
 
 		$this->addElementReadOnly('Page ID', Sanitizer::getInstance()->filterUint('pageToEdit'), 'pageToEdit');
 		$this->addElement($this->getWidgetSelectionElement());
-		$this->addDefaultButtons();
+		$this->addDefaultButtons('Add to page');
 	}
 
 	private function getPage() {

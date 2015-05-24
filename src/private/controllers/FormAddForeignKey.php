@@ -26,6 +26,9 @@ class FormAddForeignKey extends Form {
 		$el = new ElementSelect('sourceField', 'Source field');
 
 		$tbl = new Table($table);
+		$tbl->widgetSetupCompleted();
+
+		$el->addOption('--', null);
 
 		foreach ($tbl->getHeadersOfType('LONG') as $header) {
 			$el->addOption($header['name']);

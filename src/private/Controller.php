@@ -50,6 +50,7 @@ abstract class Controller {
 abstract class ViewableController extends Controller {
 	public $navigation;
 	public $widgetId;
+	public $displayEdit = true;
 
 	public function __construct($principle = null) {
 		global $user, $tpl;
@@ -120,7 +121,7 @@ abstract class ViewableController extends Controller {
 			$stmt->bindValue(':widget', $this->widgetId);
 			$stmt->execute();
 
-			$this->argValues;
+			$this->argValues = array();
 			
 			foreach ($stmt->fetchAll() as $arg) {
 				$this->argValues[$arg['key']] = $arg['value'];	

@@ -1,9 +1,5 @@
 <?php
 
-use \libAllure\ElementInput;
-use \libAllure\ElementSelect;
-use \libAllure\ElementCheckbox;
-
 require_once CONTROLLERS_DIR . 'Table.php';
 
 class FormTableEditRow extends \libAllure\Form {
@@ -26,54 +22,8 @@ class FormTableEditRow extends \libAllure\Form {
 
 		foreach ($this->getHeaders($stmt) as $key => $header) {
 			$fields[] = $header['name'];
-
-			if (isset($row[$key])) {
-				$val= $row[$key];
-			} else {
-				$val = '';
-			}
-
-			if (!isset($header['native_type'])) {
-				$header['native_type'] = 'BOOLEAN';
-			}
-
-			if (in_array($key, array_keys($foreignKeys))) {
-				$header['native_type'] = 'FK';
-			}
-
-			switch ($header['native_type']) {
-				case 'LONG':
-				case 'FLOAT':
-					$this->addElement(new ElementInput($header['name'], $header['name'], $val));
-					$this->getElement($header['name'])->setMinMaxLengths(0, 64);
-					break;
-				case 'VAR_STRING':
-					$this->addElement(new ElementInput($header['name'], $header['name'], $row[$header['name']]));
-					break;
-				case 'BOOLEAN':
-					$this->addElement(new ElementCheckbox($header['name'], $header['name'], $val));
-					break;
-				case 'FK':
-					$fk = $foreignKeys[$key];
-
-					$sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'];
-					$stmt = db()->prepare($sql);
-					$stmt->execute();
-
-					$el = new ElementSelect($key, $key);
-					$el->addOption('--null--', '');
-
-					foreach ($stmt->fetchAll() as $frow) {
-						$el->addOption($frow['description'], $frow['fkey']);
-					}
-
-					$el->setValue($val);
-
-					$this->addElement($el);
-					break;
-				default: 
-					$this->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')' , $row[$header['name']], $header['name']);	
-			}
+	
+			Table::handleHeaderElement($this, $header, $foreignKeys, $row); 
 		}
 
 		$this->addElementHidden('redirectTo', san()->filterString('redirectTo'));
@@ -117,7 +67,8 @@ class FormTableEditRow extends \libAllure\Form {
 			} else {
 				$val = ' "' . $val .  '"';
 			}
-			$sql .= $field . '=' . $val . ', ';
+
+			$sql .= '`' . $field . '` = ' . $val . ', ';
 
 		}
 
