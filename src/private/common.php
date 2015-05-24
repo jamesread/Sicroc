@@ -44,9 +44,42 @@ require_once 'libAllure/ErrorHandler.php';
 
 \libAllure\ErrorHandler::getInstance()->beGreedy();
 
-if (!@include_once 'config.php') {
-	throw new Exception('Cannot include config file called config.php. It should be in one of these directories: ' . get_include_path());
+class Config {
+	private static $arguments = array(); 
+	
+	public function __construct() {
+		$this->arguments['DB_DSN'] = 'mysql:Sicroc';
+		$this->arguments['DB_USER'] = 'root';
+		$this->arguments['DB_PASS'] = '';
+		$this->arguments['TEMPLATE_CACHE_DIRECTORY'] = '/var/cache/httpd/Sicroc/';
+	}
+
+	public static function write() {
+		$content = '';
+
+		foreach ($this->arguments as $key => $value) {
+			$content .= $key . '=' . $value . "\n";
+		}
+
+		file_put_contents('.sicroc/config.ini');
+	}
+
+	public static function read() {
+		$configLines = file_get_contents('.sicroc/config.ini');
+
+		foreach ($configLines as $line) {
+			$kv = split('=', $line, 1);
+
+			$this->arguments[$kv[0]] = trim($kv[1]);
+		}
+	}
+
+	public static function get($name) {
+		return $this->arguments[$name];
+	}
 }
+
+Config::read();
 
 require_once 'procedural/interface.php';
 require_once 'libAllure/util/shortcuts.php';
@@ -59,7 +92,7 @@ require_once 'libAllure/Form.php';
 require_once 'libAllure/HtmlLinksCollection.php';
 require_once 'libAllure/AuthBackendDatabase.php';
 
-$db = new \libAllure\Database(Config::DB_DSN, Config::DB_USER, Config::DB_PASS);
+$db = new \libAllure\Database(Config::get('DB_DSN'), Config::get('DB_USER', Config::get('DB_PASS'));
 \libAllure\DatabaseFactory::registerInstance($db);
 
 require_once PRIVATE_DIR . 'Controller.php';
@@ -87,7 +120,7 @@ if (isset($_REQUEST['httpError'])) {
 	$eeh->httpError(intval($_REQUEST['httpError']));
 }
 
-$tpl = new \libAllure\Template(Config::TEMPLATE_CACHE_DIR, PRIVATE_DIR . DIRECTORY_SEPARATOR .  'views/');
+$tpl = new \libAllure\Template(Config->get('TEMPLATE_CACHE_DIR'), PRIVATE_DIR . DIRECTORY_SEPARATOR .  'views/');
 //$tpl = new HTML_Template_Sigma('/var/www/Sicroc/templates/raw/', '/var/www/Sicroc/templates/compiled');
 
 $breadcrumbs = array();
