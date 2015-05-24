@@ -34,21 +34,6 @@ function messageBox($message, $title = 'Message', $die = false) {
 	}
 }
 
-/**
- * @author: James
- */
-function disallowDirectRequest() {
-	// Prevent requests to this file directly.
-	if (basename($_SERVER['REQUEST_URI']) == basename(__FILE__)) {
-		echo 'You may not access this file directly: ' . basename($_SERVER['PHP_SELF']);
-		die;
-	}
-
-	return true;
-}
-
-disallowDirectRequest();
-
 function adminCheck() {
 	global $user;
 
