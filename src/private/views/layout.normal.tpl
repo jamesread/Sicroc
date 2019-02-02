@@ -8,18 +8,21 @@
 	{foreach from = $widgets item = widget}  
 	<div class = "widget">
 		{if sizeof($widgets) > 1}
-		<h3><abbr title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</abbr> 
+		<div style = "float: right;">
 			{if $widget.inst->displayEdit}
-			<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
+				<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
 			{/if}
-		</h3>
+		</div>
+
+		<h3 title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</h3>
+
 		{else}
 		<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
 		{/if}
 		{if isset($widget.inst->navigation) && $widget.inst->navigation->hasLinks()}
 			<div class = "toolbar">
 			{foreach from = $widget.inst->navigation item = link}
-				{if $link.url == '#sep'}
+				{if $link.url == null}
 				|
 				{else}
 				<a class = "button" href = "{$link.url}">{$link.title}</a>

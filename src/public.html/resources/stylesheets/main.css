@@ -1,3 +1,16 @@
+body {
+	background-color: #efefef;
+}
+
+h2 {
+	font-family: Serif;
+	font-size: 1.6em;
+	margin-top: 6px;
+	margin-bottom: 1em;
+	color: #5D7CBA;
+	position: relative;
+}
+
 body, td, input {
 	font-family: Sans-Serif;
 	font-size: 9pt;
@@ -104,7 +117,7 @@ div.header td {
 		padding: 6px;
 }
 
-fieldset.box legend, h2 {
+fieldset.box legend {
 		font-family: Serif;
 		font-size: 1.6em;
 		margin-top: 6px;
@@ -115,7 +128,7 @@ fieldset.box legend, h2 {
 
 fieldset {
 	margin: 0;
-	padding-left: 0;
+	padding: 0;
 	border: 0;
 }
  
@@ -247,7 +260,6 @@ div.clearer {
 }
 
 div.box {
-	background-color: #EFEFD7;
 }
 
 div.box ul {
@@ -292,10 +304,14 @@ th, td {
 	text-align: left;
 }
 
+div.labelHolder, div.elementHolder {
+	display: inline-block;
+}
+
 label {
 	font-weight: bold;
 	display: inline-block;
-	min-width: 20em;
+	min-width: 12em;
 }
 
 th .subtle {
@@ -335,13 +351,19 @@ tr:hover td {
 }
 
 div.widget {
-	background-color: #EFEFD7;
+	background-color: #fff;
 	border-radius: 1em;
 	margin-bottom: 1em;
 	padding: 1em;
 }
 
-.formSection, h3 {
+h3 {
+	margin-top: 0;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.formSection {
 	margin-top: 0;
 	font-size: 10pt;
 	border-bottom: 1px solid lightgray;
@@ -370,6 +392,7 @@ div.toolbar {
 	background-color: lightgray;
 	margin-top: -1em;
 	border: 1px solid #666;
+	border-bottom: 0;
 }
 
 a.button {
