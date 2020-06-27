@@ -30,7 +30,7 @@ class FormAddForeignKey extends Form {
 
 		$el->addOption('--', null);
 
-		foreach ($tbl->getHeadersOfType('LONG') as $header) {
+		foreach ($tbl->getHeadersOfType('INT1') as $header) {
 			$el->addOption($header['name']);
 		}
 

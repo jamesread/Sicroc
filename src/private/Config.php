@@ -2,7 +2,7 @@
 
 class Config {
 	private static $arguments = array(); 
-	private static $configFile = './sicroc-config.ini';
+	private static $configFile = '/etc/Sicroc/sicroc-config.ini';
 	
 	public static function init() {
 		self::$arguments['DB_DSN'] = 'mysql:dbname=Sicroc';
@@ -41,7 +41,7 @@ class Config {
 		$configLines = file_get_contents(self::$configFile);
 
 		foreach (explode("\n", $configLines) as $line) {
-			$kv = explode('=', $line, 1);
+			$kv = explode('=', $line, 2);
 
 			if (!empty($kv) && count($kv) == 2) {
 				self::$arguments[$kv[0]] = trim($kv[1]);
@@ -51,6 +51,10 @@ class Config {
 
 	public static function get($name) {
 		return self::$arguments[$name];
+	}
+
+	public static function getAll() {
+		return self::$arguments;
 	}
 }
 
