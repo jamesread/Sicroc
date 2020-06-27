@@ -30,7 +30,7 @@ class FormTableEditRow extends \libAllure\Form {
 
 		$this->fields = $fields;
 
-		$this->addDefaultButtons();
+		$this->addDefaultButtons('Save');
 	}
 
 

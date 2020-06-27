@@ -1,12 +1,13 @@
 {include file = "widgets/header.minimal.tpl"}
-{$page.title} - {$page.id}
-{$widgets|@count}
-{foreach from = "$widgets" item = "widget}  
-WID
+
+<div class = "page">
+	<h2 title = "Page ID: {$page.id}">{$page.title}</h2>
+
+{foreach from = $widgets item = widget}  
+	<div class = "widget">
 	{$widget.content}
+	</div>
 {/foreach}
-</body>
+</div>
 
-</html>
-
-{include file = "widgets/footer.minimal.tpl"}
+{include file = "widgets/footer.tpl"}

@@ -3,11 +3,12 @@ body {
 }
 
 h2 {
-	font-family: Serif;
+	font-family: sans-serif;
 	font-size: 1.6em;
+	font-weight: 100;
 	margin-top: 6px;
 	margin-bottom: 1em;
-	color: #5D7CBA;
+	color: #000;
 	position: relative;
 }
 
@@ -260,6 +261,8 @@ div.clearer {
 }
 
 div.box {
+	border: 1px solid gray;
+	padding: 1em;
 }
 
 div.box ul {
@@ -395,7 +398,7 @@ div.toolbar {
 	border-bottom: 0;
 }
 
-a.button {
+button, a.button {
 	padding: 2px;
 	display: inline-block;
 	border: 1px solid #999;
@@ -404,9 +407,11 @@ a.button {
 	background-color: white;
 }
 
-a.button:hover {
+button:hover, a.button:hover {
 	text-decoration: none;
-	background-color: #CDEB8B;
+	background-color: #356AA0;
+	color: white;
+	cursor: pointer;
 }
 
 td.keyCol {

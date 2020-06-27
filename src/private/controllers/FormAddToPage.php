@@ -7,13 +7,13 @@ use \libAllure\ElementSelect;
 
 class FormAddToPage extends Form {
 	public function __construct() {
-		parent::__construct('formAddToPage', 'Add to page'); 
+		parent::__construct('formAddToPage', 'Add widget'); 
 
 		$this->page = $this->getPage();
 
 		$this->addElementReadOnly('Page ID', Sanitizer::getInstance()->filterUint('pageToEdit'), 'pageToEdit');
 		$this->addElement($this->getWidgetSelectionElement());
-		$this->addDefaultButtons('Add to page');
+		$this->addDefaultButtons('Add widget');
 	}
 
 	private function getPage() {

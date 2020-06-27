@@ -42,11 +42,15 @@ function adminCheck() {
 	}
 }
 
-function implodeQuoted($a, $quoteChar = '"') {
+function implodeQuoted($a, $quoteChar = '"', $useNulls = false) {
 	$ret = "";
 
 	for ($i = 0; $i < sizeof($a); $i++) {
-		$ret .= $quoteChar . $a[$i] . $quoteChar;
+		if (empty($a[$i]) && $useNulls) {
+			$ret .= 'NULL';
+		} else {
+			$ret .= $quoteChar . $a[$i] . $quoteChar;
+		}
 
 		if ($i + 1 != sizeof($a)) {
 			$ret .= ', ';
@@ -60,7 +64,4 @@ function redirect($url) {
 	header('Location:' . $url);
 }
 
-function throwException($message) {
-	throw new Exception($message);
-}
 ?>

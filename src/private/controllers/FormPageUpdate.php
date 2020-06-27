@@ -9,7 +9,7 @@ use \libAllure\ElementSelect;
 
 class FormPageUpdate extends Form {
 	public function __construct() {
-		parent::__construct('pageEdit', 'Page update');
+		parent::__construct('pageEdit', 'Page properties');
 
 		$this->page = $this->getPage();
 

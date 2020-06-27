@@ -58,7 +58,7 @@ class FormTableInsert extends Form {
 			$values[] = $this->getElementValue($field);
 		}
 
-		$sql = 'INSERT INTO ' . $this->getElementValue('table') . ' (' . $fields . ') VALUES (' . implodeQuoted($values) . ') '; 
+		$sql = 'INSERT INTO ' . $this->getElementValue('table') . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') '; 
 		$stmt = db()->prepare($sql);
 		$stmt->execute();
 	}

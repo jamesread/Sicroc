@@ -1,4 +1,0 @@
-FOOTMIN
-</body>
-
-</html>
