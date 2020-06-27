@@ -1,3 +1,4 @@
+<div class = "box">
 <table class = "transparent">
 	{foreach from = $row item = cellValue key = cellName} 
 	<tr>
@@ -6,3 +7,4 @@
 	</tr>
 	{/foreach}
 </table>
+</div>

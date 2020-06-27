@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-  
 <html>
 
 <head>
@@ -39,6 +37,7 @@
 					<li><a href = "?pageIdent=PAGE_CREATE">Create page</a>
 					<li><a href = "?pageIdent=PAGE_UPDATE&pageToEdit={$page.id}">Update page</a></li>
 					<li><strong>Widgets</strong></li>
+					<li><a href = "?pageIdent=WIDGET_LIST">Widget Instance List</a></li>
 					<li><a href = "?pageIdent=WIDGET_CREATE">Create Widget Instance</a></li>
 					<li><a href = "?pageIdent=WIDGET_REGISTER">Register widget class</a></li>
 				</ul>

@@ -16,9 +16,6 @@ class Table extends ViewableController {
 
 	public function __construct($principle = null, $singleRowId = null) {
 		parent::__construct();
-		global $db;
-
-		$this->argValues['table'] = $principle;
 
 		$this->singleRowId = $singleRowId;
 	}
@@ -57,7 +54,7 @@ class Table extends ViewableController {
 
 	public static function getForeignKeys($sourceTable) {
 		$sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
-		$stmt = db()->prepare($sql);
+		$stmt = dbData()->prepare($sql);
 		$stmt->bindValue(':sourceTable', $sourceTable);
 		$stmt->execute();
 
@@ -116,7 +113,7 @@ class Table extends ViewableController {
 
 		$sql .= ' GROUP BY ' . $table . '.id';
 
-		$this->stmt = DatabaseFactory::getInstance()->prepare($sql);
+		$this->stmt = DatabaseFactory::getInstance('data')->prepare($sql);
 		$this->stmt->execute();
 
 		return $this->stmt->fetchAll();
@@ -246,6 +243,8 @@ class Table extends ViewableController {
 			case 'VAR_STRING':
 				$form->addElement(new ElementInput($header['name'], $header['name'], $row[$header['name']], $header['native_type']));
 				break;
+			case 'TINY':
+			case 'TINYINT':
 			case 'BOOLEAN':
 				$form->addElement(new ElementCheckbox($header['name'], $header['name'], $val));
 				break;

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'libAllure/Sanitizer.php';
+require_once 'SimpleMessage.php';
 
 use \libAllure\DatabaseFactory;
 use \libAllure\Sanitizer;
@@ -8,19 +9,19 @@ use \libAllure\Session;
 
 class Page extends ViewableController {
 	private function getPage() {
-		global $db;
-
 		if (isset($_REQUEST['pageIdent'])) {
-			return $this->getPageByIdent();
+			$page = $this->getPageByIdent();
 		} else {
-			return $this->getPageById();
+			$page = $this->getPageById();
 		}
+
+		return $page;
 	}
 
 	private function getPageById() {
 		$pageId = Sanitizer::getInstance()->filterUint('page');
 
-		$sql = 'SELECT p.id, p.title, p.layout FROM pages p WHERE p.id = :id LIMIT 1';
+		$sql = 'SELECT p.id, p.title, p.layout, p.isSystem FROM pages p WHERE p.id = :id LIMIT 1';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':id', $pageId);
 		$stmt->execute();
@@ -35,7 +36,7 @@ class Page extends ViewableController {
 	public function getPageByIdent() {
 		$pageIdent =  Sanitizer::getInstance()->filterString('pageIdent');
 
-		$sql = 'SELECT p.id, p.title, p.layout FROM pages p WHERE p.ident = :ident LIMIT 1';
+		$sql = 'SELECT p.id, p.title, p.layout, p.isSystem FROM pages p WHERE p.ident = :ident LIMIT 1';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':ident', $pageIdent);
 		$stmt->execute();
@@ -79,7 +80,7 @@ class Page extends ViewableController {
 	}
 
 	private function getWidgets($pageId) {
-		$sql = 'SELECT wt.viewableController, wi.id, wi.title, wi.principle, wi.method FROM content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.order';
+		$sql = 'SELECT wt.viewableController, wi.id, wi.title, wi.method FROM page_content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.order';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':pageId', $pageId);
 		$stmt->execute();
@@ -131,16 +132,16 @@ class Page extends ViewableController {
 			assert(!empty($widget['viewableController']));
 
 			if (!@include_once(CONTROLLERS_DIR . $widget['viewableController'] . '.php')) {
-				throwException('Cannot include widget PHP class: ' . CONTROLLERS_DIR . $widget['viewableController'] . '.php');
+				throw new Exception('Cannot include widget PHP class: ' . CONTROLLERS_DIR . $widget['viewableController'] . '.php');
 			}
 
-			$widgetRet['inst'] = $inst = new $widget['viewableController']($widget['principle']);
+			$widgetRet['inst'] = $inst = new $widget['viewableController']();
 			$widgetRet['inst']->page = $page;
 			$widgetRet['inst']->widgetId = $widget['id'];
 			$widgetRet['inst']->widgetSetupCompleted(); 
 
 			if (!is_callable(array($inst, $widget['method']))) {
-				throw new Exception('Principle method is not callable on widget: ' . get_class($widgetRet['inst']) . '::' .  $widget['method']);
+				throw new Exception('Method is not callable on widget: ' . get_class($widgetRet['inst']) . '::' .  $widget['method']);
 			}
 
 			global $tpl;
@@ -153,6 +154,7 @@ class Page extends ViewableController {
 				$widgetRet['title'] = $widgetRet['inst']->getTitle();
 			}
 		} catch (Exception $e) {
+			$widgetRet['inst']->displayEdit = true;
 			$widgetRet['content'] = self::renderWidgetException($e);
 		}
 
@@ -186,13 +188,15 @@ class Page extends ViewableController {
 		} catch (Exception $e) {
 			$this->page = array(
 				'id' => 0,
-				'layout' => 'normal',
-				'title' => $e->getMessage()
+				'layout' => 'minimal',
+				'title' => $e->getMessage(),
+				'isSystem' => true,
 			);
 			$this->widgets = array();
 
-			$tpl->assign('message', '<a href = "?pageIdent=PAGE_CREATE">Create?</a>');
-			$tpl->display('simple.tpl');
+			$msg = new SimpleMessage('<a href = "?pageIdent=PAGE_CREATE">Create?</a>');
+			$this->widgets[] = array('inst' => $msg, 'content' => null);
+			$this->widgets = $this->renderWidgets($this->widgets);
 			return;
 		}
 
