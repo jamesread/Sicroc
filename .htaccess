@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^(.*)$ /src/public.html/$1 [NC,L,QSA]
+
+    RewriteCond %{REQUEST_URI} ^/json/$
+    RewriteRule ^(.*)$ /src/public.json/$1 [NC,L,QSA]
+
+</IfModule>
