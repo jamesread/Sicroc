@@ -70,6 +70,7 @@ class Table extends ViewableController {
 
 	public function getArguments() {
 		$args = array();
+		$args[] = array('type' => 'varchar', 'name' => 'db', 'default' => 'sicroc', 'description' => 'The database name');
 		$args[] = array('type' => 'varchar', 'name' => 'table', 'default' => '', 'description' => 'The database table name');
 
 		return $args;
@@ -77,7 +78,7 @@ class Table extends ViewableController {
 
 	private function getRowData() {
 		$table = $this->getArgumentValue('table');
-		
+
 		if ($table == null) {
 			$this->keycol = null;
 			$this->stmt = null;
@@ -199,7 +200,14 @@ class Table extends ViewableController {
 	public function getArgumentElement($name, $default = 0) {
 		switch ($name) {
 		case 'table':
-			$sql = 'SHOW TABLES';
+			$db = $this->getArgumentValue('db');
+
+			if (empty($db)) {
+				$sql = 'SHOW TABLES';
+			} else { 
+				$sql = 'SHOW TABLES IN ' . $db;
+			}
+
 			$stmt = DatabaseFactory::getInstance()->prepare($sql);
 			$stmt->execute();
 
@@ -208,7 +216,7 @@ class Table extends ViewableController {
 			$el->addOption('---', null);
 
 			foreach ($stmt->fetchAll() as $row) {
-				$el->addOption($row['Tables_in_Sicroc']);
+				$el->addOption($row['Tables_in_sicroc']);
 			}
 
 			$el->setValue($default);
