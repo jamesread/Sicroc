@@ -2,10 +2,8 @@
 
 require_once __DIR__ . '/../private/common.php';
 
-$principle = san()->filterString('controller');
-$method = san()->filterString('method');
+use \Sicroc\Controllers\LayoutManager;
 
-LayoutManager::setLayout($principle, $method);
-LayoutManager::render();
+LayoutManager::get()->render();
 
 ?>

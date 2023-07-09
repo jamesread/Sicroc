@@ -2,8 +2,8 @@
     "name": "jamesread/sicroc",
     "type": "project",
     "require": {
-        "jwread/lib-allure": "^1.2",
-        "smarty/smarty": "^3.1"
+        "jwread/lib-allure": "^8.0",
+        "smarty/smarty": "^3.1.46"
     },
     "authors": [
         {
@@ -13,5 +13,10 @@
     ],
 	"config": {
 		"vendor-dir": "src/private/libraries/"
+	},
+	"autoload": {
+		"psr-4": {
+			"Sicroc\\": "src/private/"
+		}
 	}
 }

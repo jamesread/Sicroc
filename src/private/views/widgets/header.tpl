@@ -17,7 +17,7 @@
 	{else}
 		<ul class = "navigation">
 		{foreach from = $navigation item = "link"}
-			<li><a href = "{$link.url}">{$link.caption}</a></li>
+			<li><a href = "{$link.url}">{$link.title}</a></li>
 		{/foreach}
 		</ul>
 	{/if}

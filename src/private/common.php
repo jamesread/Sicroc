@@ -2,32 +2,19 @@
 
 require_once 'init.php';
 
+use \Sicroc\Config;
+use \Sicroc\Controllers\BaseStructure;
+
 Config::read();
 
 require_once 'procedural/interface.php';
 require_once 'libAllure/util/shortcuts.php';
-require_once 'libAllure/Exceptions.php';
-require_once 'libAllure/Database.php';
-require_once 'libAllure/Logger.php';
-require_once 'libAllure/Session.php';
-require_once 'libAllure/Template.php';
-require_once 'libAllure/Form.php';
-require_once 'libAllure/HtmlLinksCollection.php';
-require_once 'libAllure/AuthBackendDatabase.php';
 
 $db = new \libAllure\Database(Config::get('DB_DSN'), Config::get('DB_USER'), Config::get('DB_PASS'));
 \libAllure\DatabaseFactory::registerInstance($db);
 
-require_once PRIVATE_DIR . 'Controller.php';
-require_once CONTROLLERS_DIR . 'DsHandler.php';
-require_once PRIVATE_DIR . 'Model.php';
-require_once CONTROLLERS_SYSTEM_DIR . 'Navigation.php';
-require_once MODELS_DIR . 'LinkList.php';
-require_once MODELS_DIR . 'WikiBlock.php';
-require_once CONTROLLERS_DIR . 'FormLogin.php';
-require_once CONTROLLERS_DIR . 'LayoutManager.php';
-require_once MODELS_DIR . 'Dataset.php';
-require_once CONTROLLERS_SYSTEM_DIR . 'HTML_Table.php';
+$bs = new BaseStructure();
+$bs->check();
 
 \libAllure\Session::start();
 $backend = new \libAllure\AuthBackendDatabase($db);

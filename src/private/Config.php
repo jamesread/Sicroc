@@ -1,78 +1,88 @@
 <?php
 
+namespace Sicroc;
+
 class Config {
-	private static $arguments = array(); 
-	private static $configFile = '/etc/Sicroc/sicroc-config.ini';
-	
-	private static function init() {
-		self::$arguments['DB_DSN'] = 'mysql:dbname=Sicroc';
-		self::$arguments['DB_USER'] = 'root';
-		self::$arguments['DB_PASS'] = '';
-		self::$arguments['TEMPLATE_CACHE_DIRECTORY'] = '/var/cache/httpd/Sicroc/';
-	}
+    private static $arguments = array(); 
 
-	public static function write() {
-		throw new Exception("Writing config to file is deprecated, because config can come from various sources.");
+    private static function init() {
+        self::$arguments['DB_DSN'] = 'mysql:dbname=Sicroc';
+        self::$arguments['DB_USER'] = 'root';
+        self::$arguments['DB_PASS'] = '';
+        self::$arguments['TEMPLATE_CACHE_DIRECTORY'] = '/var/cache/httpd/Sicroc/';
+    }
 
-		/**
-		if (self::isNotInitialized()) {
-			self::init();
-		}
+    public static function write() {
+        throw new Exception("Writing config to file is deprecated, because config can come from various sources.");
 
-		$content = '';
+                /**
+                if (self::isNotInitialized()) {
+                        self::init();
+                }
 
-		foreach (self::$arguments as $key => $value) {
-			$content .= $key . '=' . $value . "\n";
-		}
+                $content = '';
 
-		file_put_contents(self::$configFile, $content);
-		*/
-	}
+                foreach (self::$arguments as $key => $value) {
+                        $content .= $key . '=' . $value . "\n";
+                }
 
-	private static function isNotInitialized() {
-		return empty(self::$arguments);
-	}
+                file_put_contents(self::$configFile, $content);
 
-	public static function read() {
-		if (self::isNotInitialized()) {
-			self::init();
-		}
+                 */
+    }
 
-		self::readConfigFile();
-		self::readEnvironmentVariables();
-	}
+    private static function isNotInitialized() {
+        return empty(self::$arguments);
+    }
 
-	private static function readConfigFile() {
-		if (file_exists(self::$configFile)) {
-			$content = '';
+    public static function read() {
+        if (self::isNotInitialized()) {
+            self::init();
+        }
 
-			foreach (self::$arguments as $key => $value) {
-				$content .= $key . '=' . $value . "\n";
-			}
+        self::readConfigFile();
+        self::readEnvironmentVariables();
+    }
 
-			file_put_contents(self::$configFile, $content);
-		}
-	}
+    private static function readConfigFile() {
+        $configFileLocations = [
+            '/etc/Sicroc/sicroc-config.ini',
+            '/etc/Sicroc/config.ini',
+            'config.ini',
+        ];
 
-	private static function readEnvironmentVariables() {
-		self::tryReadEnvironmentVariable('DB_DSN');
-	}
+        foreach ($configFileLocations as $possibleLocation) {
+            if (file_exists($possibleLocation)) {
+                $content = @parse_ini_file($possibleLocation, false);
 
-	private static function tryReadenvironmentVariable($name) {
-		$value = getenv($name);
+                if ($content === false) {
+                    throw new Exception('Could not parse file as a INI: ' . $possibleLocation);
+                }
 
-		if ($value != FALSE) {
-			self::$arguments[$name] = $value;
-		}
-	}
+                self::$arguments = array_merge(self::$arguments, $content);
+            }
+        }
+    }
 
-	public static function get($name) {
-		return self::$arguments[$name];
-	}
+    private static function readEnvironmentVariables() {
+        self::tryReadEnvironmentVariable('DB_DSN');
+    }
 
-	public static function getAll() {
-		return self::$arguments;
-	}
+    private static function tryReadenvironmentVariable($name) {
+        $value = getenv($name);
+
+        if ($value != FALSE) {
+            self::$arguments[$name] = $value;
+        }
+    }
+
+    public static function get($name) {
+        return self::$arguments[$name];
+    }
+
+    public static function getAll() {
+        return self::$arguments;
+    }
 }
 
 ?>

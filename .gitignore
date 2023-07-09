@@ -4,3 +4,6 @@ buildinfo.txt
 **/*.lock
 src/private/libraries/
 /vendor/
+**/*.swp
+**/*.swo
+api-docs
