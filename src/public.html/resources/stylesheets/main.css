@@ -24,10 +24,6 @@ div.page {
   padding-top: 1em;
 }
 
-div.subnav {
-  background-color: #555;
-}
-
 div.subnav p {
   color: #999;
   margin: 0; 
@@ -42,7 +38,6 @@ div.subnav ul {
   padding: 0;
   margin: 0; 
   list-style: none;
-  float: right;
 }
 
 div.subnav ul li ul {
@@ -60,15 +55,15 @@ div.subnav ul li, div.subnav ul li ul li {
 
 div.subnav ul li {
   display: block;
-  padding: 0;
+  padding: .4em;
   width: 12em;
-  color: white;
   text-decoration: none;
+  text-align: right;
   margin: 0;
 }
 
 div.subnav ul li a, div.subnav ul li a:visited {
-  padding: .2em; 
+  padding: .4em;
   display: block;
   color: white;
 }
@@ -94,6 +89,13 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+header {
+  background-color: #CDEB8B;
+  border-bottom: 1px solid #bbb;
+  display: flex;
+  align-items: center;
 }
 
 div.header img {
@@ -129,23 +131,26 @@ fieldset.box legend {
 
 fieldset {
   margin: 0;
+  margin-bottom: 1em;
   padding: 0;
   border: 0;
-}
-
-#header {
-  background-color: #CDEB8B;
-  border-bottom: 1px solid black;
 }
 
 h1 {
   margin: 0;
   padding-left: 12px;
-  padding-top: 4px;
-  font-size: 12pt;
+  font-size: 1em;
+  border-right: 1px solid #bbb;
+  padding-right: 1em;
+}
+
+h1 a, h1 a:hover, h1 a:visited, h1 a:active {
+  text-transform: uppercase;
+  color: black;
 }
 
 ul.navigation {
+  flex-grow: 1;
   margin: 0;
   padding: 6px;
 }
@@ -155,6 +160,11 @@ ul.navigation li {
   display: inline;
   padding: 0;
   margin: 0;
+}
+
+ul.navigation li a.activeSection {
+  background-color: black;
+  color: white;
 }
 
 ul.navigation li a {
@@ -198,7 +208,7 @@ form table td {
 }
 
 input, textarea {
-  border: 1px solid black;
+  border: 1px solid #bbb;
   padding: 2px;
   text-align: left;
 }
@@ -261,8 +271,6 @@ div.clearer {
 }
 
 div.box {
-  border: 1px solid gray;
-  padding: 1em;
 }
 
 div.box ul {
@@ -332,7 +340,7 @@ hr {
 }
 
 div.footer {
-  border-top: 1px solid black;
+  border-top: 1px solid #bbb;
   padding: 1em;
 }
 
@@ -399,12 +407,12 @@ div.toolbar {
 }
 
 button, a.button {
-  padding: 2px;
+  padding: .6em;
   display: inline-block;
   border: 1px solid #999;
   color: black;
   margin: .2em;
-  background-color: white;
+  background-color: #efefef;
 }
 
 button:hover, a.button:hover {

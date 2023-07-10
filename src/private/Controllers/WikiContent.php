@@ -1,5 +1,7 @@
 <?php
 
+namespace Sicroc\Controllers;
+
 use \libAllure\DatabaseFactory;
 
 class WikiContent extends Widget
@@ -15,7 +17,9 @@ class WikiContent extends Widget
 
         $wiki = $stmt->fetchRow();
 
-        $wiki['content'] = str_replace("\n\n", '<br />', $wiki['content']);
+        if ($wiki != false) {
+            $wiki['content'] = str_replace("\n\n", '<br />', $wiki['content']);
+        }
 
         $this->navigation->add('dispatcher.php?controller=WikiContent&amp;pageIdent=WIKI_EDIT&amp;pageTitle=' . $this->principle, 'Edit');
         $tpl->assign('wikiPage', $wiki);

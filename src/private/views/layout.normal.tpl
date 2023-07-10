@@ -1,6 +1,12 @@
 {include file = "widgets/header.tpl"}
 
-<h2><abbr title = "{$page.id}">Page</abbr>: {$page.title|default:"Untitled page"} <a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
+<h2>
+	{if $editMode}
+	<abbr title = "{$page.id}">Page</abbr>: 
+	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
+	{/if}
+	{$page.title|default:"Untitled page"} 
+
 	{if $page.isSystem}
 		&#9888;
 	{/if}

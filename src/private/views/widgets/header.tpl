@@ -9,51 +9,51 @@
 
 <body>
 
-<div id = "header">
-	<h1><a href = "?">Sicroc</a> &raquo; {$page.title|default:"Untitled page"}</h1>
+<header>
+	<h1><a href = "?">Sicroc</a></h1>
 
 	{if $navigation|@count eq 0}
 		<p>No subsections. </p>
 	{else}
 		<ul class = "navigation">
 		{foreach from = $navigation item = "link"}
-			<li><a href = "{$link.url}">{$link.title}</a></li>
+			<li>
+			<a href = "{$link.url}"	class = "{if $section.title == $link.title}activeSection{/if}">{$link.title}</a></li>
 		{/foreach}
 		</ul>
 	{/if}
 
 	<div class = "subnav">
-		<p>Hi {$user.username}</p>
+	<ul id = "sectionActions">
+		<li>Actions
+			<ul>
+				<li><strong>Admin</strong></li>
+				<li><a href = "?pageIdent=USER_PREFERENCES">User Preferences</a></li>
+				<li><a href = "?pageIdent=ADMIN">Control Panel</a></li>
+				<li><strong>Section</strong></li>
+				<li><a href = "?pageIdent=SECTION_LIST">Section list</a></li>
+				<li><a href = "?pageIdent=SECTION_CREATE">Create section</a></li>
+				<li><strong>Page</strong></li>
+				<li><a href = "?pageIdent=PAGE_LIST">Page list</a>
+				<li><a href = "?pageIdent=PAGE_CREATE">Create page</a>
+				<li><strong>Widgets</strong></li>
+				<li><a href = "?pageIdent=WIDGET_LIST">Widget Instance List</a></li>
+				<li><a href = "?pageIdent=WIDGET_CREATE">Create Widget Instance</a></li>
+				<li><a href = "?pageIdent=WIDGET_REGISTER">Register widget class</a></li>
+				<li><strong>Current view</strong></li>
+				<li><a href = "?pageIdent=SECTION_UPDATE&sectionToEdit={$section.id}">Update section</a></li>
+				<li><a href = "?pageIdent=PAGE_UPDATE&pageToEdit={$page.id}">Update page</a></li>
+				<li><strong>Account</strong></li>
+			{if $isLoggedIn}
+				<li><a href = "?pageIdent=LOGOUT">Logout</a></li>
+			{else}
+				<li><a href = "?pageIdent=LOGIN">Login</a></li>
+			{/if}
 
-		<ul id = "sectionActions">
-			<li>Actions
-				<ul>
-					<li><strong>Admin</strong></li>
-					<li><a href = "?pageIdent=ADMIN">Control Panel</a></li>
-					<li><strong>Section</strong></li>
-					<li><a href = "?pageIdent=SECTION_LIST">Section list</a></li>
-					<li><a href = "?pageIdent=SECTION_CREATE">Create section</a></li>
-					<li><strong>Page</strong></li>
-					<li><a href = "?pageIdent=PAGE_LIST">Page list</a>
-					<li><a href = "?pageIdent=PAGE_CREATE">Create page</a>
-					<li><strong>Widgets</strong></li>
-					<li><a href = "?pageIdent=WIDGET_LIST">Widget Instance List</a></li>
-					<li><a href = "?pageIdent=WIDGET_CREATE">Create Widget Instance</a></li>
-					<li><a href = "?pageIdent=WIDGET_REGISTER">Register widget class</a></li>
-					<li><strong>Current view</strong></li>
-					<li><a href = "?pageIdent=SECTION_UPDATE&sectionToEdit={$section.id}">Update section</a></li>
-					<li><a href = "?pageIdent=PAGE_UPDATE&pageToEdit={$page.id}">Update page</a></li>
-					<li><strong>Account</strong></li>
-				{if $isLoggedIn}
-					<li><a href = "?pageIdent=LOGOUT">Logout</a></li>
-				{/if}
-
-				</ul>
-			</li>
-		</ul>
-
-		<div class = "clearer"></div>
+			</ul>
+		</li>
+	</ul>
 	</div>
-</div>
+</header>
 
 <div class = "page">

@@ -2,6 +2,11 @@
 
 use \libAllure\Form;
 
+use Sicroc\Controllers\Table;
+
+use function libAllure\util\san;
+use function libAllure\util\db;
+
 class FormTableInsert extends Form
 {
     public function __construct($controller)
@@ -9,14 +14,18 @@ class FormTableInsert extends Form
         parent::__construct('formTableInsert', 'Insert into table');
 
         $table = san()->filterString('table');
+        $db = san()->filterString('db');
 
         try {
-            $sql = 'SELECT * FROM ' . $table . ' LIMIT 1';
+            $sql = 'SELECT * FROM ' . $db . '.' . $table . ' LIMIT 1';
             $stmt = db()->prepare($sql);
             $stmt->execute();
         } catch (Exception $e) {
             throw new Exception("Can't even select 1 row from table:" . $table);
         }
+
+        $this->addElementReadOnly('DB', $db, 'db');
+        $this->addElementReadOnly('Table', $table, 'table');
 
         $fields = array();
 
@@ -30,8 +39,7 @@ class FormTableInsert extends Form
 
         $this->fields = $fields;
 
-        $this->addElementReadOnly('Table', san()->filterString('table'), 'table');
-        $this->addDefaultButtons();
+        $this->addDefaultButtons('Insert');
     }
 
     private function getHeaders($stmt)
@@ -62,7 +70,7 @@ class FormTableInsert extends Form
             $values[] = $this->getElementValue($field);
         }
 
-        $sql = 'INSERT INTO ' . $this->getElementValue('table') . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') '; 
+        $sql = 'INSERT INTO ' . $this->getElementValue('db') . '.' . $this->getElementValue('table') . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') '; 
         $stmt = db()->prepare($sql);
         $stmt->execute();
     }

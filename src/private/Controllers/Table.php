@@ -7,6 +7,8 @@ use \libAllure\ElementInput;
 use \libAllure\ElementSelect;
 use \libAllure\ElementCheckbox;
 
+use function \libAllure\util\vde;
+
 class Table extends Widget
 {
     public $page;
@@ -21,6 +23,9 @@ class Table extends Widget
         parent::__construct();
 
         $this->singleRowId = $singleRowId;
+
+        global $tpl;
+        $tpl->assign('tableError', null);
     }
 
     public function widgetSetupCompleted()
@@ -110,7 +115,7 @@ class Table extends Widget
             $sql[strlen($sql) - 1] = ' ';
         }
 
-        $sql .=' FROM `' . $table . '`'; 
+        $sql .=' FROM `' . $this->getArgumentValue('db') . '`.`' . $table . '`'; 
 
         if (count($ftables) > 0) {
             foreach ($foreignKeys as $fk) {
@@ -124,8 +129,15 @@ class Table extends Widget
 
         $sql .= ' GROUP BY ' . $table . '.id';
 
-        $this->stmt = DatabaseFactory::getInstance()->prepare($sql);
-        $this->stmt->execute();
+
+        try {
+            $this->stmt = DatabaseFactory::getInstance()->prepare($sql);
+            $this->stmt->execute();
+        } catch (\PDOException $e) {
+            global $tpl;
+            $tpl->assign('tableError', $e->getMessage());
+            return array();
+        }
 
         return $this->stmt->fetchAll();
     }
@@ -190,17 +202,16 @@ class Table extends Widget
     {
         global $tpl;
 
-        $this->navigation->add('?pageIdent=TABLE_INSERT&amp;table=' . $this->getArgumentValue('table'), 'Insert');
+        $this->navigation->add('?pageIdent=TABLE_INSERT&amp;db=' . $this->getArgumentValue('db') . '&amp;table=' . $this->getArgumentValue('table'), 'Insert');
         $this->navigation->addSeparator();
-        $this->navigation->add('dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;table=' . $this->getArgumentValue('table'), 'Structure...');
-        $this->navigation->add('?pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate=' . $this->widgetId, 'Update widget');
+        $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;db=' . $this->getArgumentValue('db') . '&amp;table=' . $this->getArgumentValue('table'), 'Structure...');
+        $this->navigation->addIf(LayoutManager::get()->getEditMode(), '?pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate=' . $this->widgetId, 'Update widget');
 
         foreach ($this->headers as $col => $header) {
             if (strpos($col, '_fk') !== false) {
                 unset($this->headers[$col]);
             }
         }
-
     }
 
     public function render()
@@ -217,26 +228,24 @@ class Table extends Widget
     {
         switch ($name) {
         case 'table':
-            $db = $this->getArgumentValue('db');
-
-            if (empty($db)) {
-                $sql = 'SHOW TABLES';
-            } else { 
-                $sql = 'SHOW TABLES IN ' . $db;
-            }
-
-            $stmt = DatabaseFactory::getInstance()->prepare($sql);
-            $stmt->execute();
-
             $el = new ElementSelect($name, $name);
-
             $el->addOption('---', null);
 
-            foreach ($stmt->fetchAll() as $row) {
-                $el->addOption($row['Tables_in_sicroc']);
-            }
+            $db = $this->getArgumentValue('db');
 
-            $el->setValue($default);
+            if (!empty($db)) {
+                $sql = 'SHOW TABLES IN ' . $db;
+
+                $stmt = DatabaseFactory::getInstance()->prepare($sql);
+                $stmt->execute();
+
+
+                foreach ($stmt->fetchAll() as $row) {
+                    $el->addOption($row['Tables_in_' . $db]);
+                }
+
+                $el->setValue($default);
+            }
 
             return $el;
         default:
@@ -266,8 +275,9 @@ class Table extends Widget
             $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
             $form->getElement($header['name'])->setMinMaxLengths(0, 64);
             break;
+        case 'DATETIME':
         case 'VAR_STRING':
-            $form->addElement(new ElementInput($header['name'], $header['name'], $row[$header['name']], $header['native_type']));
+            $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
             break;
         case 'TINY':
         case 'TINYINT':
@@ -293,8 +303,9 @@ class Table extends Widget
 
             $form->addElement($el);
             break;
-        default: 
-            $form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')', $row[$header['name']], $header['name']);    
+
+        default:
+            $form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')', $val, $header['name']);    
         }
     }
 }

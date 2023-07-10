@@ -6,6 +6,8 @@ use \Sicroc\Controllers\Page;
 use \Sicroc\Controllers\Table;
 use \Sicroc\Controllers\Navigation;
 
+use \libAllure\Session;
+
 class LayoutManager
 {
     private $principle;
@@ -42,6 +44,17 @@ class LayoutManager
         return $this->page;
     }
 
+    public function getEditMode() {
+        $isSystemPage = $this->page->isSystem();
+
+        if (Session::isLoggedIn()) {
+            $v = Session::getUser()->getData('editMode');
+            return $v;
+        } else {
+            return false;
+        }
+    }
+
     public function render()
     {
         global $tpl;
@@ -49,6 +62,7 @@ class LayoutManager
         $navigation = new Navigation($this->page->page['id']);
 
         $tpl->assign('navigation', $navigation->getSectionTitles());
+        $tpl->assign('editMode', $this->getEditMode());
 
         $this->assertPageRenderable();
 

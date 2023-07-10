@@ -17,6 +17,8 @@ abstract class Widget extends Controller
     {
         global $user, $tpl;
 
+        $this->tpl = $tpl;
+
         $this->principle = $principle;
         $this->navigation = new \libAllure\HtmlLinksCollection();
         $tpl->assign('title', get_class($this));
@@ -123,6 +125,12 @@ abstract class Widget extends Controller
     {
         $el = new \libAllure\ElementInput($name, $name, $val);
         return $el;
+    }
+
+    public function simpleMessage($message) 
+    {
+        $this->tpl->assign('message', $message);
+        $this->tpl->display('simple.tpl');
     }
 }
 

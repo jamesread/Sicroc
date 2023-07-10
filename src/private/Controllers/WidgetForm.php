@@ -60,6 +60,11 @@ class WidgetForm extends Widget
     {
         global $tpl;
 
+        if (isset($this->f->alternativeMessage)) {
+            $this->simpleMessage('Alt: ' . $this->f->alternativeMessage);
+            return;
+        }
+
         if (isset($this->f)) {
             $tpl->assignForm($this->f);
             $tpl->display('form.tpl');

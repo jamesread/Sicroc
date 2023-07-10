@@ -65,6 +65,26 @@ class BaseStructure
                 ]
             ]
         ],
+        [
+            'ident' => 'WIKI_EDIT',
+            'title' => 'Wiki Edit',
+            'widgets' => [
+                [
+                    'type' => '\Sicroc\Controllers\WikiContent',
+                    'args' => [],
+                ]
+            ]
+        ],
+        [
+            'ident' => 'LOGOUT',
+            'title' => 'Logout',
+            'widgets' => [
+                [
+                    'type' => '\Sicroc\Controllers\Logout',
+                    'args' => [],
+                ]
+            ]
+        ]
     ];
 
     public function __construct()
@@ -78,6 +98,14 @@ class BaseStructure
         $this->definePage('PAGE_CREATE', 'Create Page', [$this->defineWidgetForm('FormPageCreate')]);
         $this->definePage('WIDGET_CREATE', 'Create Widget', [$this->defineWidgetForm('FormWidgetCreate')]);
         $this->definePage('WIDGET_REGISTER', 'Register Widget', [$this->defineWidgetForm('FormWidgetClassRegister')]);
+        $this->definePage('TABLE_STRUCTURE', 'Table Structure', [
+            $this->defineWidgetForm('FormTableDropColumn'),
+            $this->defineWidgetForm('FormTableAddColumn'),
+        ]);
+        $this->definePage('TABLE_CREATE', 'Create Table', [$this->defineWidgetForm('FormTableCreate')]);
+        $this->definePage('TABLE_INSERT', 'Insert Row', [$this->defineWidgetForm('FormTableInsert')]);
+        $this->definePage('USER_PREFERENCES', 'User Preferences', [$this->defineWidgetForm('FormUserPreferences')]);
+        $this->definePage('LOGIN', 'Login', [$this->defineWidgetForm('FormLogin')]);
     }
 
     public function definePage($ident, $title, $widgets)

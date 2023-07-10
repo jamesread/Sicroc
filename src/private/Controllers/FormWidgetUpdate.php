@@ -7,6 +7,8 @@ use \libAllure\ElementInput;
 use \libAllure\Sanitizer;
 use \libAllure\DatabaseFactory;
 
+use function \libAllure\util\stmt;
+
 class FormWidgetUpdate extends Form
 {
     public function __construct()

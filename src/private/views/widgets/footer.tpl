@@ -7,7 +7,7 @@
 	</div>
 
 	<div class = "right">
-		<p>&copy; xconspirisist</p>
+		<p>&copy; James Read</p>
 	</div>
 
 	<div class = "clearer"></div>

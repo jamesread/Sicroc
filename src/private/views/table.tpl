@@ -11,6 +11,7 @@
 	</thead>
 
 	<tbody>
+	{$tableError}
 	{foreach from = $rows item = row}
 	<tr>
 		{foreach from = $row item = cell key = key}

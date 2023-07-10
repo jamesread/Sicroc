@@ -1,5 +1,7 @@
 <?php
 
+namespace Sicroc\Controllers;
+
 use \libAllure\Session;
 
 class Logout extends Widget
@@ -7,13 +9,20 @@ class Logout extends Widget
     public function display()
     {
     }
+ 
+    public function getTitle()
+    {
+        return "Logout";
+    }
+
     public function render()
     {
-        Session::logout();
+        if (Session::isLoggedIn()) {
+            Session::logout();
 
-        global $tpl;
-
-        $tpl->assign('message', 'You have been logged out.');
-        $tpl->display('simple.tpl');
+            $this->simpleMessage('You have been logged out');
+        } else {
+            $this->simpleMessage('You were not logged in.');
+        }
     }
 }

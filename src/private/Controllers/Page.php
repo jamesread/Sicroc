@@ -9,6 +9,7 @@ use \libAllure\Session;
 use \Sicroc\Controllers\Widget;
 use \Sicroc\Controllers\WidgetForm;
 use \Sicroc\Controllers\Table;
+use \Sicroc\Controllers\WikiContent;
 use \Sicroc\Controllers\SimpleMessage;
 
 class Page extends Widget
@@ -230,6 +231,11 @@ class Page extends Widget
 
         $tpl->assign('page', $this->page);
         $tpl->assign('widgets', $this->widgets);
+    }
+
+    public function isSystem() 
+    {
+        return $this->page['isSystem'];
     }
 }
 
