@@ -1,463 +1,463 @@
 body {
-	background-color: #efefef;
+  background-color: #efefef;
 }
 
 h2 {
-	font-family: sans-serif;
-	font-size: 1.6em;
-	font-weight: 100;
-	margin-top: 6px;
-	margin-bottom: 1em;
-	color: #000;
-	position: relative;
+  font-family: sans-serif;
+  font-size: 1.6em;
+  font-weight: 100;
+  margin-top: 6px;
+  margin-bottom: 1em;
+  color: #000;
+  position: relative;
 }
 
 body, td, input {
-	font-family: Sans-Serif;
-	font-size: 9pt;
-	margin: 0;
-	line-height: 1.5;
+  font-family: Sans-Serif;
+  font-size: 9pt;
+  margin: 0;
+  line-height: 1.5;
 }
 
 div.page {
-	padding: 2em;
-	padding-top: 1em;
+  padding: 2em;
+  padding-top: 1em;
 }
- 
+
 div.subnav {
-	background-color: #555;
+  background-color: #555;
 }
 
 div.subnav p {
-	color: #999;
-	margin: 0; 
-	padding: .2em; 
-	padding-left: 1em;
-	display: inline-block; 
+  color: #999;
+  margin: 0; 
+  padding: .2em; 
+  padding-left: 1em;
+  display: inline-block; 
 }  
- 
+
 div.subnav ul {
-	display: inline-block; 
-	cursor: pointer;
-	padding: 0;
-	margin: 0; 
-	list-style: none;
-	float: right;
+  display: inline-block; 
+  cursor: pointer;
+  padding: 0;
+  margin: 0; 
+  list-style: none;
+  float: right;
 }
 
 div.subnav ul li ul {
-	display: none;
-	padding: 0;
-	margin: 0;
-	list-style: none;
+  display: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 div.subnav ul li, div.subnav ul li ul li {
-	padding: 0; 
-	margin: 0;
-	border: 0;
+  padding: 0; 
+  margin: 0;
+  border: 0;
 } 
-  
+
 div.subnav ul li {
-	display: block;
-	padding: 0;
-	width: 12em;
-	color: white;
-	text-decoration: none;
-	margin: 0;
+  display: block;
+  padding: 0;
+  width: 12em;
+  color: white;
+  text-decoration: none;
+  margin: 0;
 }
 
 div.subnav ul li a, div.subnav ul li a:visited {
-	padding: .2em; 
-	display: block;
-	color: white;
+  padding: .2em; 
+  display: block;
+  color: white;
 }
- 
+
 div.subnav ul li ul li a, div.subnav ul li ul li a:visited {
-	background-color: #dedede;
-	color: black; 
+  background-color: #dedede;
+  color: black; 
 }
 
 div.subnav ul li ul li a:hover {
-	background-color: #999;
+  background-color: #999;
 }
- 
+
 div.subnav ul li:hover ul {
-	display: block;
-	position: absolute;
-	z-index: 99; 
+  display: block;
+  position: absolute;
+  z-index: 99; 
 } 
 
 a {
-		text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-		text-decoration: underline;
+  text-decoration: underline;
 }
 
 div.header img {
-		float: right;
+  float: right;
 }
 
 div.header {
-		background-color: #111;
-		color: white;
+  background-color: #111;
+  color: white;
 }
 
 div.header table {
-		border-collapse: collapse;
-		padding: 0;
-		margin: 0;
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0;
 }
 
 div.header td {
-		background-image: url('../images/block.png');
-		background-repeat: repeat-x;
-		color: white; 
-		padding: 6px;
+  background-image: url('../images/block.png');
+  background-repeat: repeat-x;
+  color: white; 
+  padding: 6px;
 }
 
 fieldset.box legend {
-		font-family: Serif;
-		font-size: 1.6em;
-		margin-top: 6px;
-		margin-bottom: 0;
-		color: #5D7CBA;
-		position: relative;
+  font-family: Serif;
+  font-size: 1.6em;
+  margin-top: 6px;
+  margin-bottom: 0;
+  color: #5D7CBA;
+  position: relative;
 }
 
 fieldset {
-	margin: 0;
-	padding: 0;
-	border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
- 
+
 #header {
-		background-color: #CDEB8B;
-		border-bottom: 1px solid black;
+  background-color: #CDEB8B;
+  border-bottom: 1px solid black;
 }
 
 h1 {
-		margin: 0;
-		padding-left: 12px;
-		padding-top: 4px;
-		font-size: 12pt;
+  margin: 0;
+  padding-left: 12px;
+  padding-top: 4px;
+  font-size: 12pt;
 }
 
 ul.navigation {
-		margin: 0;
-		padding: 6px;
+  margin: 0;
+  padding: 6px;
 }
 
 ul.navigation li {
-		text-transform: uppercase;
-		display: inline;
-		padding: 0;
-		margin: 0;
+  text-transform: uppercase;
+  display: inline;
+  padding: 0;
+  margin: 0;
 }
 
 ul.navigation li a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-	padding: 6px;
-	margin: 0;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  padding: 6px;
+  margin: 0;
 }
 
 ul.navigation li a:hover {
-	background-color: #356AA0;
-	color: white;
+  background-color: #356AA0;
+  color: white;
 }
 
 hr {
-	background-color: black;
-	height: 0;
-	border: 0;
-	border-top: 1px solid black;
-	margin: 0;
+  background-color: black;
+  height: 0;
+  border: 0;
+  border-top: 1px solid black;
+  margin: 0;
 }
 
 div.content {
-	margin: auto;
-	padding-top: 6px;
-	padding-bottom: 12px;
-	padding-left: 2%;
-	padding-right: 2%;
+  margin: auto;
+  padding-top: 6px;
+  padding-bottom: 12px;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
 form table {
-	border-collapse: collapse;
-	width: 100%;
-	border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid black;
 }
 
 form table td {
-	background-color: #EFEFD7;
-	padding: 12px;
+  background-color: #EFEFD7;
+  padding: 12px;
 }
 
 input, textarea {
-	border: 1px solid black;
-	padding: 2px;
-	text-align: left;
+  border: 1px solid black;
+  padding: 2px;
+  text-align: left;
 }
 
 textarea {
-	width: 100%;
-	height: 300px;
+  width: 100%;
+  height: 300px;
 }
 
 input[type='submit'] {
-	min-width: 10em;
-	background-color: #9EFF66;
+  min-width: 10em;
+  background-color: #9EFF66;
 }
 
 input[type='reset'] {
-	min-width: 10em;
-	background-color: #FF422D;
+  min-width: 10em;
+  background-color: #FF422D;
 }
 
 ul.table {
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
-	display: block;
-	clear: both;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  display: block;
+  clear: both;
 }
 
 ul.table li {
-	float: left;
-	display: block;
-	border: 1px solid #999;
-	width: 6em;
-	height: 6em; 
-	text-align: center;
-	margin: 6px;
-	padding: 0;
-	text-decoration: none;
-	color: black;
-	overflow: hidden;
+  float: left;
+  display: block;
+  border: 1px solid #999;
+  width: 6em;
+  height: 6em; 
+  text-align: center;
+  margin: 6px;
+  padding: 0;
+  text-decoration: none;
+  color: black;
+  overflow: hidden;
 }
 
 ul.table li a {
-	display: block;
-	height: 100%;
-	padding: 2px;
+  display: block;
+  height: 100%;
+  padding: 2px;
 }
 
 ul.table li a:hover {
-	background-color: #EFEFD7;
+  background-color: #EFEFD7;
 }
- 
+
 div.clearer {
-	clear: both;
-	display: block;
+  clear: both;
+  display: block;
 }
 
 #user {
-	position: absolute;
-	right: 6px;
+  position: absolute;
+  right: 6px;
 }
 
 div.box {
-	border: 1px solid gray;
-	padding: 1em;
+  border: 1px solid gray;
+  padding: 1em;
 }
 
 div.box ul {
-	display: inline;
-	padding: 0;
+  display: inline;
+  padding: 0;
 }
 
 div.box ul li { 
-	display: inline;
+  display: inline;
 }
 
 .contentBox {
-	background-color: #EFEFD7;
-	padding: 12px;
-	border: 1px solid black;
-	margin-bottom: 4em;
+  background-color: #EFEFD7;
+  padding: 12px;
+  border: 1px solid black;
+  margin-bottom: 4em;
 }
 
 legend {
-	position: relative;
-	right: 12px;
+  position: relative;
+  right: 12px;
 }
 
 abbr {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 table {
-	width: 100%;
-	border-collapse: collapse;
-	border: 1px solid black;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
 }
 
 th {
-	background-color: #555;
-	color: white;
+  background-color: #555;
+  color: white;
 }
 
 th, td {
-	border: 1px solid black;
-	padding: .5em;
-	text-align: left;
+  border: 1px solid black;
+  padding: .5em;
+  text-align: left;
 }
 
 div.labelHolder, div.elementHolder {
-	display: inline-block;
+  display: inline-block;
 }
 
 label {
-	font-weight: bold;
-	display: inline-block;
-	min-width: 12em;
+  font-weight: bold;
+  display: inline-block;
+  min-width: 12em;
 }
 
 th .subtle {
-	display: block;
-	font-size: x-small;
+  display: block;
+  font-size: x-small;
 }
 
 .subtle {
-	color: #999;
+  color: #999;
 }
 
 hr {
-	margin-top: 6px;
-	margin-bottom: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 div.footer {
-	border-top: 1px solid black;
-	padding: 1em;
+  border-top: 1px solid black;
+  padding: 1em;
 }
 
 div.footer p {
-	padding: 0; 
-	margin: 0;
+  padding: 0; 
+  margin: 0;
 }
 
 div.footer div.left {
-	float: left;
+  float: left;
 }
 
 div.footer div.right {
-	float: right;
+  float: right;
 }
 
 tr:hover td {
-	background-color: beige;
+  background-color: beige;
 }
 
 div.widget {
-	background-color: #fff;
-	border-radius: 1em;
-	margin-bottom: 1em;
-	padding: 1em;
+  background-color: #fff;
+  border-radius: 1em;
+  margin-bottom: 1em;
+  padding: 1em;
 }
 
 h3 {
-	margin-top: 0;
-	font-size: 10pt;
-	font-weight: bold;
+  margin-top: 0;
+  font-size: 10pt;
+  font-weight: bold;
 }
 
 .formSection {
-	margin-top: 0;
-	font-size: 10pt;
-	border-bottom: 1px solid lightgray;
-	font-weight: bold;
+  margin-top: 0;
+  font-size: 10pt;
+  border-bottom: 1px solid lightgray;
+  font-weight: bold;
 }
 
 .formValidationError {
-	color: red;
+  color: red;
 }
 
 #sectionActions li strong {
-	display: block;
-	background-color: darkgray;
-	padding: .2em;
+  display: block;
+  background-color: darkgray;
+  padding: .2em;
 }
 
 td {
-	background-color: white;
+  background-color: white;
 }
 
 .good {
-	background-color: LimeGreen;	
+  background-color: LimeGreen;    
 }
 
 div.toolbar {
-	background-color: lightgray;
-	margin-top: -1em;
-	border: 1px solid #666;
-	border-bottom: 0;
+  background-color: lightgray;
+  margin-top: -1em;
+  border: 1px solid #666;
+  border-bottom: 0;
 }
 
 button, a.button {
-	padding: 2px;
-	display: inline-block;
-	border: 1px solid #999;
-	color: black;
-	margin: .2em;
-	background-color: white;
+  padding: 2px;
+  display: inline-block;
+  border: 1px solid #999;
+  color: black;
+  margin: .2em;
+  background-color: white;
 }
 
 button:hover, a.button:hover {
-	text-decoration: none;
-	background-color: #356AA0;
-	color: white;
-	cursor: pointer;
+  text-decoration: none;
+  background-color: #356AA0;
+  color: white;
+  cursor: pointer;
 }
 
 td.keyCol {
-	width: 1%;
-	font-weight: bold;
-	text-align: right;
+  width: 1%;
+  font-weight: bold;
+  text-align: right;
 }
 
 table.transparent, table.transparent td {
-	border: 0;
-	background-color: transparent;
+  border: 0;
+  background-color: transparent;
 }
 
 p.description {
-	padding-left: 1em;
-	display: inline-block;
+  padding-left: 1em;
+  display: inline-block;
 }
 
 .wikiPage {
-	background-color: white;
-	padding: 6px;
-	border: 1px solid gray;
+  background-color: white;
+  padding: 6px;
+  border: 1px solid gray;
 }
 
 .wikiPage p:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .wikiPage p:last-child {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .bad {
-	background-color: salmon;
-	padding: 1em;
+  background-color: salmon;
+  padding: 1em;
 }
 
 .framedBox {
-	border: 1px solid black;
-	background-color: white;
+  border: 1px solid black;
+  background-color: white;
 }
 
 .framedBox .bad {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .framedBox p {
-	padding: 1em;
+  padding: 1em;
 }

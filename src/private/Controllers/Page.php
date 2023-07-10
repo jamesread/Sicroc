@@ -11,8 +11,10 @@ use \Sicroc\Controllers\WidgetForm;
 use \Sicroc\Controllers\Table;
 use \Sicroc\Controllers\SimpleMessage;
 
-class Page extends Widget {
-    private function getPage() {
+class Page extends Widget
+{
+    private function getPage()
+    {
         if (isset($_REQUEST['pageIdent'])) {
             $page = $this->getPageByIdent();
         } else {
@@ -22,7 +24,8 @@ class Page extends Widget {
         return $page;
     }
 
-    private function getPageById() {
+    private function getPageById()
+    {
         $pageId = Sanitizer::getInstance()->filterUint('page');
 
         if ($pageId === 0) {
@@ -41,7 +44,8 @@ class Page extends Widget {
         }
     }
 
-    public function getPageByIdent() {
+    public function getPageByIdent()
+    {
         $pageIdent =  Sanitizer::getInstance()->filterString('pageIdent');
 
         $sql = 'SELECT p.id, p.title, p.layout, p.isSystem FROM pages p WHERE p.ident = :ident LIMIT 1';
@@ -57,11 +61,13 @@ class Page extends Widget {
 
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->page['id'];
     }
 
-    public function edit() {
+    public function edit()
+    {
         global $tpl;
 
         // use the part page atm, although technically it's not correct.
@@ -77,7 +83,8 @@ class Page extends Widget {
         $tpl->assign('widgets', $widgets);
     }
 
-    public function getWidgetByType($search) {
+    public function getWidgetByType($search)
+    {
         foreach ($this->widgets as $widget) {
             if (get_class($widget['inst']) == $search) {
                 return $widget;
@@ -87,7 +94,8 @@ class Page extends Widget {
         return null;
     }
 
-    private function getWidgets($pageId) {
+    private function getWidgets($pageId)
+    {
         $sql = 'SELECT wt.viewableController, wi.id, wi.title, wi.method FROM page_content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.order';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':pageId', $pageId);
@@ -98,7 +106,8 @@ class Page extends Widget {
         return $widgets;
     }
 
-    private function resolveWidgets($widgets) {
+    private function resolveWidgets($widgets)
+    {
         foreach($widgets as $key => $widget) {
             $widgets[$key] = self::resolveWidget($widget, $this);
         }
@@ -106,7 +115,8 @@ class Page extends Widget {
         return $widgets;
     }
 
-    private function renderWidgets($widgets) {
+    private function renderWidgets($widgets)
+    {
         foreach ($widgets as $key => $widget) {
             $widgets[$key] = self::renderWidget($widget);
         }
@@ -114,7 +124,8 @@ class Page extends Widget {
         return $widgets;
     }
 
-    private static function renderWidget($widget) {
+    private static function renderWidget($widget)
+    {
         if (!isset($widget['inst'])) {
             return $widget;
         }
@@ -130,7 +141,8 @@ class Page extends Widget {
         return $widget;
     }
 
-    public static function resolveWidget($widget, $page = null) {
+    public static function resolveWidget($widget, $page = null)
+    {
         $widgetRet = $widget;
 
         try {
@@ -140,7 +152,7 @@ class Page extends Widget {
             assert(!empty($widget['viewableController']));
 
             $widgetRet['inst'] = $inst = new $widget['viewableController']();
-//            $widgetRet['inst'] = $inst = new WidgetForm();
+            //            $widgetRet['inst'] = $inst = new WidgetForm();
             $widgetRet['inst']->page = $page;
             $widgetRet['inst']->widgetId = $widget['id'];
             $widgetRet['inst']->widgetSetupCompleted(); 
@@ -166,7 +178,8 @@ class Page extends Widget {
         return $widgetRet;
     }
 
-    private static function renderWidgetException($e) {
+    private static function renderWidgetException($e)
+    {
         $html = '';
         $html .= '<div class = "framedBox">';
         $html .= '<p class = "bad"><strong>Exception thrown while trying to setup or render a widget.</strong></p>';
@@ -180,7 +193,8 @@ class Page extends Widget {
         return $html;
     }
 
-    public function resolve() {
+    public function resolve()
+    {
         $this->widgets = array();
 
         global $tpl;
@@ -210,7 +224,8 @@ class Page extends Widget {
         $this->widgets = $this->renderWidgets($this->widgets);
     }
 
-    public function assignTpl() {
+    public function assignTpl()
+    {
         global $tpl;
 
         $tpl->assign('page', $this->page);

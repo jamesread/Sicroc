@@ -1,11 +1,14 @@
 <?php
 
-class TableRelatedRows extends Widget {
-    public function display() {
+class TableRelatedRows extends Widget
+{
+    public function display()
+    {
 
     }
 
-    public function render() {
+    public function render()
+    {
         $widget = $this->page->getWidgetByType('TableRow');
 
         if ($widget == null) {

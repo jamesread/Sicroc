@@ -5,8 +5,10 @@ use \Sicroc\Controllers\Table;
 use function \libAllure\util\san;
 use function \libAllure\util\db;
 
-class FormTableEditRow extends \libAllure\Form {
-    public function __construct() {
+class FormTableEditRow extends \libAllure\Form
+{
+    public function __construct()
+    {
         parent::__construct('editRow', 'Edit Row');
 
         $this->addElementReadOnly('Table', san()->filterString('table'), 'table');
@@ -37,7 +39,8 @@ class FormTableEditRow extends \libAllure\Form {
     }
 
 
-    private function getHeaders($stmt) {
+    private function getHeaders($stmt)
+    {
         $headers = array();
         $this->keycol = null;
 
@@ -55,7 +58,8 @@ class FormTableEditRow extends \libAllure\Form {
         return $headers;
     }
 
-    public function process() {
+    public function process()
+    {
         $fields = implodeQuoted($this->fields, '`');
         $values = array();
         unset($this->fields[0]);

@@ -5,8 +5,10 @@ namespace Sicroc\Controllers;
 use \libAllure\ElementHidden;
 use \libAllure\Sanitizer;
 
-class WidgetForm extends Widget {
-    public function widgetSetupCompleted() {
+class WidgetForm extends Widget
+{
+    public function widgetSetupCompleted()
+    {
         $principle = $this->getArgumentValue('formClass');
 
         if (!empty($principle)) {
@@ -19,14 +21,16 @@ class WidgetForm extends Widget {
         }
     }
 
-    public function getArguments() {
+    public function getArguments()
+    {
         $args = array();
         $args[] = array('type' => 'varchar', 'name' => 'formClass', 'default' => '', 'description' => 'The name of the form class');
 
         return $args;
     }
 
-    public function display() {
+    public function display()
+    {
         global $tpl;
 
         if (!isset($this->f)) {
@@ -36,7 +40,7 @@ class WidgetForm extends Widget {
         if ($this->f->validate()) {
             $this->f->process();
 
-            if (isset($this->f->redirectUrl)){
+            if (isset($this->f->redirectUrl)) {
                 if (isset($this->f->redirectMessage)) {
                     $redirectMessage = $this->f->redirectMessage;
                 } else {
@@ -52,7 +56,8 @@ class WidgetForm extends Widget {
 
     }
 
-    public function render() {
+    public function render()
+    {
         global $tpl;
 
         if (isset($this->f)) {
@@ -64,14 +69,16 @@ class WidgetForm extends Widget {
         }
     }
 
-    public function validate() {
+    public function validate()
+    {
         global $tpl;
 
         $this->f->process();
 
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         if (isset($this->f)) {
             return 'Form: ' . $this->f->getTitle();
         } else {

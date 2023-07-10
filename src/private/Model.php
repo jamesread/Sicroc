@@ -7,7 +7,7 @@ abstract class Model {
 				return new Table($principle);
 				break;
 			default:
-				throw new ModelNotFoundException($model);
+				throw new Exception($model);
 		}
 	}
 
@@ -15,10 +15,6 @@ abstract class Model {
 	public function render() {
 		return '<p>I am a default model.</p>';
 	}
-}
-
-class ModelNotFoundException extends Exception {
-
 }
 
 ?>

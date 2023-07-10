@@ -8,8 +8,10 @@ use \libAllure\ElementSelect;
 use function \libAllure\util\san;
 use function \libAllure\util\stmt;
 
-class FormSectionUpdate extends Form {
-    public function __construct() {
+class FormSectionUpdate extends Form
+{
+    public function __construct()
+    {
         parent::__construct('formSectionUpdate', 'Section Update');
 
         $sectionToEdit = san()->filterUint('sectionToEdit');
@@ -22,7 +24,8 @@ class FormSectionUpdate extends Form {
         $this->addDefaultButtons();
     }
 
-    private function getElementIndexPage($currentIndex) {
+    private function getElementIndexPage($currentIndex)
+    {
         $sql = 'SELECT p.id, p.title FROM pages p ORDER BY p.title ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->execute();
@@ -39,7 +42,8 @@ class FormSectionUpdate extends Form {
 
     }
 
-    private function getElementMaster($current) {
+    private function getElementMaster($current)
+    {
         $sql = 'SELECT s.id, s.title FROM sections s';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->execute();
@@ -56,7 +60,8 @@ class FormSectionUpdate extends Form {
         return $el;
     }
 
-    private function getSection($id) {
+    private function getSection($id)
+    {
         $sql = 'SELECT title, master, `index` FROM sections WHERE id = :id';
         $stmt = stmt($sql);
         $stmt->bindValue(':id', $id);
@@ -65,7 +70,8 @@ class FormSectionUpdate extends Form {
         return $stmt->fetchRowNotNull();
     }
 
-    public function process() {
+    public function process()
+    {
         $sql = 'UPDATE sections SET title = :title, master = :master, `index` = :index WHERE id = :id';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));

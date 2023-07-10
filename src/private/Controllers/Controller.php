@@ -4,14 +4,18 @@ namespace Sicroc\Controllers;
 
 use \libAllure\Session;
 
-abstract class Controller {
-    public function getAdminLinks() {
+abstract class Controller
+{
+    public function getAdminLinks()
+    {
     }
 
-    public function getNavigationMain() {
+    public function getNavigationMain()
+    {
     }
 
-    public function classHasParent($class, $parent) {
+    public function classHasParent($class, $parent)
+    {
         $parents = class_parents($class);
 
         foreach ($parents as $mybottom) {
@@ -23,7 +27,8 @@ abstract class Controller {
         return false;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return 'Untitled controller';
     }
 }

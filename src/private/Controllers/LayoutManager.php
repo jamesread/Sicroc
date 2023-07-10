@@ -6,7 +6,8 @@ use \Sicroc\Controllers\Page;
 use \Sicroc\Controllers\Table;
 use \Sicroc\Controllers\Navigation;
 
-class LayoutManager {
+class LayoutManager
+{
     private $principle;
     private $method;
     private $widgets;
@@ -14,12 +15,14 @@ class LayoutManager {
 
     private static $inst;
 
-    private function __construct() {
+    private function __construct()
+    {
         global $db;
     }
 
-    public static function get() {
-        if (self::$inst == NULL) {
+    public static function get()
+    {
+        if (self::$inst == null) {
             self::$inst = new LayoutManager();
             self::$inst->resolvePage();
         }
@@ -27,17 +30,20 @@ class LayoutManager {
         return self::$inst;
     }
 
-    private function resolvePage() {
+    private function resolvePage()
+    {
         $this->page = new Page();
         $this->page->resolve();
         $this->page->assignTpl();
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         return $this->page;
     }
 
-    public function render() {
+    public function render()
+    {
         global $tpl;
 
         $navigation = new Navigation($this->page->page['id']);
@@ -49,13 +55,15 @@ class LayoutManager {
         $tpl->display('layout.' . $this->page->page['layout'] . '.tpl');
     }
 
-    private function assertPageRenderable() {
+    private function assertPageRenderable()
+    {
         assert(!empty($this->page));
         assert(!empty($this->page->page));
         assert(!empty($this->page->page['layout']));
     }
 
-    private function resolvePrinciple($p) {
+    private function resolvePrinciple($p)
+    {
         return (empty($p)) ? new Page() : new $p();
     }
 }

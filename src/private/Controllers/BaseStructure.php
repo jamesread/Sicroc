@@ -2,7 +2,8 @@
 
 namespace Sicroc\Controllers;
 
-class BaseStructure {
+class BaseStructure
+{
     var $structure = [
         [
             'ident' => 'ADMIN',
@@ -66,7 +67,8 @@ class BaseStructure {
         ],
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = \libAllure\DatabaseFactory::getInstance();
 
         $this->definePage('WIDGET_LIST', 'List of Widgets', [$this->defineWidgetTable('widget_instances')]);
@@ -78,7 +80,8 @@ class BaseStructure {
         $this->definePage('WIDGET_REGISTER', 'Register Widget', [$this->defineWidgetForm('FormWidgetClassRegister')]);
     }
 
-    public function definePage($ident, $title, $widgets) {
+    public function definePage($ident, $title, $widgets)
+    {
         $this->structure[] = [
             'ident' => $ident,
             'title' => $title,
@@ -86,7 +89,8 @@ class BaseStructure {
         ];
     }
 
-    public function defineWidgetForm($arg) {
+    public function defineWidgetForm($arg)
+    {
         return [
             'type' => '\Sicroc\Controllers\WidgetForm',
             'args' => [
@@ -95,7 +99,8 @@ class BaseStructure {
         ];
     }
 
-    public function defineWidgetTable($arg) {
+    public function defineWidgetTable($arg)
+    {
         return [
             'type' => '\Sicroc\Controllers\Table',
             'args' => [
@@ -104,7 +109,8 @@ class BaseStructure {
         ];
     }
 
-    public function check() {
+    public function check()
+    {
         foreach ($this->structure as $page) {
             $pageId = $this->ensurePageExists($page);
 
@@ -116,7 +122,8 @@ class BaseStructure {
         }
     }
 
-    public function ensurePageExists($page) {
+    public function ensurePageExists($page)
+    {
         $sql = 'INSERT INTO pages (ident, title) VALUES (:ident, :title) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':ident', $page['ident']);
@@ -126,7 +133,8 @@ class BaseStructure {
         return $this->db->lastInsertId();
     }
 
-    public function ensureWidgetExists($widget) {
+    public function ensureWidgetExists($widget)
+    {
         $sql = 'INSERT INTO widget_types (viewableController) VALUES (:type) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':type', $widget['type']);
@@ -154,7 +162,8 @@ class BaseStructure {
         return $widgetInstance;
     }
 
-    public function ensureWidgetOnPage($pageId, $widgetInstanceId) {
+    public function ensureWidgetOnPage($pageId, $widgetInstanceId)
+    {
         $sql = 'INSERT INTO page_content (page, widget) VALUES (:page, :widget) ON DUPLICATE KEY UPDATE id=id';
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':page', $pageId);

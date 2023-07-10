@@ -1,7 +1,9 @@
 <?php
 
-class TableRow extends Widget {
-    public function display() {
+class TableRow extends Widget
+{
+    public function display()
+    {
         $this->id = san()->filterString('primaryKey');
         $this->table = san()->filterString('table');
         $this->navigation->add('?pageIdent=TABLE_ROW_EDIT&amp;table=' . $this->table . '&amp;primaryKey=' . $this->id, 'Edit');
@@ -14,7 +16,8 @@ class TableRow extends Widget {
         $this->row = $stmt->fetchRow();
     }
 
-    public function render() {
+    public function render()
+    {
 
         global $tpl;
         $tpl->assign('row', $this->row);

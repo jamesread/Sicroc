@@ -5,8 +5,10 @@ use \libAllure\ElementCheckbox;
 use \libAllure\ElementInput;
 use \libAllure\ElementSelect;
 
-class FormAddForeignKey extends Form {
-    public function __construct() {
+class FormAddForeignKey extends Form
+{
+    public function __construct()
+    {
         parent::__construct('addFk', 'Add Foreign Key');
 
         $table = san()->filterString('table');
@@ -22,7 +24,8 @@ class FormAddForeignKey extends Form {
         $this->addDefaultButtons();
     }
 
-    private function getElementSourceField($table) {
+    private function getElementSourceField($table)
+    {
         $el = new ElementSelect('sourceField', 'Source field');
 
         $tbl = new Table($table);
@@ -37,7 +40,8 @@ class FormAddForeignKey extends Form {
         return $el;
     }
 
-    public function process() {
+    public function process()
+    {
         $sql = 'ALTER TABLE ' . san()->filterString('table') . ' ADD CONSTRAINT FOREIGN KEY (' . $this->getElementValue('sourceField'). ') REFERENCES ' . $this->getElementValue('foreignTable'). '(' .  $this->getElementValue('foreignField').') ';
         $stmt = db()->prepare($sql);
         $stmt->execute();

@@ -1,6 +1,7 @@
 <?php
 
-class FormTableDropColumn extends Form {
+class FormTableDropColumn extends Form
+{
 
 }
 

@@ -4,42 +4,49 @@ require_once 'Auth.php';
 require_once 'Auth/Container.php';
 require_once 'Auth/Container/MDB2.php';
 
-class Users extends Controller {
-    function getVersion() {
+class Users extends Controller
+{
+    function getVersion()
+    {
         return 0.3;
     }
 
-    function getIcon() {
+    function getIcon()
+    {
         return '';
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Users';
     }
 
-    function getDescription() {
+    function getDescription()
+    {
         return 'A module to manage users.';
     }
 
-    function logout() {
+    function logout()
+    {
         global $user;
 
         $user->logout();
 
-        require_once 'widgets/header.php';
+        include_once 'widgets/header.php';
 
         messageBox('You have been logged out.', 'Logout', true);
     }
 
-    function login() {
+    function login()
+    {
         global $user;
 
-        require_once 'widgets/header.php';
+        include_once 'widgets/header.php';
 
         if ($user->isLoggedIn()) {
             // Perhaps this is unessisary?
             echo 'You are already logged in.';
-            require_once 'widgets/footer.php';
+            include_once 'widgets/footer.php';
         }
 
         $f = new Form('login');
@@ -58,13 +65,13 @@ class Users extends Controller {
             echo sha1($f->getElement('password')->getValue());
             $user->checkAuth();
 
-            if ($user->checkAuth()) {		
-                messageBox('You have been logged in. Thankyou.', 'Login Successful', true);	
+            if ($user->checkAuth()) {        
+                messageBox('You have been logged in. Thankyou.', 'Login Successful', true);    
             } else {
                 messageBox('Please double check your username & password.', 'Login Failed.', false);
 
                 $f->display();
-            }	
+            }    
         } else {
             echo 'form failed validation';
             echo '<h2 class = "formTitle">Login</h2>';
@@ -73,10 +80,11 @@ class Users extends Controller {
 
         echo 'dsoing footer';
 
-        require_once 'widgets/footer.php';
+        include_once 'widgets/footer.php';
     }
 
-    function getNavigationMain() {
+    function getNavigationMain()
+    {
         global $user;
 
         $ll = new LinkList(get_class(&$this));
@@ -91,15 +99,19 @@ class Users extends Controller {
     }
 }
 
-define ('USER_LEVEL_ADMIN', 1);
+define('USER_LEVEL_ADMIN', 1);
 
-class User extends Auth {
-    function isLoggedIn() {
+class User extends Auth
+{
+    function isLoggedIn()
+    {
         return $this->checkAuth();
     }
 
-    function getId() {
-        if (!$this->isLoggedIn()) return;
+    function getId()
+    {
+        if (!$this->isLoggedIn()) { return;
+        }
 
         return $this->session['data']['user_id'];
     }
@@ -107,8 +119,10 @@ class User extends Auth {
     /**
      * Get the data stored in a field for a user.
      */
-    function getData($field, $useCache = true) {
-        if (!$this->isLoggedIn()) return;
+    function getData($field, $useCache = true)
+    {
+        if (!$this->isLoggedIn()) { return;
+        }
 
         if (!$useCache) {
             global $db;
@@ -124,26 +138,31 @@ class User extends Auth {
             if (isset($this->session['data'][$field])) {
                 return $this->session['data'][$field];
             } else {
-                return NULL;
+                return null;
             }
         }
     }
 
-    function setData($key, $value) {
+    function setData($key, $value)
+    {
         global $db;
         $sql = 'UPDATE `users` SET `' . $db->escape($key) . '` = "' . $db->escape($value) . '" WHERE `email_address` = "' . $this->getUsername() . '" LIMIT 1';
         $result = $db->query($sql);
     }
 
-    function getLevel() {
-        if (!$this->isLoggedIn()) return;
+    function getLevel()
+    {
+        if (!$this->isLoggedIn()) { return;
+        }
 
 
         return $this->session['data']['userlevel'];
     }
 
-    function isAdmin() {
-        if (!$this->isLoggedIn()) { return false; }
+    function isAdmin()
+    {
+        if (!$this->isLoggedIn()) { return false; 
+        }
 
         return $this->getLevel() <= USER_LEVEL_ADMIN;
     }

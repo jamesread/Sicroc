@@ -1,7 +1,9 @@
 <?php
 
-class TableRowDelete extends Widget {
-    public function display() {
+class TableRowDelete extends Widget
+{
+    public function display()
+    {
         $table = san()->filterString('table');
         $id = san()->filterUint('primaryKey');
 

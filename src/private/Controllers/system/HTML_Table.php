@@ -1,10 +1,12 @@
 <?php
 
-class HTML_Table {
+class HTML_Table
+{
     private $data = array();
 
-    public function addRow($items) {
-		if (is_array($items) && sizeof(func_get_args()) == 1) {
+    public function addRow($items)
+    {
+        if (is_array($items) && sizeof(func_get_args()) == 1) {
         } else {
             $items = func_get_args();
         }
@@ -12,8 +14,9 @@ class HTML_Table {
         $this->data[] = $items;
     }
 
-    public function display() {
-		$ret = '';
+    public function display()
+    {
+        $ret = '';
         $ret .= '<table>';
 
         foreach ($this->data as $row) {
@@ -23,23 +26,24 @@ class HTML_Table {
                 $ret .= ($row == $this->data[0]) ? '<th>' . $cell . '</th>' : '<td>' . $cell . '</td>';
             }
 
-           	$ret .= '</tr>';
+               $ret .= '</tr>';
         }
 
         $ret .= '</table>';
-		$ret .= '<p>There are <strong>' . (sizeof($this->data) - 1) . '</strong> rows in this table.</p>';
+        $ret .= '<p>There are <strong>' . (sizeof($this->data) - 1) . '</strong> rows in this table.</p>';
 
-		return $ret;
-   }
+        return $ret;
+    }
 
-   public function setData(PDOStatement $stmt) {
+    public function setData(PDOStatement $stmt)
+    {
         global $db;
 
         $stmt->execute();
 
-		$keyCol = null;
+        $keyCol = null;
         $fields = array();
-		// headers
+        // headers
 
         for ($i = 0; $i < $stmt->columnCount(); $i++) {
             $col = $stmt->getColumnMeta($i);
@@ -55,7 +59,7 @@ class HTML_Table {
         $this->addRow($fields);
         $table = 'events';
 
-		// data rows
+        // data rows
         foreach ($stmt->fetchAll(PDO::FETCH_NAMED) as $row) {
             $row[$keycol] = '<a href = "viewRow.php?table=' . $table . '&amp;keyCol=' . $keycol . '&amp;key=' . $row[$keycol] . '">' . $row[$keycol] . '</a>';
 

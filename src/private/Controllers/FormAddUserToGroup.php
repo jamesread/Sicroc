@@ -4,56 +4,61 @@ use \libAllure\Form;
 use \libAllure\ElementSelect;
 use \libAllure\DatabaseFactory;
 
-class FormAddUserToGroup extends Form {
-	public function __construct() {
-		$this->addElementUser();
-		$this->addElementUserGroup();
-		$this->addDefaultButtons('Add');
-	} 
+class FormAddUserToGroup extends Form
+{
+    public function __construct()
+    {
+        $this->addElementUser();
+        $this->addElementUserGroup();
+        $this->addDefaultButtons('Add');
+    } 
 
-	private function addElementUser() {
-		$sql = 'SELECT id, username FROM users ';
-		$stmt = stmt($sql);
-		$stmt->execute();
-		
-		$selectUser = new ElementSelect('user', 'User');
-		$selectUser->setSize(5);
+    private function addElementUser()
+    {
+        $sql = 'SELECT id, username FROM users ';
+        $stmt = stmt($sql);
+        $stmt->execute();
+        
+        $selectUser = new ElementSelect('user', 'User');
+        $selectUser->setSize(5);
 
-		foreach ($stmt->fetchAll() as $user) {
-			$selectUser->addOption($user['username'], $user['id']);
-		}
+        foreach ($stmt->fetchAll() as $user) {
+            $selectUser->addOption($user['username'], $user['id']);
+        }
 
-		$this->addElement($selectUser);
-	}
+        $this->addElement($selectUser);
+    }
 
-	private function addElementUserGroup() { 
-		$sql = 'SELECT id, title FROM groups ';
-		$stmt = stmt($sql);
-		$stmt->execute();
+    private function addElementUserGroup()
+    { 
+        $sql = 'SELECT id, title FROM groups ';
+        $stmt = stmt($sql);
+        $stmt->execute();
 
-		$selectGroup = new ElementSelect('group', 'Group');
+        $selectGroup = new ElementSelect('group', 'Group');
 
-		foreach ($stmt->fetchAll() as $group) {
-			$selectGroup->addOption($group['title'], $group['id']);
-		}
+        foreach ($stmt->fetchAll() as $group) {
+            $selectGroup->addOption($group['title'], $group['id']);
+        }
 
-		$this->addElement($selectGroup);
+        $this->addElement($selectGroup);
 
-	}
+    }
 
-	public function process() {
-		$user = $this->getElementValue('user');
-		$group = $this->getElementValue('group');
+    public function process()
+    {
+        $user = $this->getElementValue('user');
+        $group = $this->getElementValue('group');
 
-		var_dump($user, $group);
+        var_dump($user, $group);
 
-		exit;
+        exit;
 
-		$stmt = DatabaseFactory::getInstance()->prepare($sql);
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
 
-		$stmt->bindValue('title', $this->getElementValue('title'));
-		$stmt->execute();
-	}
+        $stmt->bindValue('title', $this->getElementValue('title'));
+        $stmt->execute();
+    }
 }
 
 ?>

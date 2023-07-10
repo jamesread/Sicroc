@@ -7,7 +7,8 @@ use \libAllure\ElementInput;
 use \libAllure\ElementSelect;
 use \libAllure\ElementCheckbox;
 
-class Table extends Widget {
+class Table extends Widget
+{
     public $page;
     public $displayEdit = false;
 
@@ -15,19 +16,22 @@ class Table extends Widget {
     private $headers = array();
     private $rows = array();
 
-    public function __construct($principle = null, $singleRowId = null) {
+    public function __construct($principle = null, $singleRowId = null)
+    {
         parent::__construct();
 
         $this->singleRowId = $singleRowId;
     }
 
-    public function widgetSetupCompleted() {
+    public function widgetSetupCompleted()
+    {
         $this->rows = $this->getRowData();
         $this->headers = $this->getHeaders();
         $this->rows = $this->mangleForeignData();
     }
 
-    private function mangleForeignData() {
+    private function mangleForeignData()
+    {
         for ($i = 0; $i < sizeof($this->rows); $i++) {
             $row = $this->rows[$i];
             $cols = array_keys($row);
@@ -53,7 +57,8 @@ class Table extends Widget {
         return $this->rows;
     }
 
-    public static function getForeignKeys($sourceTable) {
+    public static function getForeignKeys($sourceTable)
+    {
         global $db;
 
         $sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
@@ -71,7 +76,8 @@ class Table extends Widget {
         return $ret;
     }
 
-    public function getArguments() {
+    public function getArguments()
+    {
         $args = array();
         $args[] = array('type' => 'varchar', 'name' => 'db', 'default' => 'sicroc', 'description' => 'The database name');
         $args[] = array('type' => 'varchar', 'name' => 'table', 'default' => '', 'description' => 'The database table name');
@@ -79,7 +85,8 @@ class Table extends Widget {
         return $args;
     }
 
-    private function getRowData() {
+    private function getRowData()
+    {
         $table = $this->getArgumentValue('table');
 
         if ($table == null) {
@@ -123,7 +130,8 @@ class Table extends Widget {
         return $this->stmt->fetchAll();
     }
 
-    public function getHeadersOfType() {
+    public function getHeadersOfType()
+    {
         $searchTypes = func_get_args();
         $ret = array();
 
@@ -136,7 +144,8 @@ class Table extends Widget {
         return $ret;
     }
 
-    private function getHeaders() {
+    private function getHeaders()
+    {
         if ($this->stmt == null) {
             return array();
         }
@@ -161,7 +170,8 @@ class Table extends Widget {
         return $headers;
     }
 
-    private function getRows() {
+    private function getRows()
+    {
         if (false && $this->keycol != null) {
             foreach ($this->rows as &$row) {
                 $row[$this->keycol] = '<a href = "">' . $row[$this->keycol]. '</a>';
@@ -171,11 +181,13 @@ class Table extends Widget {
         return $this->rows;
     }
 
-    public function display() {
+    public function display()
+    {
         return $this->index();
     }
 
-    public function index() {
+    public function index()
+    {
         global $tpl;
 
         $this->navigation->add('?pageIdent=TABLE_INSERT&amp;table=' . $this->getArgumentValue('table'), 'Insert');
@@ -191,7 +203,8 @@ class Table extends Widget {
 
     }
 
-    public function render() {
+    public function render()
+    {
         global $tpl;
         $tpl->assign('headers', $this->headers);
         $tpl->assign('rows', $this->getRows());
@@ -200,7 +213,8 @@ class Table extends Widget {
         $tpl->display('table.tpl');
     }
 
-    public function getArgumentElement($name, $default = 0) {
+    public function getArgumentElement($name, $default = 0)
+    {
         switch ($name) {
         case 'table':
             $db = $this->getArgumentValue('db');
@@ -230,7 +244,8 @@ class Table extends Widget {
         }
     }
 
-    public static function handleHeaderElement($form, $header, $foreignKeys, $row = null) {
+    public static function handleHeaderElement($form, $header, $foreignKeys, $row = null)
+    {
         if (isset($row[$header['name']])) {
             $val= $row[$header['name']];
         } else {
@@ -279,7 +294,7 @@ class Table extends Widget {
             $form->addElement($el);
             break;
         default: 
-            $form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')' , $row[$header['name']], $header['name']);	
+            $form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')', $row[$header['name']], $header['name']);    
         }
     }
 }
