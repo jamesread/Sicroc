@@ -55,13 +55,33 @@ class LayoutManager
         }
     }
 
+    public function getCurrentSection()
+    {
+        $sql = 'SELECT * FROM sections s WHERE s.index = :page ';
+        $stmt = \libAllure\util\stmt($sql);
+        $stmt->bindValue(':page', $this->page->getId());
+        $stmt->execute();
+
+        $section = $stmt->fetchRow();
+
+        if ($section == false) {
+            return array(
+                'title' => 'nosection',
+                'id' => 0,
+            );
+        } else {
+            return $section;
+        }
+    }
+
     public function render()
     {
         global $tpl;
 
-        $navigation = new Navigation($this->page->page['id']);
+        $navigation = new Navigation();
 
-        $tpl->assign('navigation', $navigation->getSectionTitles());
+        $tpl->assign('navigation', $navigation->getLinks());
+        $tpl->assign('section', $this->getCurrentSection());
         $tpl->assign('editMode', $this->getEditMode());
 
         $this->assertPageRenderable();

@@ -15,7 +15,7 @@ class FormTableEditRow extends \libAllure\Form
 
         $table = san()->filterString('table');
 
-        $sql = 'SELECT * FROM ' . san()->filterString('table') . ' WHERE id = ' . san()->filterUint('primaryKey') . ' LIMIT 1';
+        $sql = 'SELECT * FROM ' . san()->filterString('db') . '.' . san()->filterString('table') . ' WHERE id = ' . san()->filterUint('primaryKey') . ' LIMIT 1';
         $stmt = db()->prepare($sql);
         $stmt->execute();
 

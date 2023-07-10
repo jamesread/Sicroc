@@ -29,7 +29,7 @@
 			<div class = "toolbar">
 			{foreach from = $widget.inst->navigation item = link}
 				{if $link.url == null}
-				|
+				&nbsp;&nbsp;
 				{else}
 				<a class = "button" href = "{$link.url}">{$link.title}</a>
 				{/if}

@@ -219,7 +219,7 @@ class Table extends Widget
         global $tpl;
         $tpl->assign('headers', $this->headers);
         $tpl->assign('rows', $this->getRows());
-        $tpl->assign('table', array('name' => $this->getArgumentValue('table'), 'primaryKey' => $this->keycol));
+        $tpl->assign('table', array('name' => $this->getArgumentValue('table'), 'db' => $this->getArgumentValue('db'), 'primaryKey' => $this->keycol));
 
         $tpl->display('table.tpl');
     }

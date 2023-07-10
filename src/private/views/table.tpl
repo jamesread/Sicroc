@@ -18,7 +18,7 @@
 		<td>
 			{if $table.primaryKey == $key}
 				<a href = "?pageIdent=TABLE_ROW&amp;table={$table.name}&amp;primaryKey={$cell}">{$cell}</a> | 
-				<a href = "?pageIdent=TABLE_ROW_EDIT&amptable={$table.name}&tamp;primaryKey={$cell}&amp;redirectTo={$page.id}">edit</a>
+				<a href = "?pageIdent=TABLE_ROW_EDIT&amp;db={$table.db}&amp;table={$table.name}&amp;primaryKey={$cell}&amp;redirectTo={$page.id}">edit</a>
 			{else}
 				{$cell}
 			{/if}
