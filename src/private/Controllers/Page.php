@@ -12,8 +12,11 @@ use \Sicroc\Controllers\Table;
 use \Sicroc\Controllers\WikiContent;
 use \Sicroc\Controllers\SimpleMessage;
 
-class Page extends Widget
+class Page
 {
+    private array $widgets;
+    private array $page;
+
     private function getPage()
     {
         if (isset($_REQUEST['pageIdent'])) {
@@ -69,10 +72,8 @@ class Page extends Widget
 
     public function edit()
     {
-        global $tpl;
-
         // use the part page atm, although technically it's not correct.
-        $tpl->assign('page', $this->getPage());
+        $this->tpl->assign('page', $this->getPage());
 
         $widgets = array(
             array(
@@ -236,6 +237,11 @@ class Page extends Widget
     public function isSystem() 
     {
         return $this->page['isSystem'];
+    }
+
+    public function getLayout() : string 
+    {
+        return $this->page['layout'];
     }
 }
 

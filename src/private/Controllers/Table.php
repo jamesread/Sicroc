@@ -6,17 +6,21 @@ use \libAllure\DatabaseFactory;
 use \libAllure\ElementInput;
 use \libAllure\ElementSelect;
 use \libAllure\ElementCheckbox;
+use \libAllure\ElementDate;
 
 use function \libAllure\util\vde;
 
 class Table extends Widget
 {
-    public $page;
     public $displayEdit = false;
 
     private $keycol = null;
     private $headers = array();
     private $rows = array();
+
+    private int|null $singleRowId;
+
+    private $stmt;
 
     public function __construct($principle = null, $singleRowId = null)
     {
@@ -33,6 +37,14 @@ class Table extends Widget
         $this->rows = $this->getRowData();
         $this->headers = $this->getHeaders();
         $this->rows = $this->mangleForeignData();
+
+        if (!$this->getArgumentValue('showid')) {
+            unset($this->headers['id']);
+
+            for ($i = 0; $i < sizeof($this->rows); $i++) {
+                unset($this->rows[$i]['id']);
+            }
+        }
     }
 
     private function mangleForeignData()
@@ -86,6 +98,9 @@ class Table extends Widget
         $args = array();
         $args[] = array('type' => 'varchar', 'name' => 'db', 'default' => 'sicroc', 'description' => 'The database name');
         $args[] = array('type' => 'varchar', 'name' => 'table', 'default' => '', 'description' => 'The database table name');
+        $args[] = array('type' => 'varchar', 'name' => 'order', 'default' => '', 'description' => 'Order by');
+        $args[] = array('type' => 'boolean', 'name' => 'showid', 'default' => '0', 'description' => 'Show ID & Edit');
+        $args[] = array('type' => 'boolean', 'name' => 'showtypes', 'default' => '0', 'description' => 'Show types');
 
         return $args;
     }
@@ -129,6 +144,11 @@ class Table extends Widget
 
         $sql .= ' GROUP BY ' . $table . '.id';
 
+        $order = $this->getArgumentValue('order');
+
+        if (!empty($order)) {
+            $sql .= ' ORDER BY ' . $order . ' DESC';
+        }
 
         try {
             $this->stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -220,12 +240,20 @@ class Table extends Widget
         $tpl->assign('headers', $this->headers);
         $tpl->assign('rows', $this->getRows());
         $tpl->assign('table', array('name' => $this->getArgumentValue('table'), 'db' => $this->getArgumentValue('db'), 'primaryKey' => $this->keycol));
+        $tpl->assign('showTypes', $this->getArgumentValue('showtypes'));
 
         $tpl->display('table.tpl');
     }
 
-    public function getArgumentElement($name, $default = 0)
+    public function getArgumentElement(string $name, string $type, $default = 0)
     {
+        switch ($type) {
+        case 'boolean':
+            $el = new ElementCheckbox($name, $name);
+
+            return $el;
+        }
+
         switch ($name) {
         case 'table':
             $el = new ElementSelect($name, $name);
@@ -249,7 +277,7 @@ class Table extends Widget
 
             return $el;
         default:
-            return parent::getArgumentElement($name, $default);
+            return parent::getArgumentElement($name, $type, $default);
         }
     }
 
@@ -276,6 +304,8 @@ class Table extends Widget
             $form->getElement($header['name'])->setMinMaxLengths(0, 64);
             break;
         case 'DATETIME':
+            $form->addElement(new ElementDate($header['name'], $header['name'], $val, $header['native_type']));
+            break;
         case 'VAR_STRING':
             $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
             break;

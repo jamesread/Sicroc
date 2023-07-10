@@ -12,6 +12,9 @@ abstract class Widget extends Controller
     public $navigation;
     public $widgetId;
     public $displayEdit = true;
+    protected $tpl; 
+    protected $principle;
+    public \Sicroc\Controllers\Page|null $page;
 
     public function __construct($principle = null)
     {
@@ -121,9 +124,10 @@ abstract class Widget extends Controller
         return sizeof($this->getArguments()) > 0;
     }
 
-    public function getArgumentElement($name, $val = 0)
+    public function getArgumentElement(string $name, string $type, $val = 0)
     {
         $el = new \libAllure\ElementInput($name, $name, $val);
+        $el->setMinMaxLengths(0, 1024);
         return $el;
     }
 

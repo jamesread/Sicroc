@@ -86,7 +86,7 @@ class LayoutManager
 
         $this->assertPageRenderable();
 
-        $tpl->display('layout.' . $this->page->page['layout'] . '.tpl');
+        $tpl->display('layout.' . $this->page->getLayout() . '.tpl');
     }
 
     private function assertPageRenderable()

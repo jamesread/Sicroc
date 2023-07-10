@@ -4,7 +4,9 @@
 		{foreach from = $headers item = "header"} 
 			<th>
 				{$header.name} 
+				{if $showTypes}
 				<span class = "subtle">{if isset($header.native_type)}{$header.native_type}{else}???{/if}</span>
+				{/if}
 			</th>
 		{/foreach}
 		</tr>

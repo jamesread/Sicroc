@@ -7,6 +7,8 @@ use \libAllure\ElementSelect;
 
 class FormAddToPage extends Form
 {
+    private array $page;
+
     public function __construct()
     {
         parent::__construct('formAddToPage', 'Add widget'); 

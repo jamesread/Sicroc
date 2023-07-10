@@ -9,6 +9,8 @@ use \libAllure\ElementSelect;
 
 class FormPageUpdate extends Form
 {
+    private array $page;
+
     public function __construct()
     {
         parent::__construct('pageEdit', 'Page properties');

@@ -9,6 +9,9 @@ use function libAllure\util\db;
 
 class FormTableInsert extends Form
 {
+    private string|null $keycol;
+    private array $fields;
+
     public function __construct($controller)
     {
         parent::__construct('formTableInsert', 'Insert into table');

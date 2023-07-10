@@ -11,6 +11,8 @@ use function \libAllure\util\stmt;
 
 class FormWidgetUpdate extends Form
 {
+    private array $widget;
+
     public function __construct()
     {
         parent::__construct('formWidgetUpdate', 'Widget update properties');
@@ -36,7 +38,7 @@ class FormWidgetUpdate extends Form
                     $value = $argValues[$arg['name']];
                 }
 
-                $el = $this->widget['inst']->getArgumentElement($arg['name'], $value);
+                $el = $this->widget['inst']->getArgumentElement($arg['name'], $arg['type'], $value);
                 $el->description = $arg['description'];
 
                 $this->addElement($el);

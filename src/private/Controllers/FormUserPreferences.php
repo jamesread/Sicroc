@@ -4,6 +4,8 @@ use libAllure\Session;
 use libAllure\ElementCheckbox;
 
 class FormUserPreferences extends \libAllure\Form {
+    public string $alternativeMessage;
+
     public function __construct() {
         parent::__construct('userPrefs', 'User Preferences');
 

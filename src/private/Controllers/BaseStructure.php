@@ -4,6 +4,7 @@ namespace Sicroc\Controllers;
 
 class BaseStructure
 {
+    private $db = null; 
     var $structure = [
         [
             'ident' => 'ADMIN',

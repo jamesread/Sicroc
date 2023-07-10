@@ -469,3 +469,8 @@ p.description {
 .framedBox p {
   padding: 1em;
 }
+
+span.dummyLink {
+  color: blue;
+  cursor: pointer;
+}

@@ -7,6 +7,8 @@ use \libAllure\Sanitizer;
 
 class WidgetForm extends Widget
 {
+    private \libAllure\Form $f;
+
     public function widgetSetupCompleted()
     {
         $principle = $this->getArgumentValue('formClass');

@@ -7,6 +7,8 @@ use \libAllure\DatabaseFactory;
 
 class FormWidgetCreate extends Form
 {
+    private string $redirectUrl;
+
     public function __construct()
     {
         $this->addElement($this->getElementType());

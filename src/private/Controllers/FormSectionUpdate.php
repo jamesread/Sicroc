@@ -19,6 +19,7 @@ class FormSectionUpdate extends Form
 
         $this->addElementHidden('sectionToEdit', $sectionToEdit);
         $this->addElement(new ElementInput('title', 'Title', $section['title']));
+        $this->getElement('title')->setMinMaxLengths(2, 128);
         $this->addElement($this->getElementMaster($section['master']));
         $this->addElement($this->getElementIndexPage($section['index']));
         $this->addDefaultButtons();
