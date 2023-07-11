@@ -25,7 +25,7 @@
 
 	<div class = "subnav">
 	<ul id = "sectionActions">
-		<li>Actions
+		<li><span title = "Actions">&#9776;</span>
 			<ul>
 				<li><strong>Admin</strong></li>
 				<li><a href = "?pageIdent=USER_PREFERENCES">User Preferences</a></li>
@@ -56,4 +56,3 @@
 	</div>
 </header>
 
-<div class = "page">

@@ -1,5 +1,7 @@
 {include file = "widgets/header.tpl"}
 
+<main>
+
 <h2>
 	{if $editMode}
 	<abbr title = "{$page.id}">Page</abbr>: 
@@ -41,6 +43,6 @@
 	</div>
 	{/foreach}
 {/if}
-
+</main>
 
 {include file = "widgets/footer.tpl"}

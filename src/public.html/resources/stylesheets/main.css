@@ -19,7 +19,7 @@ body, td, input {
   line-height: 1.5;
 }
 
-div.page {
+main {
   padding: 2em;
   padding-top: 1em;
 }
@@ -339,21 +339,21 @@ hr {
   margin-bottom: 6px;
 }
 
-div.footer {
+footer {
   border-top: 1px solid #bbb;
   padding: 1em;
 }
 
-div.footer p {
+footer p {
   padding: 0; 
   margin: 0;
 }
 
-div.footer div.left {
+footer div.left {
   float: left;
 }
 
-div.footer div.right {
+footer div.right {
   float: right;
 }
 
@@ -473,4 +473,23 @@ p.description {
 span.dummyLink {
   color: blue;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    display: none;
+  }
+
+  h2 {
+    padding-left: .5em;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  div.widget {
+    border-radius: 0;
+    padding: 1em;
+  }
 }
