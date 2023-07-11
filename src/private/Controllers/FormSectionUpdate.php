@@ -4,6 +4,7 @@ use \libAllure\Form;
 use \libAllure\DatabaseFactory;
 use \libAllure\ElementInput;
 use \libAllure\ElementSelect;
+use \libAllure\ElementNumeric;
 
 use function \libAllure\util\san;
 use function \libAllure\util\stmt;
@@ -22,6 +23,7 @@ class FormSectionUpdate extends Form
         $this->getElement('title')->setMinMaxLengths(2, 128);
         $this->addElement($this->getElementMaster($section['master']));
         $this->addElement($this->getElementIndexPage($section['index']));
+        $this->addElement(new ElementNumeric('ordinal', 'Ordinal', $section['ordinal']));
         $this->addDefaultButtons();
     }
 
@@ -63,7 +65,7 @@ class FormSectionUpdate extends Form
 
     private function getSection($id)
     {
-        $sql = 'SELECT title, master, `index` FROM sections WHERE id = :id';
+        $sql = 'SELECT title, master, `index`, ordinal FROM sections WHERE id = :id';
         $stmt = stmt($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
@@ -73,12 +75,13 @@ class FormSectionUpdate extends Form
 
     public function process()
     {
-        $sql = 'UPDATE sections SET title = :title, master = :master, `index` = :index WHERE id = :id';
+        $sql = 'UPDATE sections SET title = :title, master = :master, `index` = :index, ordinal = :ordinal WHERE id = :id';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->bindValue(':id', $this->getElementValue('sectionToEdit'));
         $stmt->bindValue(':master', $this->getElementValue('master'));
         $stmt->bindValue(':index', $this->getElementValue('indexPage'));
+        $stmt->bindValue(':ordinal', $this->getElementValue('ordinal'));
         $stmt->execute();
     }
 }
