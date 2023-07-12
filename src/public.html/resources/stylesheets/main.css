@@ -401,7 +401,6 @@ td {
 
 div.toolbar {
   background-color: lightgray;
-  margin-top: -1em;
   border: 1px solid #666;
   border-bottom: 0;
 }
@@ -491,5 +490,6 @@ span.dummyLink {
   div.widget {
     border-radius: 0;
     padding: 1em;
+    margin-top: 1em;
   }
 }

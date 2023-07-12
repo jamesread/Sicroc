@@ -3,7 +3,6 @@
 require_once 'init.php';
 
 use \Sicroc\Config;
-use \Sicroc\Controllers\BaseStructure;
 
 Config::read();
 
@@ -13,12 +12,8 @@ require_once 'libAllure/util/shortcuts.php';
 $db = new \libAllure\Database(Config::get('DB_DSN'), Config::get('DB_USER'), Config::get('DB_PASS'));
 \libAllure\DatabaseFactory::registerInstance($db);
 
-$bs = new BaseStructure();
-$bs->check();
-
 \libAllure\Session::start();
 $backend = new \libAllure\AuthBackendDatabase($db);
-$backend->createTables();
 \libAllure\AuthBackend::setBackend(new \libAllure\AuthBackendDatabase($db));
 
 //

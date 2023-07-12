@@ -67,6 +67,7 @@ class LayoutManager
         if ($section == false) {
             return array(
                 'title' => 'nosection',
+                'index' => 0,
                 'id' => 0,
             );
         } else {

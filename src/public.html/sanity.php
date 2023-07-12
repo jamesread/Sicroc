@@ -81,7 +81,7 @@ echo '<style type = "text/css">p { padding: 1em;}</style>';
 echo '</head><body>';
 
 // Check sum myself!
-SanityChecks::errorable(version_compare(PHP_VERSION, '5.0.0', '>'), 1, 'Hello');
+SanityChecks::errorable(version_compare(PHP_VERSION, '5.0.0', '>'), true, 'Modern PHP Version');
 SanityChecks::errorable(1, 1, "...");
 SanityChecks::warningable(1, 1, "...");
 

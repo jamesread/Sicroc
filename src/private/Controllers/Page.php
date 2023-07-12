@@ -134,7 +134,7 @@ class Page
 
         try {
             ob_start();
-            call_user_func(array($widget['inst'], 'render'));
+            $widget['inst']->render();
             $widget['content'] .= ob_get_clean();
         } catch (Exception $e) {
             $widgetRet['content'] = self::renderWidgetException($e);
