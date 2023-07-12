@@ -7,3 +7,4 @@ src/private/libraries/
 **/*.swp
 **/*.swo
 api-docs
+db/dbconfig.yml
