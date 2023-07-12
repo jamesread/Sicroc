@@ -2,6 +2,7 @@
 
 <main>
 
+{if count($widgets) != 1 && $section.index == $page.id}
 <h2>
 	{if $editMode}
 	<abbr title = "{$page.id}">Page</abbr>: 
@@ -13,6 +14,7 @@
 		&#9888;
 	{/if}
 </h2>
+{/if}
 
 {if $widgets|@count eq 0}
 	<p>This page is empty... <a href = "dispatcher.php?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">Update</a>?</p>
@@ -25,7 +27,9 @@
 			{/if}
 		</div>
 
+		{if count($widgets) != 1}
 		<h3 title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</h3>
+		{/if}
 
 		{if isset($widget.inst->navigation) && $widget.inst->navigation->hasLinks()}
 			<div class = "toolbar">
