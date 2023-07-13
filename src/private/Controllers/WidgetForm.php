@@ -33,8 +33,6 @@ class WidgetForm extends Widget
 
     public function display()
     {
-        global $tpl;
-
         if (!isset($this->f)) {
             return;
         }
@@ -52,27 +50,23 @@ class WidgetForm extends Widget
                 redirect($this->f->redirectUrl, $redirectMessage);
             }
 
-            $tpl->assign('message', '<span class = "good">Form submitted.</span> ');
-            $tpl->display('simple.tpl');
+            $this->simpleMessage('formSubmitted', 'good');
         }
 
     }
 
     public function render()
     {
-        global $tpl;
-
         if (isset($this->f->alternativeMessage)) {
             $this->simpleMessage('Alt: ' . $this->f->alternativeMessage);
             return;
         }
 
         if (isset($this->f)) {
-            $tpl->assignForm($this->f);
-            $tpl->display('form.tpl');
+            $this->tpl->assignForm($this->f);
+            $this->tpl->display('form.tpl');
         } else {
-            $tpl->assign('message', 'This widget is assigned with a form controller, but no form has been constructed, possibly due to some sort of error. Sorry that this message is mostly useless.');
-            $tpl->display('simple.tpl');
+            $this->simpleMessage('This widget is assigned with a form controller, but no form has been constructed, possibly due to some sort of error. Sorry that this message is mostly useless.');
         }
     }
 

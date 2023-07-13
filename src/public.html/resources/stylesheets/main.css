@@ -136,6 +136,11 @@ fieldset {
   border: 0;
 }
 
+fieldset.required label:after {
+  color: red;
+  content: ' *';
+}
+
 h1 {
   margin: 0;
   padding-left: 12px;

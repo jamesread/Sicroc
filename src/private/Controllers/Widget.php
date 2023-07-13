@@ -131,8 +131,9 @@ abstract class Widget extends Controller
         return $el;
     }
 
-    public function simpleMessage($message) 
+    public function simpleMessage($message, $messageClass = 'good') 
     {
+        $this->tpl->assign('messageClass', $messageClass);
         $this->tpl->assign('message', $message);
         $this->tpl->display('simple.tpl');
     }

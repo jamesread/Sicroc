@@ -13,7 +13,7 @@
 		{elseif $element->getType() eq 'ElementHidden'}
 			{$element->render()}
 		{else}
-			<fieldset>				
+			<fieldset class = "{if $element->isRequired()}required{/if}">
 				{$element->render()}
 
 				{if $element->description ne ''}

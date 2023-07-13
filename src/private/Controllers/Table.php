@@ -281,10 +281,15 @@ class Table extends Widget
         }
     }
 
-    public static function handleHeaderElement($form, $header, $foreignKeys, $row = null)
+    public static function getElementForColumn($header, $foreignKeys, $row = null)
     {
+        if (in_array('primary_key', $header['flags'])) 
+        {
+            return null;
+        }
+
         if (isset($row[$header['name']])) {
-            $val= $row[$header['name']];
+            $val = $row[$header['name']];
         } else {
             $val = '';
         }
@@ -297,22 +302,24 @@ class Table extends Widget
             $header['native_type'] = 'FK';
         }
 
+        $el = null;
+
         switch ($header['native_type']) {
         case 'LONG':
         case 'FLOAT':
-            $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
-            $form->getElement($header['name'])->setMinMaxLengths(0, 64);
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
             break;
         case 'DATETIME':
-            $form->addElement(new ElementDate($header['name'], $header['name'], $val, $header['native_type']));
+            $el = new ElementDate($header['name'], $header['name'], $val, $header['native_type']);
             break;
         case 'VAR_STRING':
-            $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
             break;
         case 'TINY':
         case 'TINYINT':
         case 'BOOLEAN':
-            $form->addElement(new ElementCheckbox($header['name'], $header['name'], $val));
+            $el = new ElementCheckbox($header['name'], $header['name'], $val);
             break;
         case 'FK':
             $key = $header['name'];
@@ -331,12 +338,16 @@ class Table extends Widget
 
             $el->setValue($val);
 
-            $form->addElement($el);
             break;
-
         default:
-            $form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')', $val, $header['name']);    
+            $el = new ElementHidden($header['name'], $header['name'], $val);
         }
+
+        if ($el != null && in_array('not_null', $header['flags'])) {
+            $el->setRequired(true);
+        }
+
+        return $el;
     }
 }
 

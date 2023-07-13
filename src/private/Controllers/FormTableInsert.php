@@ -35,9 +35,13 @@ class FormTableInsert extends Form
         $foreignKeys = Table::getForeignKeys($table);
 
         foreach ($this->getHeaders($stmt) as $header) {
-            $fields[] = $header['name'];
+            $el = Table::getElementForColumn($header, $foreignKeys);
 
-            Table::handleHeaderElement($this, $header, $foreignKeys);
+            if ($el != null) {
+                $fields[] = $header['name'];
+
+                $this->addElement($el);
+            }
         }
 
         $this->fields = $fields;
