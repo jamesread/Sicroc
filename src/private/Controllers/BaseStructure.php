@@ -39,6 +39,12 @@ class BaseStructure
                     'args' => [
                         'formClass' => 'FormAddToPage',
                     ]
+                ],
+                [
+                    'type' => '\Sicroc\Controllers\WidgetForm',
+                    'args' => [
+                        'formClass' => 'FormPageContentDelete',
+                    ],
                 ]
             ],
         ],
@@ -71,8 +77,10 @@ class BaseStructure
             'title' => 'Wiki Edit',
             'widgets' => [
                 [
-                    'type' => '\Sicroc\Controllers\WikiContent',
-                    'args' => [],
+                    'type' => '\Sicroc\Controllers\WidgetForm',
+                    'args' => [
+                        'formClass' => 'FormWikiUpdate',
+                    ],
                 ]
             ]
         ],

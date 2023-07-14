@@ -32,7 +32,7 @@ class FormPageUpdate extends Form
         $stmt->bindValue(':page', $sanitizer->filterUint('pageToEdit'));
         $stmt->execute();
 
-        return $stmt->fetchRow();
+        return $stmt->fetchRowNotNull();
     }
 
     public function process()

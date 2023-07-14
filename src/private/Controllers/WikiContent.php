@@ -11,7 +11,7 @@ class WikiContent extends Widget
 
     public function getPage($pageTitle)
     {
-        $sql = 'SELECT w.principle, w.content FROM wiki_content w WHERE w.principle = :principle';
+        $sql = 'SELECT w.principle AS title, w.content FROM wiki_content w WHERE w.principle = :principle';
         $stmt = db()->prepare($sql);
         $stmt->bindValue(':principle', $pageTitle);
         $stmt->execute();
@@ -43,8 +43,7 @@ class WikiContent extends Widget
                 $wiki = $this->getPage($pageTitle);
             }
 
-            \libAllure\util\vde($wiki);
-            if ($wiki != false) {
+            if ($wiki != false && $wiki['content'] != null) {
                 $wiki['content'] = str_replace("\n\n", '<br />', $wiki['content']);
             }
         }

@@ -3,7 +3,7 @@
 	Wiki page name is not set.
 {else}
 	{if empty($wikiPage.content)}
-		Wiki page is was not found: {$wikiPage.title}
+		Wiki page has no content: {$wikiPage.title}
 	{else}
 		{$wikiPage.content}
 	{/if}
