@@ -160,7 +160,7 @@ class Page
             $widgetRet['inst']->widgetSetupCompleted(); 
 
             if (!is_callable(array($inst, $widget['method']))) {
-                throw new Exception('Method is not callable on widget: ' . get_class($widgetRet['inst']) . '::' .  $widget['method']);
+                throw new \Exception('Method is not callable on widget: ' . get_class($widgetRet['inst']) . '::' .  $widget['method']);
             }
 
             global $tpl;
@@ -172,7 +172,7 @@ class Page
             if (empty($widget['title'])) {
                 $widgetRet['title'] = $widgetRet['inst']->getTitle();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $widgetRet['inst']->displayEdit = true;
             $widgetRet['content'] = self::renderWidgetException($e);
         }
