@@ -28,7 +28,9 @@ class FormTableEditRow extends \libAllure\Form
         foreach ($this->getHeaders($stmt) as $key => $header) {
             $fields[] = $header['name'];
 
-            Table::handleHeaderElement($this, $header, $foreignKeys, $row); 
+            $el = Table::getElementForColumn($header, $foreignKeys);
+
+            $this->addElement($el);
         }
 
         $this->addElementHidden('redirectTo', san()->filterString('redirectTo'));

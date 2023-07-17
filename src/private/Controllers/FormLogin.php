@@ -8,6 +8,8 @@ use \libAllure\Session;
 
 class FormLogin extends \libAllure\util\FormLogin
 {
+    public $alternativeMessage;
+
     public function __construct()
     {
         parent::__construct();

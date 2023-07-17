@@ -7,6 +7,8 @@ use \libAllure\ElementTextbox;
 
 class FormWikiUpdate extends Form
 {
+    private $page;
+
     public function __construct()
     {
         parent::__construct('formWikiUpdate', 'Wiki Update');

@@ -17,7 +17,7 @@ class Page
     private array $widgets;
     private array $page;
 
-    private function getPage()
+    private function loadPage()
     {
         if (isset($_REQUEST['pageIdent'])) {
             $page = $this->getPageByIdent();
@@ -25,7 +25,7 @@ class Page
             $page = $this->getPageById();
         }
 
-        return $page;
+        $this->page = $page;
     }
 
     private function getPageById()
@@ -48,7 +48,7 @@ class Page
         }
     }
 
-    public function getPageByIdent()
+    private function getPageByIdent()
     {
         $pageIdent =  Sanitizer::getInstance()->filterString('pageIdent');
 
@@ -68,21 +68,6 @@ class Page
     public function getId()
     {
         return $this->page['id'];
-    }
-
-    public function edit()
-    {
-        // use the part page atm, although technically it's not correct.
-        $this->tpl->assign('page', $this->getPage());
-
-        $widgets = array(
-            array(
-                'title' => 'Admin part for page',
-                'content' => 'None yet. :)'
-            )
-        );
-
-        $tpl->assign('widgets', $widgets);
     }
 
     public function getWidgetByType($search)
@@ -200,12 +185,9 @@ class Page
         $this->widgets = array();
 
         global $tpl;
-        $tpl->assign('isLoggedIn', Session::isLoggedIn());
 
         try { 
-            $this->page = $this->getPage();
-
-            $tpl->assign('page', $this->page);
+            $this->loadPage();
         } catch (Exception $e) {
             $this->page = array(
                 'id' => 0,
@@ -213,7 +195,6 @@ class Page
                 'title' => $e->getMessage(),
                 'isSystem' => true,
             );
-            $this->widgets = array();
 
             $msg = new SimpleMessage('<a href = "?pageIdent=PAGE_CREATE">Create?</a>');
             $this->widgets[] = array('inst' => $msg, 'content' => null);
@@ -226,12 +207,14 @@ class Page
         $this->widgets = $this->renderWidgets($this->widgets);
     }
 
-    public function assignTpl()
+    public function getForTpl() 
     {
-        global $tpl;
+        return $this->page;
+    }
 
-        $tpl->assign('page', $this->page);
-        $tpl->assign('widgets', $this->widgets);
+    public function getWidgetsForTpl() 
+    {
+        return $this->widgets;
     }
 
     public function isSystem() 

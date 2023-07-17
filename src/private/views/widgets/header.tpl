@@ -30,6 +30,7 @@
 				<li><strong>Admin</strong></li>
 				<li><a href = "?pageIdent=USER_PREFERENCES">User Preferences</a></li>
 				<li><a href = "?pageIdent=ADMIN">Control Panel</a></li>
+				<li><a href = "setup.php">Rerun Setup</a></li>
 				<li><strong>Section</strong></li>
 				<li><a href = "?pageIdent=SECTION_LIST">Section list</a></li>
 				<li><a href = "?pageIdent=SECTION_CREATE">Create section</a></li>

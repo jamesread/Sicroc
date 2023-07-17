@@ -26,7 +26,6 @@ class LayoutManager
     {
         if (self::$inst == null) {
             self::$inst = new LayoutManager();
-            self::$inst->resolvePage();
         }
 
         return self::$inst;
@@ -34,8 +33,6 @@ class LayoutManager
 
     private function resolvePage()
     {
-        $this->page = new Page();
-        $this->page->resolve();
         $this->page->assignTpl();
     }
 
@@ -79,13 +76,20 @@ class LayoutManager
     {
         global $tpl;
 
+        $this->page = new Page();
+        $this->page->resolve();
+
+        $this->assertPageRenderable();
+
         $navigation = new Navigation();
 
         $tpl->assign('navigation', $navigation->getLinks());
         $tpl->assign('section', $this->getCurrentSection());
         $tpl->assign('editMode', $this->getEditMode());
+        $tpl->assign('isLoggedIn', Session::isLoggedIn());
 
-        $this->assertPageRenderable();
+        $tpl->assign('page', $this->page->getForTpl());
+        $tpl->assign('widgets', $this->page->getWidgetsForTpl());
 
         $tpl->display('layout.' . $this->page->getLayout() . '.tpl');
     }
@@ -95,11 +99,6 @@ class LayoutManager
         assert(!empty($this->page));
         assert(!empty($this->page->page));
         assert(!empty($this->page->page['layout']));
-    }
-
-    private function resolvePrinciple($p)
-    {
-        return (empty($p)) ? new Page() : new $p();
     }
 }
 

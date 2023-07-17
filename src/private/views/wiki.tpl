@@ -1,7 +1,11 @@
 <div class = "wikiPage">
-{if empty($wikiPage.content)}
-	No page.
+{if empty($wikiPage)}
+	Wiki page name is not set.
 {else}
-	{$wikiPage.content}
+	{if empty($wikiPage.content)}
+		Wiki page has no content: {$wikiPage.title}
+	{else}
+		{$wikiPage.content}
+	{/if}
 {/if}
 </div>

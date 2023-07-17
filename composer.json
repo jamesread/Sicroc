@@ -1,5 +1,6 @@
 {
     "name": "jamesread/sicroc",
+	"description": "Build CRUD apps for MySQL without code.",
     "type": "project",
     "require": {
         "jwread/lib-allure": "^8.0",
