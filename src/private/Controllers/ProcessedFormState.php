@@ -8,7 +8,7 @@ class ProcessedFormState {
     public ?string $nonRenderMessage = null;
     public ?string $nonRenderMessageClass = 'bad';
 
-    public function preventRender($message, $class) {
+    public function preventRender($message, $class = 'good') {
         $this->nonRenderMessage = $message;
         $this->nonRenderMessageClass = $class;
     }

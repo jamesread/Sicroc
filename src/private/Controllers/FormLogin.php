@@ -14,14 +14,18 @@ class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\Controllers
     public function __construct()
     {
         parent::__construct();
-
-        if (Session::isLoggedIn()) {
-            $this->alternativeMessage = 'You are already logged in';
-        }
     }
 
-    public function setupProcessedAction($state) : void {
-        $state->yay();
+    public function setupProcessedState($state) : void {
+        if (Session::isLoggedIn()) 
+        {
+            $state->preventRender('You are already logged in.');
+            return;
+        }
+
+        if ($state->processed) {
+            $state->preventRender('You have logged in.');
+        }
     }
 }
 
