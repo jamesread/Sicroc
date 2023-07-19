@@ -1,3 +1,3 @@
-<div class = "$messageClass">
+<div class = "{$messageClass|default:'bad'}">
 	{$message|default:"Simples!"}  
 </div>

@@ -1,12 +1,13 @@
 <?php
 
-use \libAllure\Form;
 use \libAllure\ElementInput;
 use \libAllure\ElementPassword;
 
 use \libAllure\Session;
 
-class FormLogin extends \libAllure\util\FormLogin
+use \Sicroc\BaseForm;
+
+class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\Controllers\BaseForm 
 {
     public $alternativeMessage;
 
@@ -17,6 +18,10 @@ class FormLogin extends \libAllure\util\FormLogin
         if (Session::isLoggedIn()) {
             $this->alternativeMessage = 'You are already logged in';
         }
+    }
+
+    public function setupProcessedAction($state) : void {
+        $state->yay();
     }
 }
 

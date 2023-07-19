@@ -1,3 +1,6 @@
+{if $tableError != null}
+<div class = "bad">{$tableError}</div>
+{else}
 <table>
 	<thead>
 		<tr>
@@ -13,14 +16,14 @@
 	</thead>
 
 	<tbody>
-	{$tableError}
+
 	{foreach from = $rows item = row}
 	<tr>
 		{foreach from = $row item = cell key = key}
 		<td>
-			{if $table.primaryKey == $key}
-				<a href = "?pageIdent=TABLE_ROW&amp;table={$table.name}&amp;primaryKey={$cell}">{$cell}</a> | 
-				<a href = "?pageIdent=TABLE_ROW_EDIT&amp;db={$table.db}&amp;table={$table.name}&amp;primaryKey={$cell}&amp;redirectTo={$page.id}">edit</a>
+			{if $primaryKey == $key}
+				<a href = "?pageIdent=TABLE_ROW&amp;tc={$tc}&amp;primaryKey={$cell}">{$cell}</a> | 
+				<a href = "?pageIdent=TABLE_ROW_EDIT&amp;tc={$tc}&amp;primaryKey={$cell}&amp;redirectTo={}">edit</a>
 			{else}
 				{$cell}
 			{/if}
@@ -30,3 +33,4 @@
 	{/foreach}
 	</tbody>
 </table>
+{/if}

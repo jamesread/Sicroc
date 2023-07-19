@@ -23,7 +23,6 @@ class FormWidgetUpdate extends Form
         $this->addElementReadOnly('ID', $this->widget['id']);
         $this->addElementReadOnly('Type', $this->widget['viewableController']);
         $this->addElementHidden('widgetToUpdate', $this->widget['id']);
-        $this->addElement(new ElementInput('method', 'Method', $this->widget['method']));
 
         $this->widget = Page::resolveWidget($this->widget);
 
@@ -56,7 +55,7 @@ class FormWidgetUpdate extends Form
     private function getWidget()
     {
         $id = Sanitizer::getInstance()->filterUint('widgetToUpdate');
-        $sql = 'SELECT wi.id, wi.title, wi.method, wt.viewableController FROM widget_instances wi JOIN widget_types wt ON wi.type = wt.id WHERE wi.id = :id LIMIT 1';
+        $sql = 'SELECT wi.id, wi.title, wt.viewableController FROM widget_instances wi JOIN widget_types wt ON wi.type = wt.id WHERE wi.id = :id LIMIT 1';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
@@ -66,11 +65,10 @@ class FormWidgetUpdate extends Form
 
     public function process()
     {
-        $sql = 'UPDATE widget_instances w SET w.title = :title, method = :method WHERE w.id = :id ';
+        $sql = 'UPDATE widget_instances w SET w.title = :title WHERE w.id = :id ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->bindValue(':id', $this->widget['id']);
-        $this->bindElementToStatement($stmt, 'method');
         $stmt->execute();
 
         foreach ($this->widget['inst']->getArguments() as $arg) {

@@ -5,8 +5,10 @@ use \libAllure\Sanitizer;
 use \libAllure\DatabaseFactory;
 use \libAllure\ElementSelect;
 
-class FormPageContentDelete extends Form
+class FormPageContentDelete extends Form implements \Sicroc\Controllers\BaseForm
 {
+    private array $widgets;
+
     public function __construct()
     {
         parent::__construct('formPageContentDelete', 'Delete page widget');
@@ -18,9 +20,16 @@ class FormPageContentDelete extends Form
         $this->addDefaultButtons('Delete widget');
     }
 
+    public function setupProcessedState($state) : void 
+    {
+        if (empty($this->widgets)) {
+            $state->preventRender('The page is empty.', 'ok');
+        }
+    } 
+
     private function getElementWidgetSelect($id)
     {
-        $sql = 'SELECT c.id, w.principle, w.title, w.method FROM page_content c JOIN widget_instances w ON c.widget = w.id WHERE c.page = :pageId';
+        $sql = 'SELECT c.id, w.title FROM page_content c JOIN widget_instances w ON c.widget = w.id WHERE c.page = :pageId';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':pageId', $id);
         $stmt->execute();
@@ -28,8 +37,10 @@ class FormPageContentDelete extends Form
         $el = new ElementSelect('widget', 'Widget');
         $el->setSize(5);
 
-        foreach ($stmt->fetchAll() as $itemWidget) {
-            $caption = $itemWidget['title'] . ' (' . $itemWidget['principle'] . '::' . $itemWidget['method'] . ')';
+        $this->widgets = $stmt->fetchAll();
+
+        foreach ($this->widgets as $itemWidget) {
+            $caption = $itemWidget['title'];
 
             $el->addOption($caption, $itemWidget['id']);
         }

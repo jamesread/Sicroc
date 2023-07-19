@@ -4,6 +4,7 @@
 	<title>Sicroc &raquo; {$page.title|default:"Untitled page"}</title>
 
 	<link rel = "stylesheet" href = "resources/stylesheets/main.css" type = "text/css" />
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -34,6 +35,9 @@
 				<li><strong>Section</strong></li>
 				<li><a href = "?pageIdent=SECTION_LIST">Section list</a></li>
 				<li><a href = "?pageIdent=SECTION_CREATE">Create section</a></li>
+				<li><strong>Tables</strong></li>
+				<li><a href = "?pageIdent=TABLE_CONFIGURATION_LIST">TC List</a></li>
+				<li><a href = "?pageIdent=TABLE_CONFIGURATION_CREATE">Create Table Configuration</a></li>
 				<li><strong>Page</strong></li>
 				<li><a href = "?pageIdent=PAGE_LIST">Page list</a>
 				<li><a href = "?pageIdent=PAGE_CREATE">Create page</a>

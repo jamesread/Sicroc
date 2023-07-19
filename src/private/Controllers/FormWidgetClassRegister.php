@@ -2,6 +2,8 @@
 
 use \libAllure\ElementInput;
 
+use function \libAllure\util\db;
+
 class FormWidgetClassRegister extends \libAllure\Form
 {
     public function __construct()

@@ -52,10 +52,6 @@ abstract class Widget extends Controller
         $tpl->assign('user', $user);
     }
 
-    public function index()
-    {
-    }
-
     public function render()
     {
         global $tpl;

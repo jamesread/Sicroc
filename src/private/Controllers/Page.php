@@ -83,7 +83,7 @@ class Page
 
     private function getWidgets($pageId)
     {
-        $sql = 'SELECT wt.viewableController, wi.id, wi.title, wi.method FROM page_content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.order';
+        $sql = 'SELECT wt.viewableController, wi.id, wi.title FROM page_content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.ordinal';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':pageId', $pageId);
         $stmt->execute();
@@ -133,26 +133,14 @@ class Page
         $widgetRet = $widget;
 
         try {
-            if (empty($widget['method'])) {
-                $widget['method'] = 'display';
-            }
             assert(!empty($widget['viewableController']));
 
             $widgetRet['inst'] = $inst = new $widget['viewableController']();
             //            $widgetRet['inst'] = $inst = new WidgetForm();
             $widgetRet['inst']->page = $page;
             $widgetRet['inst']->widgetId = $widget['id'];
-            $widgetRet['inst']->widgetSetupCompleted(); 
-
-            if (!is_callable(array($inst, $widget['method']))) {
-                throw new \Exception('Method is not callable on widget: ' . get_class($widgetRet['inst']) . '::' .  $widget['method']);
-            }
-
-            global $tpl;
-
-            ob_start();
-            call_user_func(array($inst, $widget['method']));
-            $widgetRet['content'] = ob_get_clean();
+            $widgetRet['inst']->widgetSetupCompleted();
+            $widgetRet['content'] = '';
 
             if (empty($widget['title'])) {
                 $widgetRet['title'] = $widgetRet['inst']->getTitle();

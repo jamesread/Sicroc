@@ -2,33 +2,45 @@
 
 namespace Sicroc\Controllers;
 
+use libAllure\ElementSelect;
+use libAllure\ElementCheckbox;
+use libAllure\ElementInput;
+use libAllure\ElementHidden;
+use libAllure\ElementNumeric;
+use libAllure\ElementDate;
+
+
 use function \libAllure\util\stmt;
 
 class TableConfiguration
 {
-    public $table = '';
-    public $database = '';
+    public string|null $table;
+    public string|null $database;
+    public string $order = 'id';
+    public ?string $error = null;
 
-    private $keycol = null;
-    public $headers = array();
+    public $keycol = null;
+    private array $headers = array();
     private $rows = array();
+    private array $foreignKeys;
 
     private int|null $singleRowId;
+    public readonly int $id; 
 
     private $stmt;
 
     public function __construct($tcId)
     {
-        $this->tcId = $tcId;
+        $this->id = $tcId;
 
-        $this->load($tcId);
+        $this->load();
     }
 
-    public function load($tcId)
+    public function load()
     {
         $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, insertVerb FROM table_configurations WHERE id = :id';
         $stmt = stmt($sql);
-        $stmt->bindValue(':id', $tcId);
+        $stmt->bindValue(':id', $this->id);
         $stmt->execute();
 
         $fields = $stmt->fetchRow();
@@ -36,21 +48,16 @@ class TableConfiguration
         if ($fields != false) {
             $this->table = $fields['table'];
             $this->database = $fields['database'];
+            $this->loadTable();
         }
-
-
-        $this->loadTable();
     }
 
     public function loadTable()
     {
+        $this->foreignKeys = $this->getForeignKeys();
         $this->rows = $this->getRowData();
         $this->headers = $this->getHeaders();
         $this->rows = $this->mangleForeignData();
-
-        for ($i = 0; $i < sizeof($this->rows); $i++) {
-            unset($this->rows[$i]['id']);
-        }
     }
 
 
@@ -81,13 +88,12 @@ class TableConfiguration
         return $this->rows;
     }
 
-    public static function getForeignKeys($sourceTable)
+    public function getForeignKeys() : array
     {
-        global $db;
-
+        // FIXME Check database
         $sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':sourceTable', $sourceTable);
+        $stmt = \libAllure\util\db()->prepare($sql);
+        $stmt->bindValue(':sourceTable', $this->table);
         $stmt->execute();
 
         $foreignKeys = $stmt->fetchAll();
@@ -111,22 +117,20 @@ class TableConfiguration
             return array();
         };
 
-        $foreignKeys = self::getForeignKeys($table);
-
         $sql = 'SELECT ' . $table . '.*';
 
         $ftables = array();
-        if (count($foreignKeys) > 0) {
+        if (!empty($this->foreignKeys)) {
             $sql .= ', ';
 
-            foreach ($foreignKeys as $key) {
+            foreach ($this->foreignKeys as $key) {
                 $sql .= $key['foreignTable'] . '.' . $key['foreignDescription'] . ' AS ' . $key['sourceField'] . '_fk,';
                 $ftables[] = $key['foreignTable'];
             }
             $sql[strlen($sql) - 1] = ' ';
         }
 
-        $sql .=' FROM `' . $this->getArgumentValue('db') . '`.`' . $table . '`'; 
+        $sql .=' FROM `' . $this->database . '`.`' . $table . '`'; 
 
         if (count($ftables) > 0) {
             foreach ($foreignKeys as $fk) {
@@ -140,17 +144,17 @@ class TableConfiguration
 
         $sql .= ' GROUP BY ' . $table . '.id';
 
-        $order = $this->getArgumentValue('order');
+        $order = $this->order;
 
         if (!empty($order)) {
             $sql .= ' ORDER BY ' . $order . ' DESC';
         }
 
         try {
-            $this->stmt = DatabaseFactory::getInstance()->prepare($sql);
+            $this->stmt = \libAllure\DatabaseFactory::getInstance()->prepare($sql);
             $this->stmt->execute();
         } catch (\PDOException $e) {
-            $this->tpl->assign('tableError', $e->getMessage());
+            $this->error = $e->getMessage();
             return array();
         }
 
@@ -171,10 +175,14 @@ class TableConfiguration
         return $ret;
     }
 
-    private function getHeaders()
+    public function getHeaders()
     {
         if ($this->stmt == null) {
             return array();
+        }
+
+        if (!empty($this->headers)) {
+            return $this->headers;
         }
 
         $headers = array();
@@ -197,11 +205,6 @@ class TableConfiguration
         return $headers;
     }
 
-    public function getId() 
-    {
-        return $this->tcId;
-    }
-
     public function getRows()
     {
         if (false && $this->keycol != null) {
@@ -213,42 +216,46 @@ class TableConfiguration
         return $this->rows;
     }
 
-    public static function handleHeaderElement($form, $header, $foreignKeys, $row = null)
+    public function getElementForColumn($header) : ?\libAllure\Element
     {
-        if (isset($row[$header['name']])) {
-            $val= $row[$header['name']];
-        } else {
-            $val = '';
-        }
+        $val = isset($row[$header['name']]) ? $row[$header['name']] : null;
 
         if (!isset($header['native_type'])) {
             $header['native_type'] = 'BOOLEAN';
         }
 
-        if (in_array($header['name'], array_keys($foreignKeys))) {
+        if (in_array($header['name'], array_keys($this->foreignKeys))) {
             $header['native_type'] = 'FK';
         }
+
+        $isRequired = in_array('not_null', $header['flags']);
+
+        if ($header['name'] == 'id') {
+            return null;
+        }
+
+        $el = null;
 
         switch ($header['native_type']) {
         case 'LONG':
         case 'FLOAT':
-            $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
-            $form->getElement($header['name'])->setMinMaxLengths(0, 64);
+            $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
             break;
         case 'DATETIME':
-            $form->addElement(new ElementDate($header['name'], $header['name'], $val, $header['native_type']));
+            $el = new ElementDate($header['name'], $header['name'], $val, $header['native_type']);
             break;
         case 'VAR_STRING':
-            $form->addElement(new ElementInput($header['name'], $header['name'], $val, $header['native_type']));
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
             break;
         case 'TINY':
         case 'TINYINT':
         case 'BOOLEAN':
-            $form->addElement(new ElementCheckbox($header['name'], $header['name'], $val));
+            $el = new ElementCheckbox($header['name'], $header['name'], $val);
             break;
         case 'FK':
             $key = $header['name'];
-            $fk = $foreignKeys[$header['name']];
+            $fk = $this->foreignKeys[$header['name']];
 
             $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'];
             $stmt = db()->prepare($sql);
@@ -263,12 +270,14 @@ class TableConfiguration
 
             $el->setValue($val);
 
-            $form->addElement($el);
             break;
-
         default:
-            $form->addElementReadOnly($header['name'] . ' (' . $header['native_type'] . ')', $val, $header['name']);    
+            $el = new ElementHidden($header['name'], $val, $header['name']);    
         }
+
+        $el->setRequired($isRequired);
+
+        return $el;
     }
 
 

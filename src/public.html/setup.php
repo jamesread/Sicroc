@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/../private/common.php';
 
-use \Sicroc\Controllers\BaseStructure;
+use \Sicroc\Controllers\BaseDatabaseStructure;
 
-$bs = new BaseStructure();
+$bs = new BaseDatabaseStructure();
 $bs->check();
 
 ?>

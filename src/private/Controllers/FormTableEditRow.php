@@ -1,41 +1,34 @@
 <?php
 
-use \Sicroc\Controllers\Table;
+use \Sicroc\Controllers\TableConfiguration;
 
 use function \libAllure\util\san;
 use function \libAllure\util\db;
 
 class FormTableEditRow extends \libAllure\Form
 {
+    private \Sicroc\Controllers\TableConfiguration $tc;
+
     public function __construct()
     {
         parent::__construct('editRow', 'Edit Row');
 
-        $this->addElementReadOnly('Table', san()->filterString('table'), 'table');
+        $tcId = san()->filterUint('tc');
+        $this->tc = new TableConfiguration($tcId);
 
-        $table = san()->filterString('table');
-
-        $sql = 'SELECT * FROM ' . san()->filterString('db') . '.' . san()->filterString('table') . ' WHERE id = ' . san()->filterUint('primaryKey') . ' LIMIT 1';
-        $stmt = db()->prepare($sql);
-        $stmt->execute();
-
-        $row = $stmt->fetchRow();
+        $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
 
         $fields = array();
 
-        $foreignKeys = Table::getForeignKeys($table);
-
-        foreach ($this->getHeaders($stmt) as $key => $header) {
+        foreach ($this->tc->getHeaders() as $key => $header) {
             $fields[] = $header['name'];
 
-            $el = Table::getElementForColumn($header, $foreignKeys);
+            $el = $this->tc->getElementForColumn($header);
 
             $this->addElement($el);
         }
 
         $this->addElementHidden('redirectTo', san()->filterString('redirectTo'));
-
-        $this->fields = $fields;
 
         $this->addDefaultButtons('Save');
     }

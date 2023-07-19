@@ -27,10 +27,8 @@ class WikiContent extends Widget
         $stmt->execute();
     }
 
-    public function view()
+    public function widgetSetupCompleted()
     {
-        global $tpl;
-
         $pageTitle = $this->getArgumentValue('pageTitle');
 
         if ($pageTitle == null) {
@@ -49,18 +47,12 @@ class WikiContent extends Widget
         }
 
         $this->navigation->add('dispatcher.php?controller=WikiContent&amp;pageIdent=WIKI_EDIT&amp;pageTitle=' . $pageTitle, 'Edit');
-        $tpl->assign('wikiPage', $wiki);
+        $this->tpl->assign('wikiPage', $wiki);
     }
 
     public function render()
     {
-        global $tpl;
-        $tpl->display('wiki.tpl');
-    }
-
-    function display()
-    {
-        return $this->view();
+        $this->tpl->display('wiki.tpl');
     }
 
     function getTitle()

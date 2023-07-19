@@ -2,94 +2,17 @@
 
 namespace Sicroc\Controllers;
 
-class BaseStructure
+class BaseDatabaseStructure
 {
     private $db = null; 
     var $structure = [
-        [
-            'ident' => 'ADMIN',
-            'title' => 'Admin panel',
-            'widgets' => [
-            ],
-        ],
-        [
-            'ident' => 'WIDGET_INSTANCE_UPDATE',
-            'title' => 'Update widget instance',
-            'widgets' => [
-                [
-                    'type' => '\Sicroc\Controllers\WidgetForm',
-                    'args' => [
-                        'formClass' => 'FormWidgetUpdate',
-                    ]
-                ],
-            ],
-        ],
-        [
-            'ident' => 'PAGE_UPDATE',
-            'title' => 'Update Page',
-            'widgets' => [
-                [
-                    'type' => '\Sicroc\Controllers\WidgetForm',
-                    'args' => [
-                        'formClass' => 'FormPageUpdate',
-                    ]
-                ],
-                [
-                    'type' => '\Sicroc\Controllers\WidgetForm',
-                    'args' => [
-                        'formClass' => 'FormAddToPage',
-                    ]
-                ],
-                [
-                    'type' => '\Sicroc\Controllers\WidgetForm',
-                    'args' => [
-                        'formClass' => 'FormPageContentDelete',
-                    ],
-                ]
-            ],
-        ],
-        [
-            'ident' => 'SECTION_LIST',
-            'title' => 'List of sections',
-            'widgets' => [
-                [
-                    'type' => '\Sicroc\Controllers\Table',
-                    'args' => [
-                        'table' => 'sections'
-                    ]
-                ]
-            ],
-        ],
-        [
-            'ident' => 'PAGE_LIST',
-            'title' => 'List of Pages',
-            'widgets' => [
-                [
-                    'type' => '\Sicroc\Controllers\Table',
-                    'args' => [
-                        'table' => 'pages',
-                    ]
-                ]
-            ]
-        ],
-        [
-            'ident' => 'WIKI_EDIT',
-            'title' => 'Wiki Edit',
-            'widgets' => [
-                [
-                    'type' => '\Sicroc\Controllers\WidgetForm',
-                    'args' => [
-                        'formClass' => 'FormWikiUpdate',
-                    ],
-                ]
-            ]
-        ],
         [
             'ident' => 'LOGOUT',
             'title' => 'Logout',
             'widgets' => [
                 [
                     'type' => '\Sicroc\Controllers\Logout',
+                    'title' => 'Logout',
                     'args' => [],
                 ]
             ]
@@ -100,13 +23,24 @@ class BaseStructure
     {
         $this->db = \libAllure\DatabaseFactory::getInstance();
 
+        $this->definePage('ADMIN', 'Admin panel', []);
+        $this->definePageForm('WIKI_EDIT', 'Wiki Edit', 'FormWikiUpdate');
         $this->definePage('WIDGET_LIST', 'List of Widgets', [$this->defineWidgetTable('widget_instances')]);
+        $this->definePage('SECTION_LIST', 'List of Sections', [$this->defineWidgetTable('sections')]);
+        $this->definePage('PAGE_LIST', 'List of Pages', [$this->defineWidgetTable('pages')]);
+        $this->definePage('TABLE_CONFIGURATION_LIST', 'List of Table Configurations', [$this->defineWidgetTable('table_configurations')]);
         $this->definePage('SECTION_UPDATE', 'Update Section', [$this->defineWidgetForm('FormSectionUpdate')]);
         $this->definePage('TABLE_ROW_EDIT', 'Edit Table Row', [$this->defineWidgetForm('FormTableEditRow')]);
         $this->definePage('SECTION_CREATE', 'Create Section', [$this->defineWidgetForm('FormSectionCreate')]);
         $this->definePage('PAGE_CREATE', 'Create Page', [$this->defineWidgetForm('FormPageCreate')]);
         $this->definePage('WIDGET_CREATE', 'Create Widget', [$this->defineWidgetForm('FormWidgetCreate')]);
         $this->definePage('WIDGET_REGISTER', 'Register Widget', [$this->defineWidgetForm('FormWidgetClassRegister')]);
+        $this->definePageForm('WIDGET_INSTANCE_UPDATE', 'Update Widget Instance', 'FormWidgetUpdate');
+        $this->definePage('PAGE_UPDATE', 'Update Page', [
+            $this->defineWidgetForm('FormPageUpdate'),
+            $this->defineWidgetForm('FormAddToPage'),
+            $this->defineWidgetForm('FormPageContentDelete'),
+        ]);
         $this->definePage('TABLE_STRUCTURE', 'Table Structure', [
             $this->defineWidgetForm('FormTableDropColumn'),
             $this->defineWidgetForm('FormTableAddColumn'),
@@ -115,6 +49,12 @@ class BaseStructure
         $this->definePage('TABLE_INSERT', 'Insert Row', [$this->defineWidgetForm('FormTableInsert')]);
         $this->definePage('USER_PREFERENCES', 'User Preferences', [$this->defineWidgetForm('FormUserPreferences')]);
         $this->definePage('LOGIN', 'Login', [$this->defineWidgetForm('FormLogin')]);
+        $this->definePage('TABLE_CONFIGURATION_CREATE', 'Create Table Configuration', [$this->defineWidgetForm('FormCreateTableConfiguration')]);
+    }
+
+    public function definePageForm($ident,  $title, $formClass) 
+    {
+        $this->definePage($ident, $title, [$this->defineWidgetForm($formClass)]);
     }
 
     public function definePage($ident, $title, $widgets)
@@ -130,18 +70,20 @@ class BaseStructure
     {
         return [
             'type' => '\Sicroc\Controllers\WidgetForm',
+            'title' => 'Form: ' . $arg,
             'args' => [
                 'formClass' => $arg,
             ]
         ];
     }
 
-    public function defineWidgetTable($arg)
+    public function defineWidgetTable($tbl)
     {
         return [
             'type' => '\Sicroc\Controllers\Table',
+            'title' => 'Table: ' . $tbl,
             'args' => [
-                'table' => $arg,
+                'table_configuration' => $this->ensureTableConfigurationExists($tbl),
             ]
         ];
     }
@@ -157,6 +99,17 @@ class BaseStructure
                 $this->ensureWidgetOnPage($pageId, $widgetInstanceId);
             }
         }
+    }
+
+    public function ensureTableConfigurationExists($tbl) 
+    {
+        $sql = 'INSERT INTO table_configurations (`table`, `database`) VALUES (:table, :database) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':table', $tbl);
+        $stmt->bindValue('database', 'Sicroc');
+        $stmt->execute();
+
+        return $this->db->lastInsertId();
     }
 
     public function ensurePageExists($page)
@@ -179,10 +132,10 @@ class BaseStructure
 
         $widgetTypeId = $this->db->lastInsertId();
 
-        $sql = 'INSERT INTO widget_instances (type, principle) VALUES (:type, :principle) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
+        $sql = 'INSERT INTO widget_instances (type, title) VALUES (:type, :title) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':type', $widgetTypeId);
-        $stmt->bindValue(':principle', current($widget['args']));
+        $stmt->bindValue(':title', $widget['title']);
         $stmt->execute();
 
         $widgetInstance = $this->db->lastInsertId();

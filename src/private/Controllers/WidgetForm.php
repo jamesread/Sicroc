@@ -9,17 +9,52 @@ class WidgetForm extends Widget
 {
     private \libAllure\Form $f;
 
+    private \Sicroc\Controllers\ProcessedFormState $state;
+
     public function widgetSetupCompleted()
     {
-        $principle = $this->getArgumentValue('formClass');
+        $formClass = $this->getArgumentValue('formClass');
 
-        if (!empty($principle)) {
-            if (!@include_once CONTROLLERS_DIR . $principle . '.php') {
-                throw new Exception('Could not include PHP class for form: ' . CONTROLLERS_DIR . $principle . '.php');
+        $this->state = new \Sicroc\Controllers\ProcessedFormState();
+
+        if (!empty($formClass)) {
+            if (!@include_once CONTROLLERS_DIR . $formClass . '.php') {
+                throw new Exception('Could not include PHP class for form: ' . CONTROLLERS_DIR . $formClass . '.php');
             }
 
-            $this->f = new $principle($this);
+            $this->f = new $formClass($this);
             $this->f->addElementDetached(new ElementHidden('page', null, LayoutManager::get()->getPage()->getId()));
+            
+            $this->setupForm();
+        }
+    }
+
+    public function setupForm()
+    {
+        if (!isset($this->f)) {
+            return;
+        }
+
+        if ($this->f->validate()) {
+            $this->f->process();
+
+
+            if (isset($this->f->redirectUrl)) {
+                if (isset($this->f->redirectMessage)) {
+                    $redirectMessage = $this->f->redirectMessage;
+                } else {
+                    $redirectMessage = 'Form submitted';
+                }
+
+                redirect($this->f->redirectUrl, $redirectMessage); // FIXME not a good place to put this, maybe move to render()
+            }
+
+            $this->state->processed = true;
+
+        }
+
+        if ($this->f instanceof \Sicroc\Controllers\BaseForm) {
+                $this->f->setupProcessedState($this->state);
         }
     }
 
@@ -31,34 +66,21 @@ class WidgetForm extends Widget
         return $args;
     }
 
-    public function display()
+    public function render()
     {
-        if (!isset($this->f)) {
+        if ($this->state->processed) {
+            $msg = $this->state->processedMessage;
+
+            if ($msg == null) {
+                $msg = 'The form has been submitted.';
+            }
+
+            $this->simpleMessage($msg, 'good');
             return;
         }
 
-        if ($this->f->validate()) {
-            $this->f->process();
-
-            if (isset($this->f->redirectUrl)) {
-                if (isset($this->f->redirectMessage)) {
-                    $redirectMessage = $this->f->redirectMessage;
-                } else {
-                    $redirectMessage = 'Form submitted';
-                }
-
-                redirect($this->f->redirectUrl, $redirectMessage);
-            }
-
-            $this->simpleMessage('formSubmitted', 'good');
-        }
-
-    }
-
-    public function render()
-    {
-        if (isset($this->f->alternativeMessage)) {
-            $this->simpleMessage('Alt: ' . $this->f->alternativeMessage);
+        if (isset($this->state->nonRenderMessage)) {
+            $this->simpleMessage($this->state->nonRenderMessage, $this->state->nonRenderMessageClass);
             return;
         }
 

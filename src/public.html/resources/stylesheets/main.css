@@ -74,7 +74,9 @@ div.subnav ul li ul li a, div.subnav ul li ul li a:visited {
 }
 
 div.subnav ul li ul li a:hover {
-  background-color: #999;
+  background-color: #356AA0;
+  color: white;
+  text-decoration: none;
 }
 
 div.subnav ul li:hover ul {

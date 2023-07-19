@@ -19,4 +19,4 @@ define('TEMPLATES_DIR', PRIVATE_DIR . 'views' . DIRECTORY_SEPARATOR);
 
 \libAllure\ErrorHandler::getInstance()->beGreedy();
 
-date_default_timezone_set('UTC');
+date_default_timezone_set('Europe/London');
