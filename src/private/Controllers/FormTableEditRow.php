@@ -1,9 +1,9 @@
 <?php
 
-use \Sicroc\Controllers\TableConfiguration;
+use Sicroc\Controllers\TableConfiguration;
 
-use function \libAllure\util\san;
-use function \libAllure\util\db;
+use function libAllure\util\san;
+use function libAllure\util\db;
 
 class FormTableEditRow extends \libAllure\Form implements \Sicroc\Controllers\BaseForm
 {
@@ -77,7 +77,6 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\Controllers\Ba
             }
 
             $sql .= '`' . $field . '` = ' . $val . ', ';
-
         }
 
         $sql .= $this->tc->keycol . ' = ' . $this->tc->keycol;
@@ -85,10 +84,9 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\Controllers\Ba
 
         $stmt = db()->prepare($sql);
         $stmt->execute();
-
     }
 
-    public function setupProcessedState($state): void 
+    public function setupProcessedState($state): void
     {
         if ($state->processed) {
             $redirectTo = $this->getElementValue('redirectTo');
@@ -97,10 +95,6 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\Controllers\Ba
             } else {
                 $state->redirect('?pageIdent=TABLE_ROW&amp;tc=' . $this->tc->table);
             }
-
         }
-
     }
 }
-
-?>

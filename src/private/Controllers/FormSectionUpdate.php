@@ -1,13 +1,13 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\DatabaseFactory;
-use \libAllure\ElementInput;
-use \libAllure\ElementSelect;
-use \libAllure\ElementNumeric;
+use libAllure\Form;
+use libAllure\DatabaseFactory;
+use libAllure\ElementInput;
+use libAllure\ElementSelect;
+use libAllure\ElementNumeric;
 
-use function \libAllure\util\san;
-use function \libAllure\util\stmt;
+use function libAllure\util\san;
+use function libAllure\util\stmt;
 
 class FormSectionUpdate extends Form
 {
@@ -42,7 +42,6 @@ class FormSectionUpdate extends Form
         $el->setValue($currentIndex);
 
         return $el;
-
     }
 
     private function getElementMaster($current)
@@ -85,5 +84,3 @@ class FormSectionUpdate extends Form
         $stmt->execute();
     }
 }
-
-?>

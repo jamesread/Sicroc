@@ -1,9 +1,9 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\ElementInput;
-use \libAllure\ElementSelect;
-use \libAllure\DatabaseFactory;
+use libAllure\Form;
+use libAllure\ElementInput;
+use libAllure\ElementSelect;
+use libAllure\DatabaseFactory;
 
 use function libAllure\util\san;
 
@@ -36,5 +36,3 @@ class FormTableAddColumn extends Form
         $stmt->execute();
     }
 }
-
-?>

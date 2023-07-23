@@ -1,9 +1,9 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\Sanitizer;
-use \libAllure\DatabaseFactory;
-use \libAllure\ElementSelect;
+use libAllure\Form;
+use libAllure\Sanitizer;
+use libAllure\DatabaseFactory;
+use libAllure\ElementSelect;
 
 class FormPageContentDelete extends Form implements \Sicroc\Controllers\BaseForm
 {
@@ -20,12 +20,12 @@ class FormPageContentDelete extends Form implements \Sicroc\Controllers\BaseForm
         $this->addDefaultButtons('Delete widget');
     }
 
-    public function setupProcessedState($state) : void 
+    public function setupProcessedState($state): void
     {
         if (empty($this->widgets)) {
             $state->preventRender('The page is empty.', 'ok');
         }
-    } 
+    }
 
     private function getElementWidgetSelect($id)
     {
@@ -56,5 +56,3 @@ class FormPageContentDelete extends Form implements \Sicroc\Controllers\BaseForm
         $stmt->execute();
     }
 }
-
-?>

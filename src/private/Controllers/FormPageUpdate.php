@@ -1,11 +1,11 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\Sanitizer;
-use \libAllure\DatabaseFactory;
-use \libAllure\ElementInput;
-use \libAllure\ElementHidden;
-use \libAllure\ElementSelect;
+use libAllure\Form;
+use libAllure\Sanitizer;
+use libAllure\DatabaseFactory;
+use libAllure\ElementInput;
+use libAllure\ElementHidden;
+use libAllure\ElementSelect;
 
 class FormPageUpdate extends Form
 {
@@ -44,5 +44,3 @@ class FormPageUpdate extends Form
         $stmt->execute();
     }
 }
-
-?>

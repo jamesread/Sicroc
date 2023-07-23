@@ -2,14 +2,14 @@
 
 namespace Sicroc\Controllers;
 
-use \libAllure\Session;
+use libAllure\Session;
 
 class Logout extends Widget
 {
     public function display()
     {
     }
- 
+
     public function getTitle()
     {
         return "Logout";

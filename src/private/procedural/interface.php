@@ -4,7 +4,7 @@ $markers = 0;
 function marker()
 {
     global $markers;
-    
+
     echo 'marker ' . $markers++ . '<br />';
 }
 
@@ -12,12 +12,12 @@ function callPhpFunc($functionName)
 {
     try {
         ob_start();
-        
+
         $result = call_user_func($funcionName);
-            
+
         $contents = ob_get_contents();
         ob_end_clean();
-        
+
         if (sizeof($contents == 0)) {
             return $result;
         } else {
@@ -41,7 +41,7 @@ function adminCheck()
 {
     global $user;
 
-    if (!$user->isAdmin()) { 
+    if (!$user->isAdmin()) {
         messageBox('You need to be an administrator in order to view this page.', 'Admin Check Failed', true);
     }
 }
@@ -69,5 +69,3 @@ function redirect($url)
 {
     header('Location:' . $url);
 }
-
-?>

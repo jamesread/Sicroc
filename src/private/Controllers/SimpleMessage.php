@@ -14,5 +14,3 @@ class SimpleMessage extends Widget
         $tpl->display('simple.tpl');
     }
 }
-
-?>

@@ -1,7 +1,7 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\ElementInput;
+use libAllure\Form;
+use libAllure\ElementInput;
 
 class FormTableCreate extends Form
 {
@@ -20,5 +20,3 @@ class FormTableCreate extends Form
         $this->redirectUrl = '?pageIdent=ADMIN';
     }
 }
-
-?>

@@ -1,8 +1,8 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\ElementInput;
-use \libAllure\DatabaseFactory;
+use libAllure\Form;
+use libAllure\ElementInput;
+use libAllure\DatabaseFactory;
 
 class FormPageCreate extends Form
 {
@@ -25,5 +25,3 @@ class FormPageCreate extends Form
         $stmt->execute();
     }
 }
-
-?>

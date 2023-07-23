@@ -1,9 +1,9 @@
 <?php
 
-use \libAllure\ElementInput;
-use \libAllure\ElementSelect;
-use \libAllure\Form;
-use \libAllure\DatabaseFactory;
+use libAllure\ElementInput;
+use libAllure\ElementSelect;
+use libAllure\Form;
+use libAllure\DatabaseFactory;
 
 class FormWidgetCreate extends Form
 {
@@ -47,5 +47,3 @@ class FormWidgetCreate extends Form
         $this->redirectUrl = '?pageIdent=WIDGET_INSTANCE_UPDATE&widgetToUpdate=' . DatabaseFactory::getInstance()->lastInsertId();
     }
 }
-
-?>

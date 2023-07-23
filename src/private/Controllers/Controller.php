@@ -2,7 +2,7 @@
 
 namespace Sicroc\Controllers;
 
-use \libAllure\Session;
+use libAllure\Session;
 
 abstract class Controller
 {
@@ -32,5 +32,3 @@ abstract class Controller
         return 'Untitled controller';
     }
 }
-
-?>

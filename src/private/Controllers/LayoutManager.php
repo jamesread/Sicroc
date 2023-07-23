@@ -2,11 +2,10 @@
 
 namespace Sicroc\Controllers;
 
-use \Sicroc\Controllers\Page;
-use \Sicroc\Controllers\Table;
-use \Sicroc\Controllers\Navigation;
-
-use \libAllure\Session;
+use Sicroc\Controllers\Page;
+use Sicroc\Controllers\Table;
+use Sicroc\Controllers\Navigation;
+use libAllure\Session;
 
 class LayoutManager
 {
@@ -41,7 +40,8 @@ class LayoutManager
         return $this->page;
     }
 
-    public function getEditMode() {
+    public function getEditMode()
+    {
         $isSystemPage = $this->page->isSystem();
 
         if (Session::isLoggedIn()) {
@@ -101,5 +101,3 @@ class LayoutManager
         assert(!empty($this->page->page['layout']));
     }
 }
-
-?>

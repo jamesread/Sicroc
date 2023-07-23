@@ -1,9 +1,9 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\Sanitizer;
-use \libAllure\DatabaseFactory;
-use \libAllure\ElementSelect;
+use libAllure\Form;
+use libAllure\Sanitizer;
+use libAllure\DatabaseFactory;
+use libAllure\ElementSelect;
 
 class FormAddToPage extends Form
 {
@@ -11,7 +11,7 @@ class FormAddToPage extends Form
 
     public function __construct()
     {
-        parent::__construct('formAddToPage', 'Add widget'); 
+        parent::__construct('formAddToPage', 'Add widget');
 
         $this->page = $this->getPage();
 
@@ -60,5 +60,3 @@ class FormAddToPage extends Form
         $stmt->execute();
     }
 }
-
-?>

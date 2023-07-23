@@ -24,5 +24,3 @@ class TableRow extends Widget
         $tpl->display('tableRow.tpl');
     }
 }
-
-?>

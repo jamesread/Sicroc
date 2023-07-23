@@ -1,9 +1,9 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\Sanitizer;
-use \libAllure\DatabaseFactory;
-use \libAllure\ElementTextbox;
+use libAllure\Form;
+use libAllure\Sanitizer;
+use libAllure\DatabaseFactory;
+use libAllure\ElementTextbox;
 
 class FormWikiUpdate extends Form
 {
@@ -65,5 +65,3 @@ class FormWikiUpdate extends Form
         $stmt->execute();
     }
 }
-
-?>

@@ -4,7 +4,7 @@ namespace Sicroc\Controllers;
 
 class BaseDatabaseStructure
 {
-    private $db = null; 
+    private $db = null;
     var $structure = [
         [
             'ident' => 'LOGOUT',
@@ -52,7 +52,7 @@ class BaseDatabaseStructure
         $this->definePage('TABLE_CONFIGURATION_CREATE', 'Create Table Configuration', [$this->defineWidgetForm('FormCreateTableConfiguration')]);
     }
 
-    public function definePageForm($ident,  $title, $formClass) 
+    public function definePageForm($ident, $title, $formClass)
     {
         $this->definePage($ident, $title, [$this->defineWidgetForm($formClass)]);
     }
@@ -101,7 +101,7 @@ class BaseDatabaseStructure
         }
     }
 
-    public function ensureTableConfigurationExists($tbl) 
+    public function ensureTableConfigurationExists($tbl)
     {
         $sql = 'INSERT INTO table_configurations (`table`, `database`) VALUES (:table, :database) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);

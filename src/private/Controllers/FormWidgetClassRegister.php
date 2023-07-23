@@ -1,8 +1,8 @@
 <?php
 
-use \libAllure\ElementInput;
+use libAllure\ElementInput;
 
-use function \libAllure\util\db;
+use function libAllure\util\db;
 
 class FormWidgetClassRegister extends \libAllure\Form
 {
@@ -19,7 +19,4 @@ class FormWidgetClassRegister extends \libAllure\Form
         $stmt->bindValue(':viewableController', $this->getElementValue('viewableController'));
         $stmt->execute();
     }
-
 }
-
-?>

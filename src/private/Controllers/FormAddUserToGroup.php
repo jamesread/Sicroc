@@ -1,8 +1,8 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\ElementSelect;
-use \libAllure\DatabaseFactory;
+use libAllure\Form;
+use libAllure\ElementSelect;
+use libAllure\DatabaseFactory;
 
 class FormAddUserToGroup extends Form
 {
@@ -11,14 +11,14 @@ class FormAddUserToGroup extends Form
         $this->addElementUser();
         $this->addElementUserGroup();
         $this->addDefaultButtons('Add');
-    } 
+    }
 
     private function addElementUser()
     {
         $sql = 'SELECT id, username FROM users ';
         $stmt = stmt($sql);
         $stmt->execute();
-        
+
         $selectUser = new ElementSelect('user', 'User');
         $selectUser->setSize(5);
 
@@ -30,7 +30,7 @@ class FormAddUserToGroup extends Form
     }
 
     private function addElementUserGroup()
-    { 
+    {
         $sql = 'SELECT id, title FROM groups ';
         $stmt = stmt($sql);
         $stmt->execute();
@@ -42,7 +42,6 @@ class FormAddUserToGroup extends Form
         }
 
         $this->addElement($selectGroup);
-
     }
 
     public function process()
@@ -60,5 +59,3 @@ class FormAddUserToGroup extends Form
         $stmt->execute();
     }
 }
-
-?>

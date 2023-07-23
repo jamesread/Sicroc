@@ -2,17 +2,20 @@
 
 namespace Sicroc;
 
-class Config {
-    private static $arguments = array(); 
+class Config
+{
+    private static $arguments = array();
 
-    private static function init() {
+    private static function init()
+    {
         self::$arguments['DB_DSN'] = 'mysql:dbname=Sicroc';
         self::$arguments['DB_USER'] = 'root';
         self::$arguments['DB_PASS'] = '';
         self::$arguments['TEMPLATE_CACHE_DIRECTORY'] = '/var/cache/httpd/Sicroc/';
     }
 
-    public static function write() {
+    public static function write()
+    {
         throw new Exception("Writing config to file is deprecated, because config can come from various sources.");
 
                 /**
@@ -31,11 +34,13 @@ class Config {
                  */
     }
 
-    private static function isNotInitialized() {
+    private static function isNotInitialized()
+    {
         return empty(self::$arguments);
     }
 
-    public static function read() {
+    public static function read()
+    {
         if (self::isNotInitialized()) {
             self::init();
         }
@@ -44,7 +49,8 @@ class Config {
         self::readEnvironmentVariables();
     }
 
-    private static function readConfigFile() {
+    private static function readConfigFile()
+    {
         $configFileLocations = [
             '/etc/Sicroc/sicroc-config.ini',
             '/etc/Sicroc/config.ini',
@@ -64,25 +70,27 @@ class Config {
         }
     }
 
-    private static function readEnvironmentVariables() {
+    private static function readEnvironmentVariables()
+    {
         self::tryReadEnvironmentVariable('DB_DSN');
     }
 
-    private static function tryReadenvironmentVariable($name) {
+    private static function tryReadenvironmentVariable($name)
+    {
         $value = getenv($name);
 
-        if ($value != FALSE) {
+        if ($value != false) {
             self::$arguments[$name] = $value;
         }
     }
 
-    public static function get($name) {
+    public static function get($name)
+    {
         return self::$arguments[$name];
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return self::$arguments;
     }
 }
-
-?>

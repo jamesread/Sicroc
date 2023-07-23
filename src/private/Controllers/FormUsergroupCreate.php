@@ -1,8 +1,8 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\ElementInput;
-use \libAllure\DatabaseFactory;
+use libAllure\Form;
+use libAllure\ElementInput;
+use libAllure\DatabaseFactory;
 
 class FormUsergroupCreate extends Form
 {
@@ -21,5 +21,3 @@ class FormUsergroupCreate extends Form
         $stmt->execute();
     }
 }
-
-?>

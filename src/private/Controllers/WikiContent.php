@@ -2,13 +2,12 @@
 
 namespace Sicroc\Controllers;
 
-use \libAllure\DatabaseFactory;
+use libAllure\DatabaseFactory;
 
 use function libAllure\util\db;
 
 class WikiContent extends Widget
 {
-
     public function getPage($pageTitle)
     {
         $sql = 'SELECT w.principle AS title, w.content FROM wiki_content w WHERE w.principle = :principle';
@@ -67,7 +66,4 @@ class WikiContent extends Widget
 
         return $args;
     }
-
 }
-
-?>

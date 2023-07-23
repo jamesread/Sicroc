@@ -9,12 +9,11 @@ use libAllure\ElementHidden;
 use libAllure\ElementNumeric;
 use libAllure\ElementDate;
 
-
-use function \libAllure\util\stmt;
+use function libAllure\util\stmt;
 
 class TableConfiguration
 {
-    public readonly int $id; 
+    public readonly int $id;
     public readonly ?string $table;
     public readonly ?string $database;
     public readonly ?string $keycol;
@@ -101,7 +100,7 @@ class TableConfiguration
         return $this->rows;
     }
 
-    public function getForeignKeys() : array
+    public function getForeignKeys(): array
     {
         // FIXME Check database
         $sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
@@ -119,7 +118,7 @@ class TableConfiguration
         return $ret;
     }
 
-    private function queryRowDataQb() : string
+    private function queryRowDataQb(): string
     {
         if (!$this->table) {
             $this->error = 'Table is not set.';
@@ -131,22 +130,20 @@ class TableConfiguration
         $qb->from($this->table, null, $this->database);
         $qb->fields('*');
 
-        if (isset($this->singleRowId)) 
-        {
+        if (isset($this->singleRowId)) {
             $qb->whereEqualsValue('id', $this->singleRowId);
         }
 
         $qb->groupBy('id');
 
-        if (!empty($this->order)) 
-        {
+        if (!empty($this->order)) {
             $qb->orderBy($this->order . ' ' . $this->orderDirection);
         }
 
         return $qb->build();
     }
 
-    private function getRowData() 
+    private function getRowData()
     {
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
@@ -166,7 +163,7 @@ class TableConfiguration
         return $this->stmt->fetchAll();
     }
 
-    private function queryRowDataHacky() : string
+    private function queryRowDataHacky(): string
     {
         $table = $this->table;
 
@@ -189,7 +186,7 @@ class TableConfiguration
             $sql[strlen($sql) - 1] = ' ';
         }
 
-        $sql .=' FROM `' . $this->database . '`.`' . $table . '`'; 
+        $sql .= ' FROM `' . $this->database . '`.`' . $table . '`';
 
         if (count($ftables) > 0) {
             foreach ($foreignKeys as $fk) {
@@ -198,7 +195,7 @@ class TableConfiguration
         }
 
         if (isset($this->singleRowId)) {
-            $sql .= ' WHERE '. $table .'.id = ' . $this->singleRowId . ' ';
+            $sql .= ' WHERE ' . $table . '.id = ' . $this->singleRowId . ' ';
         }
 
         $sql .= ' GROUP BY ' . $table . '.id';
@@ -207,7 +204,7 @@ class TableConfiguration
             $sql .= ' ORDER BY ' . $this->order . ' DESC';
         }
 
-        return $sql; 
+        return $sql;
     }
 
     public function getHeadersOfType()
@@ -257,14 +254,14 @@ class TableConfiguration
     {
         if (false && $this->keycol != null) {
             foreach ($this->rows as &$row) {
-                $row[$this->keycol] = '<a href = "">' . $row[$this->keycol]. '</a>';
+                $row[$this->keycol] = '<a href = "">' . $row[$this->keycol] . '</a>';
             }
         }
 
         return $this->rows;
     }
 
-    public function getElementForColumn($header) : ?\libAllure\Element
+    public function getElementForColumn($header): ?\libAllure\Element
     {
         if (isset($this->singleRowId)) {
             $row = current($this->rows);
@@ -290,49 +287,47 @@ class TableConfiguration
         $el = null;
 
         switch ($header['native_type']) {
-        case 'LONG':
-        case 'FLOAT':
-            $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
-            $el->setMinMaxLengths(0, 64);
-            break;
-        case 'DATETIME':
-            $el = new ElementDate($header['name'], $header['name'], $val, $header['native_type']);
-            break;
-        case 'VAR_STRING':
-            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-            $el->setMinMaxLengths(0, 64);
-            break;
-        case 'TINY':
-        case 'TINYINT':
-        case 'BOOLEAN':
-            $el = new ElementCheckbox($header['name'], $header['name'], $val);
-            break;
-        case 'FK':
-            $key = $header['name'];
-            $fk = $this->foreignKeys[$header['name']];
+            case 'LONG':
+            case 'FLOAT':
+                $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
+                $el->setMinMaxLengths(0, 64);
+                break;
+            case 'DATETIME':
+                $el = new ElementDate($header['name'], $header['name'], $val, $header['native_type']);
+                break;
+            case 'VAR_STRING':
+                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+                $el->setMinMaxLengths(0, 64);
+                break;
+            case 'TINY':
+            case 'TINYINT':
+            case 'BOOLEAN':
+                $el = new ElementCheckbox($header['name'], $header['name'], $val);
+                break;
+            case 'FK':
+                $key = $header['name'];
+                $fk = $this->foreignKeys[$header['name']];
 
-            $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'];
-            $stmt = db()->prepare($sql);
-            $stmt->execute();
+                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'];
+                $stmt = db()->prepare($sql);
+                $stmt->execute();
 
-            $el = new ElementSelect($key, $key);
-            $el->addOption('--null--', '');
+                $el = new ElementSelect($key, $key);
+                $el->addOption('--null--', '');
 
-            foreach ($stmt->fetchAll() as $frow) {
-                $el->addOption($frow['description'], $frow['fkey']);
-            }
+                foreach ($stmt->fetchAll() as $frow) {
+                    $el->addOption($frow['description'], $frow['fkey']);
+                }
 
-            $el->setValue($val);
+                $el->setValue($val);
 
-            break;
-        default:
-            $el = new ElementHidden($header['name'], $val, $header['name']);    
+                break;
+            default:
+                $el = new ElementHidden($header['name'], $val, $header['name']);
         }
 
         $el->setRequired($isRequired);
 
         return $el;
     }
-
-
 }

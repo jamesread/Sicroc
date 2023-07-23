@@ -2,17 +2,18 @@
 
 namespace Sicroc\Controllers;
 
-use \libAllure\Session;
-use function \libAllure\util\stmt;
+use libAllure\Session;
 
-use \Sicroc\Controllers\Controller;
+use function libAllure\util\stmt;
+
+use Sicroc\Controllers\Controller;
 
 abstract class Widget extends Controller
 {
     public $navigation;
     public $widgetId;
     public $displayEdit = true;
-    protected $tpl; 
+    protected $tpl;
     protected $principle;
     public \Sicroc\Controllers\Page|null $page;
 
@@ -32,7 +33,6 @@ abstract class Widget extends Controller
 
     public function widgetSetupCompleted()
     {
-
     }
 
     private function assignUser()
@@ -92,7 +92,7 @@ abstract class Widget extends Controller
             $this->argValues = array();
 
             foreach ($stmt->fetchAll() as $arg) {
-                $this->argValues[$arg['key']] = $arg['value'];    
+                $this->argValues[$arg['key']] = $arg['value'];
             }
         }
         return $this->argValues;
@@ -127,7 +127,7 @@ abstract class Widget extends Controller
         return $el;
     }
 
-    public function simpleMessage($message, $messageClass = 'good') 
+    public function simpleMessage($message, $messageClass = 'good')
     {
         $this->tpl->assign('messageClass', $messageClass);
         $this->tpl->assign('message', $message);
@@ -139,5 +139,3 @@ abstract class Widget extends Controller
         $this->simpleMessage($message, 'bad');
     }
 }
-
-

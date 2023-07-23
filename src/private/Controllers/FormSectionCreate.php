@@ -1,11 +1,11 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\DatabaseFactory;
-use \libAllure\ElementInput;
-use \libAllure\ElementSelect;
+use libAllure\Form;
+use libAllure\DatabaseFactory;
+use libAllure\ElementInput;
+use libAllure\ElementSelect;
 
-use function \libAllure\util\san;
+use function libAllure\util\san;
 
 class FormSectionCreate extends Form
 {
@@ -27,5 +27,3 @@ class FormSectionCreate extends Form
         $stmt->execute();
     }
 }
-
-?>

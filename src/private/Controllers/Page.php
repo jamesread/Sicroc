@@ -2,15 +2,14 @@
 
 namespace Sicroc\Controllers;
 
-use \libAllure\DatabaseFactory;
-use \libAllure\Sanitizer;
-use \libAllure\Session;
-
-use \Sicroc\Controllers\Widget;
-use \Sicroc\Controllers\WidgetForm;
-use \Sicroc\Controllers\Table;
-use \Sicroc\Controllers\WikiContent;
-use \Sicroc\Controllers\SimpleMessage;
+use libAllure\DatabaseFactory;
+use libAllure\Sanitizer;
+use libAllure\Session;
+use Sicroc\Controllers\Widget;
+use Sicroc\Controllers\WidgetForm;
+use Sicroc\Controllers\Table;
+use Sicroc\Controllers\WikiContent;
+use Sicroc\Controllers\SimpleMessage;
 
 class Page
 {
@@ -62,7 +61,6 @@ class Page
         } catch (Exception $e) {
             throw new Exception('Page not found by title:' . $pageIdent);
         }
-
     }
 
     public function getId()
@@ -95,7 +93,7 @@ class Page
 
     private function resolveWidgets($widgets)
     {
-        foreach($widgets as $key => $widget) {
+        foreach ($widgets as $key => $widget) {
             $widgets[$key] = self::resolveWidget($widget, $this);
         }
 
@@ -159,9 +157,9 @@ class Page
         $html .= '<div class = "framedBox">';
         $html .= '<p class = "bad"><strong>Exception thrown while trying to setup or render a widget.</strong></p>';
         $html .= '<p>';
-        $html .= '<strong>Type:</strong> ' . get_class($e) .'<br/>';
+        $html .= '<strong>Type:</strong> ' . get_class($e) . '<br/>';
         $html .= '<strong>Message:</strong> ' . $e->getMessage() . '<br />';
-        $html .= '<strong>Line:</strong> ' . $e->getLine() .'<br />';
+        $html .= '<strong>Line:</strong> ' . $e->getLine() . '<br />';
         $html .= '</p>';
         $html .= '</div>';
 
@@ -174,7 +172,7 @@ class Page
 
         global $tpl;
 
-        try { 
+        try {
             $this->loadPage();
         } catch (Exception $e) {
             $this->page = array(
@@ -195,25 +193,23 @@ class Page
         $this->widgets = $this->renderWidgets($this->widgets);
     }
 
-    public function getForTpl() 
+    public function getForTpl()
     {
         return $this->page;
     }
 
-    public function getWidgetsForTpl() 
+    public function getWidgetsForTpl()
     {
         return $this->widgets;
     }
 
-    public function isSystem() 
+    public function isSystem()
     {
         return $this->page['isSystem'];
     }
 
-    public function getLayout() : string 
+    public function getLayout(): string
     {
         return $this->page['layout'];
     }
 }
-
-?>

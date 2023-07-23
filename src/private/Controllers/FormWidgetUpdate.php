@@ -1,13 +1,12 @@
 <?php
 
-use \Sicroc\Controllers\Page;
+use Sicroc\Controllers\Page;
+use libAllure\Form;
+use libAllure\ElementInput;
+use libAllure\Sanitizer;
+use libAllure\DatabaseFactory;
 
-use \libAllure\Form;
-use \libAllure\ElementInput;
-use \libAllure\Sanitizer;
-use \libAllure\DatabaseFactory;
-
-use function \libAllure\util\stmt;
+use function libAllure\util\stmt;
 
 class FormWidgetUpdate extends Form
 {
@@ -82,5 +81,3 @@ class FormWidgetUpdate extends Form
         }
     }
 }
-
-?>

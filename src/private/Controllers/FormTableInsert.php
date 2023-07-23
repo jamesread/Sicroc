@@ -1,7 +1,6 @@
 <?php
 
-use \libAllure\Form;
-
+use libAllure\Form;
 use Sicroc\Controllers\TableConfiguration;
 
 use function libAllure\util\san;
@@ -48,17 +47,13 @@ class FormTableInsert extends Form implements \Sicroc\Controllers\BaseForm
             $values[] = $this->getElementValue($field);
         }
 
-        $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') '; 
+        $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') ';
         $stmt = db()->prepare($sql);
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void 
+    public function setupProcessedState($state): void
     {
-        $state->redirectTo('?pageIdent=TABLE_LIST'); 
-
-
+        $state->redirectTo('?pageIdent=TABLE_LIST');
     }
 }
-
-?>

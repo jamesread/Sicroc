@@ -2,13 +2,10 @@
 
 namespace Sicroc\Controllers\Widgets;
 
-class WidgetTest extends \Sicroc\Controllers\Widget 
+class WidgetTest extends \Sicroc\Controllers\Widget
 {
-
-    public function render() 
+    public function render()
     {
         $this->simpleMessage('test');
     }
 }
-
-?>

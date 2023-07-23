@@ -2,8 +2,8 @@
 
 namespace Sicroc\Controllers;
 
-use \libAllure\ElementHidden;
-use \libAllure\Sanitizer;
+use libAllure\ElementHidden;
+use libAllure\Sanitizer;
 
 class WidgetForm extends Widget
 {
@@ -24,7 +24,7 @@ class WidgetForm extends Widget
 
             $this->f = new $formClass($this);
             $this->f->addElementDetached(new ElementHidden('page', null, LayoutManager::get()->getPage()->getId()));
-            
+
             $this->setupForm();
         }
     }
@@ -50,7 +50,6 @@ class WidgetForm extends Widget
             }
 
             $this->state->processed = true;
-
         }
 
         if ($this->f instanceof \Sicroc\Controllers\BaseForm) {
@@ -97,7 +96,6 @@ class WidgetForm extends Widget
         global $tpl;
 
         $this->f->process();
-
     }
 
     public function getTitle()
@@ -109,5 +107,3 @@ class WidgetForm extends Widget
         }
     }
 }
-
-?>

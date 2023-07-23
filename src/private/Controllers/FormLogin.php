@@ -1,13 +1,11 @@
 <?php
 
-use \libAllure\ElementInput;
-use \libAllure\ElementPassword;
+use libAllure\ElementInput;
+use libAllure\ElementPassword;
+use libAllure\Session;
+use Sicroc\BaseForm;
 
-use \libAllure\Session;
-
-use \Sicroc\BaseForm;
-
-class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\Controllers\BaseForm 
+class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\Controllers\BaseForm
 {
     public $alternativeMessage;
 
@@ -16,9 +14,9 @@ class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\Controllers
         parent::__construct();
     }
 
-    public function setupProcessedState($state) : void {
-        if (Session::isLoggedIn()) 
-        {
+    public function setupProcessedState($state): void
+    {
+        if (Session::isLoggedIn()) {
             $state->preventRender('You are already logged in.');
             return;
         }
@@ -28,5 +26,3 @@ class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\Controllers
         }
     }
 }
-
-?>

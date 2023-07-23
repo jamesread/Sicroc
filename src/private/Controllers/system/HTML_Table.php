@@ -66,6 +66,4 @@ class HTML_Table
             $this->addRow($row);
         }
     }
-
 }
-?>

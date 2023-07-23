@@ -15,8 +15,5 @@ class TableRowDelete extends Widget
         global $tpl;
         $tpl->assign('message', 'Row deleted.');
         $tpl->display('simple.tpl');
-
     }
 }
-
-?>

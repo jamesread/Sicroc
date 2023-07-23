@@ -1,9 +1,9 @@
 <?php
 
-use \libAllure\Form;
-use \libAllure\ElementCheckbox;
-use \libAllure\ElementInput;
-use \libAllure\ElementSelect;
+use libAllure\Form;
+use libAllure\ElementCheckbox;
+use libAllure\ElementInput;
+use libAllure\ElementSelect;
 
 class FormAddForeignKey extends Form
 {
@@ -42,7 +42,7 @@ class FormAddForeignKey extends Form
 
     public function process()
     {
-        $sql = 'ALTER TABLE ' . san()->filterString('table') . ' ADD CONSTRAINT FOREIGN KEY (' . $this->getElementValue('sourceField'). ') REFERENCES ' . $this->getElementValue('foreignTable'). '(' .  $this->getElementValue('foreignField').') ';
+        $sql = 'ALTER TABLE ' . san()->filterString('table') . ' ADD CONSTRAINT FOREIGN KEY (' . $this->getElementValue('sourceField') . ') REFERENCES ' . $this->getElementValue('foreignTable') . '(' .  $this->getElementValue('foreignField') . ') ';
         $stmt = db()->prepare($sql);
         $stmt->execute();
 
@@ -56,5 +56,3 @@ class FormAddForeignKey extends Form
         $stmt->execute();
     }
 }
-
-?>

@@ -59,7 +59,7 @@ class Table extends Widget
     {
         if ($this->tc == null) {
             $this->simpleErrorMessage('TableConfiguration has not been set');
-        } else if ($this->tc->error != null) {
+        } elseif ($this->tc->error != null) {
             $this->simpleErrorMessage($this->tc->error);
         } else {
             $this->tpl->assign('headers', $this->tc->getHeaders());
@@ -79,34 +79,31 @@ class Table extends Widget
     public function getArgumentElement(string $name, string $type, $default = 0)
     {
         switch ($type) {
-        case 'boolean':
-            $el = new ElementCheckbox($name, $name);
+            case 'boolean':
+                $el = new ElementCheckbox($name, $name);
 
-            return $el;
+                return $el;
         }
 
         switch ($name) {
-        case 'table_configuration':
-            $el = new ElementSelect($name, $name);
-            $el->addOption('---', null);
+            case 'table_configuration':
+                $el = new ElementSelect($name, $name);
+                $el->addOption('---', null);
 
-            $sql = 'SELECT tc.id, tc.database, tc.table FROM table_configurations tc ORDER BY tc.database, tc.table';
+                $sql = 'SELECT tc.id, tc.database, tc.table FROM table_configurations tc ORDER BY tc.database, tc.table';
 
-            $stmt = stmt($sql);
-            $stmt->execute();
+                $stmt = stmt($sql);
+                $stmt->execute();
 
-            foreach ($stmt->fetchAll() as $tc) {
+                foreach ($stmt->fetchAll() as $tc) {
+                    $el->addOption($tc['database'] . '.' . $tc['table'], $tc['id']);
+                }
 
-                $el->addOption($tc['database'] . '.' . $tc['table'], $tc['id']);
-            }
+                $el->setValue($default);
 
-            $el->setValue($default);
-
-            return $el;
-        default:
-            return parent::getArgumentElement($name, $type, $default);
+                return $el;
+            default:
+                return parent::getArgumentElement($name, $type, $default);
         }
     }
 }
-
-?>

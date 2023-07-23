@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once 'Auth.php';
 require_once 'Auth/Container.php';
@@ -65,13 +65,13 @@ class Users extends Controller
             echo sha1($f->getElement('password')->getValue());
             $user->checkAuth();
 
-            if ($user->checkAuth()) {        
-                messageBox('You have been logged in. Thankyou.', 'Login Successful', true);    
+            if ($user->checkAuth()) {
+                messageBox('You have been logged in. Thankyou.', 'Login Successful', true);
             } else {
                 messageBox('Please double check your username & password.', 'Login Failed.', false);
 
                 $f->display();
-            }    
+            }
         } else {
             echo 'form failed validation';
             echo '<h2 class = "formTitle">Login</h2>';
@@ -110,7 +110,8 @@ class User extends Auth
 
     function getId()
     {
-        if (!$this->isLoggedIn()) { return;
+        if (!$this->isLoggedIn()) {
+            return;
         }
 
         return $this->session['data']['user_id'];
@@ -121,7 +122,8 @@ class User extends Auth
      */
     function getData($field, $useCache = true)
     {
-        if (!$this->isLoggedIn()) { return;
+        if (!$this->isLoggedIn()) {
+            return;
         }
 
         if (!$useCache) {
@@ -152,7 +154,8 @@ class User extends Auth
 
     function getLevel()
     {
-        if (!$this->isLoggedIn()) { return;
+        if (!$this->isLoggedIn()) {
+            return;
         }
 
 
@@ -161,11 +164,10 @@ class User extends Auth
 
     function isAdmin()
     {
-        if (!$this->isLoggedIn()) { return false; 
+        if (!$this->isLoggedIn()) {
+            return false;
         }
 
         return $this->getLevel() <= USER_LEVEL_ADMIN;
     }
 }
-
-?>

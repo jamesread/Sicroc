@@ -4,7 +4,6 @@ class TableRelatedRows extends Widget
 {
     public function display()
     {
-
     }
 
     public function render()
@@ -37,5 +36,3 @@ class TableRelatedRows extends Widget
         }
     }
 }
-
-?>

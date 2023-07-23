@@ -2,7 +2,7 @@
 
 require_once 'init.php';
 
-use \Sicroc\Config;
+use Sicroc\Config;
 
 Config::read();
 
@@ -21,7 +21,7 @@ $backend = new \libAllure\AuthBackendDatabase($db);
 //
 
 if (isset($_REQUEST['httpError'])) {
-	$eeh->httpError(intval($_REQUEST['httpError']));
+    $eeh->httpError(intval($_REQUEST['httpError']));
 }
 
 $tpl = new \libAllure\Template(Config::get('TEMPLATE_CACHE_DIRECTORY'), PRIVATE_DIR . DIRECTORY_SEPARATOR .  'views/');
@@ -29,5 +29,3 @@ $tpl = new \libAllure\Template(Config::get('TEMPLATE_CACHE_DIRECTORY'), PRIVATE_
 
 $breadcrumbs = array();
 $breadcrumbs[] = '<a href = "index.php">index</a>';
-
-?>
