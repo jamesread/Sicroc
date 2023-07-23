@@ -46,7 +46,7 @@ class WidgetForm extends Widget
                     $redirectMessage = 'Form submitted';
                 }
 
-                redirect($this->f->redirectUrl, $redirectMessage); // FIXME not a good place to put this, maybe move to render()
+                \Sicroc\util\redirect($this->f->redirectUrl, $redirectMessage); // FIXME not a good place to put this, maybe move to render()
             }
 
             $this->state->processed = true;

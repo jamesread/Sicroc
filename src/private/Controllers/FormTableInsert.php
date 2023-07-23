@@ -40,20 +40,20 @@ class FormTableInsert extends Form implements \Sicroc\Controllers\BaseForm
 
     public function process()
     {
-        $fields = implodeQuoted($this->fields, '`');
+        $fields = \Sicroc\util\implodeQuoted($this->fields, '`');
         $values = array();
 
         foreach ($this->fields as $field) {
             $values[] = $this->getElementValue($field);
         }
 
-        $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') ';
+        $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . \Sicroc\util\implodeQuoted($values, '"', true) . ') ';
         $stmt = db()->prepare($sql);
         $stmt->execute();
     }
 
     public function setupProcessedState($state): void
     {
-        $state->redirectTo('?pageIdent=TABLE_LIST');
+        $state->redirect('?pageIdent=TABLE_LIST');
     }
 }
