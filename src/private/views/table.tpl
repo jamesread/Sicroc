@@ -1,10 +1,10 @@
-{if $tableError != null}
-<div class = "bad">{$tableError}</div>
-{else}
 <table>
 	<thead>
 		<tr>
-		{foreach from = $headers item = "header"} 
+		{foreach from = $headers item = "header" key = key} 
+
+		{if $key == $primaryKey && !$tc->showId}{continue}{/if}
+
 			<th>
 				{$header.name} 
 				{if $showTypes}
@@ -20,10 +20,13 @@
 	{foreach from = $rows item = row}
 	<tr>
 		{foreach from = $row item = cell key = key}
+
+		{if $key == $primaryKey && !$tc->showId}{continue}{/if}
+
 		<td>
 			{if $primaryKey == $key}
-				<a href = "?pageIdent=TABLE_ROW&amp;tc={$tc}&amp;primaryKey={$cell}">{$cell}</a> | 
-				<a href = "?pageIdent=TABLE_ROW_EDIT&amp;tc={$tc}&amp;primaryKey={$cell}&amp;redirectTo={}">edit</a>
+				<a href = "?pageIdent=TABLE_ROW&amp;tc={$tc->id}&amp;primaryKey={$cell}">{$cell}</a> |
+				<a href = "?pageIdent=TABLE_ROW_EDIT&amp;tc={$tc->id}&amp;primaryKey={$cell}&amp;redirectTo={}">edit</a>
 			{else}
 				{$cell}
 			{/if}
@@ -33,4 +36,3 @@
 	{/foreach}
 	</tbody>
 </table>
-{/if}

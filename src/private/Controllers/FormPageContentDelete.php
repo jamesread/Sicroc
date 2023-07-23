@@ -15,7 +15,7 @@ class FormPageContentDelete extends Form implements \Sicroc\Controllers\BaseForm
 
         $pageId = Sanitizer::getInstance()->filterUint('pageToEdit');
 
-        $this->addElementHidden('pageId', $pageId);
+        $this->addElementHidden('pageToEdit', $pageId);
         $this->addElement($this->getElementWidgetSelect($pageId));
         $this->addDefaultButtons('Delete widget');
     }

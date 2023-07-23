@@ -7,7 +7,7 @@ use Sicroc\Controllers\TableConfiguration;
 use function libAllure\util\san;
 use function libAllure\util\db;
 
-class FormTableInsert extends Form
+class FormTableInsert extends Form implements \Sicroc\Controllers\BaseForm
 {
     private string|null $keycol;
     private array $fields;
@@ -51,6 +51,13 @@ class FormTableInsert extends Form
         $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . implodeQuoted($values, '"', true) . ') '; 
         $stmt = db()->prepare($sql);
         $stmt->execute();
+    }
+
+    public function setupProcessedState($state): void 
+    {
+        $state->redirectTo('?pageIdent=TABLE_LIST'); 
+
+
     }
 }
 

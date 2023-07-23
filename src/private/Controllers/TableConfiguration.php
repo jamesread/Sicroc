@@ -14,40 +14,53 @@ use function \libAllure\util\stmt;
 
 class TableConfiguration
 {
-    public string|null $table;
-    public string|null $database;
-    public string $order = 'id';
+    public readonly int $id; 
+    public readonly ?string $table;
+    public readonly ?string $database;
+    public readonly ?string $keycol;
+    public readonly ?int $singleRowId;
+
     public ?string $error = null;
 
-    public $keycol = null;
-    private array $headers = array();
-    private $rows = array();
-    private array $foreignKeys;
+    public string $order = 'id';
+    public string $orderDirection = 'DESC';
 
-    private int|null $singleRowId;
-    public readonly int $id; 
+    public readonly bool $showId;
+    public readonly bool $showTypes;
+
+    private array $headers;
+    private array $rows;
+    private array $foreignKeys;
 
     private $stmt;
 
-    public function __construct($tcId)
+    public function __construct($tcId, int $singleRowId = null)
     {
         $this->id = $tcId;
+
+        if ($singleRowId) {
+            $this->singleRowId = $singleRowId;
+        }
 
         $this->load();
     }
 
     public function load()
     {
-        $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, insertVerb FROM table_configurations WHERE id = :id';
+        $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, insertVerb, showId, showTypes FROM table_configurations WHERE id = :id';
         $stmt = stmt($sql);
         $stmt->bindValue(':id', $this->id);
         $stmt->execute();
 
-        $fields = $stmt->fetchRow();
+        $fields = $stmt->fetchRow(\PDO::FETCH_OBJ);
 
         if ($fields != false) {
-            $this->table = $fields['table'];
-            $this->database = $fields['database'];
+            $this->table = $fields->table;
+            $this->database = $fields->database;
+            $this->showId = ($fields->showId == true);
+            $this->showTypes = ($fields->showTypes == true);
+            $this->order = ($fields->orderColumn ? $fields->orderColumn : 'id');
+            $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
             $this->loadTable();
         }
     }
@@ -106,15 +119,61 @@ class TableConfiguration
         return $ret;
     }
 
+    private function queryRowDataQb() : string
+    {
+        if (!$this->table) {
+            $this->error = 'Table is not set.';
+            return 'SELECT version()';
+        }
 
-    private function getRowData()
+        $qb = new \libAllure\QueryBuilder();
+
+        $qb->from($this->table, null, $this->database);
+        $qb->fields('*');
+
+        if (isset($this->singleRowId)) 
+        {
+            $qb->whereEqualsValue('id', $this->singleRowId);
+        }
+
+        $qb->groupBy('id');
+
+        if (!empty($this->order)) 
+        {
+            $qb->orderBy($this->order . ' ' . $this->orderDirection);
+        }
+
+        return $qb->build();
+    }
+
+    private function getRowData() 
+    {
+        $sqlQb = $this->queryRowDataQb();
+        $sqlHacky = $this->queryRowDataHacky();
+
+        //\libAllure\util\vde($sqlQb, $sqlHacky);
+
+        $sql = $sqlQb;
+
+        try {
+            $this->stmt = \libAllure\DatabaseFactory::getInstance()->prepare($sql);
+            $this->stmt->execute();
+        } catch (\PDOException $e) {
+            $this->error = $e->getMessage();
+            return array();
+        }
+
+        return $this->stmt->fetchAll();
+    }
+
+    private function queryRowDataHacky() : string
     {
         $table = $this->table;
 
         if ($table == null) {
             $this->keycol = null;
             $this->stmt = null;
-            return array();
+            return 'SELECT version()';
         };
 
         $sql = 'SELECT ' . $table . '.*';
@@ -144,21 +203,11 @@ class TableConfiguration
 
         $sql .= ' GROUP BY ' . $table . '.id';
 
-        $order = $this->order;
-
-        if (!empty($order)) {
-            $sql .= ' ORDER BY ' . $order . ' DESC';
+        if (!empty($this->order)) {
+            $sql .= ' ORDER BY ' . $this->order . ' DESC';
         }
 
-        try {
-            $this->stmt = \libAllure\DatabaseFactory::getInstance()->prepare($sql);
-            $this->stmt->execute();
-        } catch (\PDOException $e) {
-            $this->error = $e->getMessage();
-            return array();
-        }
-
-        return $this->stmt->fetchAll();
+        return $sql; 
     }
 
     public function getHeadersOfType()
@@ -186,12 +235,11 @@ class TableConfiguration
         }
 
         $headers = array();
-        $this->keycol = null;
 
         for ($i = 0; $i < $this->stmt->columnCount(); $i++) {
             $col = $this->stmt->getColumnMeta($i);
 
-            if (($col['name'] == 'id' || in_array('primary_key', $col['flags'])) && $this->keycol == null) {
+            if (($col['name'] == 'id' || in_array('primary_key', $col['flags']))) {
                 $this->keycol = $col['name'];
             }
 
@@ -218,7 +266,12 @@ class TableConfiguration
 
     public function getElementForColumn($header) : ?\libAllure\Element
     {
-        $val = isset($row[$header['name']]) ? $row[$header['name']] : null;
+        if (isset($this->singleRowId)) {
+            $row = current($this->rows);
+            $val = isset($row[$header['name']]) ? $row[$header['name']] : null;
+        } else {
+            $val = null;
+        }
 
         if (!isset($header['native_type'])) {
             $header['native_type'] = 'BOOLEAN';
@@ -247,6 +300,7 @@ class TableConfiguration
             break;
         case 'VAR_STRING':
             $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
             break;
         case 'TINY':
         case 'TINYINT':

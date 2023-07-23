@@ -133,6 +133,11 @@ abstract class Widget extends Controller
         $this->tpl->assign('message', $message);
         $this->tpl->display('simple.tpl');
     }
+
+    public function simpleErrorMessage($message)
+    {
+        $this->simpleMessage($message, 'bad');
+    }
 }
 
 

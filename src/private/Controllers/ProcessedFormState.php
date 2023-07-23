@@ -12,4 +12,9 @@ class ProcessedFormState {
         $this->nonRenderMessage = $message;
         $this->nonRenderMessageClass = $class;
     }
+
+    public function redirect($url) 
+    {
+        $this->preventRender('FIXME Redirect: ' . $url);
+    }
 }

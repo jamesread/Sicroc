@@ -5,27 +5,33 @@ use \Sicroc\Controllers\TableConfiguration;
 use function \libAllure\util\san;
 use function \libAllure\util\db;
 
-class FormTableEditRow extends \libAllure\Form
+class FormTableEditRow extends \libAllure\Form implements \Sicroc\Controllers\BaseForm
 {
     private \Sicroc\Controllers\TableConfiguration $tc;
+    private array $fields;
 
     public function __construct()
     {
         parent::__construct('editRow', 'Edit Row');
 
+        $primaryKeyValue = san()->filterUint('primaryKey');
+
         $tcId = san()->filterUint('tc');
-        $this->tc = new TableConfiguration($tcId);
+        $this->tc = new TableConfiguration($tcId, $primaryKeyValue);
 
         $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
+        $this->addElementReadOnly('Primary Key', $primaryKeyValue, $this->tc->keycol);
 
-        $fields = array();
+        $this->fields = [];
 
         foreach ($this->tc->getHeaders() as $key => $header) {
-            $fields[] = $header['name'];
+            $this->fields[] = $header['name'];
 
             $el = $this->tc->getElementForColumn($header);
 
-            $this->addElement($el);
+            if ($el != null) {
+                $this->addElement($el);
+            }
         }
 
         $this->addElementHidden('redirectTo', san()->filterString('redirectTo'));
@@ -59,7 +65,7 @@ class FormTableEditRow extends \libAllure\Form
         $values = array();
         unset($this->fields[0]);
 
-        $sql = 'UPDATE ' . $this->getElementValue('table') . ' SET ';
+        $sql = 'UPDATE ' . $this->tc->database . '.' . $this->tc->table . ' SET ';
 
         foreach ($this->fields as $field) {
             $val = $this->getElementValue($field);
@@ -74,19 +80,26 @@ class FormTableEditRow extends \libAllure\Form
 
         }
 
-        $sql .= $this->keycol . ' = ' . $this->keycol;
-        $sql .= ' WHERE ' . $this->keycol . ' = ' . $this->getElementValue($this->keycol);
+        $sql .= $this->tc->keycol . ' = ' . $this->tc->keycol;
+        $sql .= ' WHERE ' . $this->tc->keycol . ' = ' . $this->getElementValue($this->tc->keycol);
 
         $stmt = db()->prepare($sql);
         $stmt->execute();
 
-        $redirectTo = $this->getElementValue('redirectTo');
+    }
 
-        if (is_numeric($redirectTo)) {
-            $this->redirectUrl = '?page=' . $redirectTo;
-        } else {
-            $this->redirectUrl = '?pageIdent=TABLE_ROW&amp;table=' . $this->getElementValue('table') . '&amp;primaryKey=' . $this->getElementValue($this->keycol);
+    public function setupProcessedState($state): void 
+    {
+        if ($state->processed) {
+            $redirectTo = $this->getElementValue('redirectTo');
+            if (is_numeric($redirectTo)) {
+                $state->redirect('?page=' . $redirectTo);
+            } else {
+                $state->redirect('?pageIdent=TABLE_ROW&amp;tc=' . $this->tc->table);
+            }
+
         }
+
     }
 }
 
