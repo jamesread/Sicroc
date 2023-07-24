@@ -1,6 +1,6 @@
 {include file = "widgets/header.minimal.tpl"}
 
-<div class = "page">
+<main>
 	<h2 title = "Page ID: {$page.id}">{$page.title}</h2>
 
 {foreach from = $widgets item = widget}  
@@ -8,6 +8,6 @@
 	{$widget.content}
 	</div>
 {/foreach}
-</div>
+</main>
 
 {include file = "widgets/footer.tpl"}

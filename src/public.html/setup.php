@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../private/common.php';
+require_once __DIR__ . '/../private/init.php';
 
-use \Sicroc\Controllers\BaseDatabaseStructure;
+sicrocInit();
 
-$bs = new BaseDatabaseStructure();
+$bs = new \Sicroc\BaseDatabaseStructure();
 $bs->check();
 
 ?>

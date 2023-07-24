@@ -1,5 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../private/common.php';
+require_once __DIR__ . '/../private/init.php';
 
-\Sicroc\Controllers\LayoutManager::get()->render();
+sicrocInit();
+
+\Sicroc\LayoutManager::get()->render();

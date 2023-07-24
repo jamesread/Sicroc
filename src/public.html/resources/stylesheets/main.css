@@ -402,10 +402,6 @@ td {
   background-color: white;
 }
 
-.good {
-  background-color: LimeGreen;    
-}
-
 div.toolbar {
   background-color: lightgray;
   border: 1px solid #666;
@@ -462,6 +458,16 @@ p.description {
   background-color: salmon;
   padding: 1em;
 }
+
+.good {
+  background-color: LimeGreen;
+  padding: 1em;
+}
+
+.neutral {
+  padding: 1em;
+}
+
 
 .framedBox {
   border: 1px solid black;

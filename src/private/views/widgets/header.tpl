@@ -28,6 +28,7 @@
 	<ul id = "sectionActions">
 		<li><span title = "Actions">&#9776;</span>
 			<ul>
+			{if $isLoggedIn}
 				<li><strong>Admin</strong></li>
 				<li><a href = "?pageIdent=USER_PREFERENCES">User Preferences</a></li>
 				<li><a href = "?pageIdent=ADMIN">Control Panel</a></li>
@@ -49,9 +50,9 @@
 				<li><a href = "?pageIdent=SECTION_UPDATE&sectionToEdit={$section.id}">Update section</a></li>
 				<li><a href = "?pageIdent=PAGE_UPDATE&pageToEdit={$page.id}">Update page</a></li>
 				<li><strong>Account</strong></li>
-			{if $isLoggedIn}
 				<li><a href = "?pageIdent=LOGOUT">Logout</a></li>
 			{else}
+				<li><strong>Account</strong></li>
 				<li><a href = "?pageIdent=LOGIN">Login</a></li>
 			{/if}
 

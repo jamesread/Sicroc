@@ -1,5 +1,7 @@
 <?php
 
+namespace Sicroc;
+
 function implodeQuoted($a, $quoteChar = '"', $useNulls = false)
 {
     $ret = "";

@@ -18,7 +18,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Sicroc\\": "src/private/"
+			"Sicroc\\": "src/private/app/"
 		}
 	},
     "require-dev": {

@@ -1,22 +1,60 @@
 <?php
 
-define('BASE_DIR', realpath(dirname(__FILE__) . '/../') . '/');
-define('PRIVATE_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'private' . DIRECTORY_SEPARATOR);
-define('PUBLIC_DIR', BASE_DIR . '/public/');
+function sicrocInit()
+{
+    require_once 'libraries/autoload.php';
 
-$autoloader = require_once PRIVATE_DIR . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'autoload.php';
+    require_once 'utils.php';
 
-use Composer\Semver\VersionParser;
+    setupLibAllure();
+    setupDatabase();
+    setupTemplateEngine();
+    setupTimezone();
+}
 
-\Composer\InstalledVersions::satisfies(new VersionParser(), 'jwread/lib-allure', '^8.0.2') or trigger_error('libAllure needs to be installed', E_USER_ERROR);
+function setupLibAllure()
+{
+    \Composer\InstalledVersions::satisfies(
+        new \Composer\Semver\VersionParser(),
+        'jwread/lib-allure',
+        '^8.0.2'
+    ) or trigger_error('libAllure needs to be installed', E_USER_ERROR);
 
-define('CONTROLLERS_DIR', PRIVATE_DIR . '/Controllers/');
-define('CONTROLLERS_SYSTEM_DIR', PRIVATE_DIR . '/controllers/system/');
-define('MODELS_DIR', PRIVATE_DIR . '/models/');
-define('TEMPLATES_DIR', PRIVATE_DIR . 'views' . DIRECTORY_SEPARATOR);
+    // FIXME shortcuts should be autoloadable
+    \libAllure\IncludePath::addLibAllure();
+    require_once 'libAllure/util/shortcuts.php';
 
-\libAllure\IncludePath::addLibAllure();
+    \libAllure\ErrorHandler::getInstance()->beGreedy();
+}
 
-\libAllure\ErrorHandler::getInstance()->beGreedy();
+function setupDatabase()
+{
+    global $db; // Needed for libAllure Shortcuts
 
-date_default_timezone_set('Europe/London');
+    $config = \Sicroc\Config::getInstance();
+    $config->read();
+
+    $db = new \libAllure\Database($config->get('DB_DSN'), $config->get('DB_USER'), $config->get('DB_PASS'));
+    \libAllure\DatabaseFactory::registerInstance($db);
+
+    \libAllure\Session::start();
+    $backend = new \libAllure\AuthBackendDatabase($db);
+    \libAllure\AuthBackend::setBackend(new \libAllure\AuthBackendDatabase($db));
+}
+
+function setupTemplateEngine()
+{
+    global $tpl;
+
+    $tplCacheDirectory = \Sicroc\Config::getInstance()->get('TEMPLATE_CACHE_DIRECTORY');
+
+    $tpl = new \libAllure\Template(
+        $tplCacheDirectory,
+        __DIR__ . '/views/',
+    );
+}
+
+function setupTimezone()
+{
+    date_default_timezone_set(\Sicroc\Config::getInstance()->get('TIMEZONE', 'Europe/London'));
+}
