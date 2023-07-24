@@ -1,7 +1,6 @@
 **/config.php
 pkg
 buildinfo.txt
-**/*.lock
 src/private/libraries/
 /vendor/
 **/*.swp
