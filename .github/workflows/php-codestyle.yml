@@ -31,7 +31,11 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-      
+
+    - name: add bin to $PATH
+      run: |
+        echo "$GITHUB_WORKSPACE/src/private/libraries/bin/" >> $GITHUB_PATH
+
     - name: Run phpcs
       run: phpcs
 
