@@ -7,6 +7,7 @@ use Sicroc\TableConfiguration;
 
 use function libAllure\util\san;
 use function libAllure\util\db;
+use function Sicroc\implodeQuoted;
 
 class FormTableInsert extends Form implements \Sicroc\BaseForm
 {
@@ -42,7 +43,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
 
     public function process()
     {
-        $fields = \Sicroc\implodeQuoted($this->fields, '`');
+        $fields = implodeQuoted($this->fields, '`');
         $values = array();
 
         foreach ($this->fields as $field) {
@@ -57,7 +58,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
     public function setupProcessedState($state): void
     {
         if ($state->processed) {
-            $state->redirect('?pageIdent=TABLE_LIST');
+            $state->redirect('?pageIdent=TABLE_VIEW&tc=' . $this->tc->id);
         }
     }
 }

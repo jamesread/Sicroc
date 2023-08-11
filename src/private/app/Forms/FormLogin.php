@@ -19,7 +19,7 @@ class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\BaseForm
     public function setupProcessedState($state): void
     {
         if ($state->processed) {
-            $state->setProcessedMessage('You have logged in.');
+            $state->preventRender('You have logged in.');
             return;
         }
 

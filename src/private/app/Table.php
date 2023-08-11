@@ -8,6 +8,7 @@ use libAllure\ElementCheckbox;
 
 use function libAllure\util\vde;
 use function libAllure\util\stmt;
+use function libAllure\util\san;
 
 class Table extends Widget
 {
@@ -31,9 +32,19 @@ class Table extends Widget
     {
         $tc = $this->getArgumentValue('table_configuration');
 
+        if ($tc == null) 
+        {
+            $tc = san()->filterUint('tc');
+        }
+
         if ($tc != null) {
             $this->tc = new TableConfiguration($tc);
-            $this->navigation->add('?pageIdent=TABLE_INSERT&amp;tc=' . $this->tc->id, 'Insert');
+
+            if ($this->tc->createPageDelegate == null) {
+                $this->navigation->add('?pageIdent=TABLE_INSERT&amp;tc=' . $this->tc->id, $this->tc->createPhrase);
+            } else {
+                $this->navigation->add('?page=' . $this->tc->createPageDelegate, $this->tc->createPhrase);
+            }
             $this->navigation->addSeparator();
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;tc=' . $this->tc->id, 'Table Structure');
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_ROW_EDIT&amp;tc=4&amp;primaryKey=' . $this->tc->id, 'Table Configuration');

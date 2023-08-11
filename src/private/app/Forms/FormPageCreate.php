@@ -18,11 +18,6 @@ class FormPageCreate extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Create page');
     }
 
-    public function setupProcessedState($state): void
-    {
-        $state->setProcessedMessage('Page created', false);
-    }
-
     public function process()
     {
         $sql = 'INSERT INTO pages (title, ident) VALUES (:title, :ident)';
@@ -30,5 +25,12 @@ class FormPageCreate extends Form implements \Sicroc\BaseForm
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->bindValue(':ident', $this->getElementValue('ident'));
         $stmt->execute();
+    }
+
+    public function setupProcessedState($state): void
+    {
+        if ($state->processed) {
+            $state->redirectIdent('PAGE_LIST');
+        }
     }
 }

@@ -28,4 +28,11 @@ class FormCreateTableConfiguration extends \libAllure\Form
 
         $stmt->execute();
     }
+
+    public function setupProcessedState($state)
+    {
+        if ($state->processed) {
+            $state->redirectIdent('TABLE_CONFIGURATION_LIST');
+        }
+    }
 }

@@ -1,5 +1,4 @@
 
-<div>
 {foreach from = $elements item = element}
 	{if is_array($element)}
 		{include file = "formElements.tpl" elements=$element}
@@ -13,19 +12,15 @@
 		{elseif $element->getType() eq 'ElementHidden'}
 			{$element->render()}
 		{else}
-			<fieldset class = "{if $element->isRequired()}required{/if}">
-				{$element->render()}
+			<label class = "{($element->isRequired()) ? 'required' : 'optional'}>" for = "{$element->getName()}">{$element->getCaption()}</label>
+			
+			{$element->render()}
 
-				{if $element->description ne ''}
-				<p class = "description">{$element->description}</p>
-				{/if}
+			<p class = "description">{$element->description}</p>
 
-				{if $element->getValidationError() ne ''}
-				<p class = "formValidationError">{$element->getValidationError()}</p>
-				{/if}
-			</fieldset>
+			{if $element->getValidationError() ne ''}
+			<p class = "formValidationError">{$element->getValidationError()}</p>
+			{/if}
 		{/if}
 	{/if}
 {/foreach}
-
-</div>

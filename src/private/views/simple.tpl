@@ -1,3 +1,3 @@
 <div class = "{$messageClass|default:'bad'}">
-	{$message|default:"Simples!"}  
+	{$message|default:"Message not set."}  
 </div>

@@ -95,7 +95,7 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
             if (is_numeric($redirectTo)) {
                 $state->redirect('?page=' . $redirectTo);
             } else {
-                $state->redirect('?pageIdent=TABLE_ROW&amp;tc=' . $this->tc->table);
+                $state->redirect('?pageIdent=TABLE_ROW&tc=' . $this->tc->id . '&primaryKey=' . $this->getElementValue($this->tc->keycol));
             }
         }
     }

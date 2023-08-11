@@ -16,7 +16,13 @@ class FormUserPreferences extends \libAllure\Form implements \Sicroc\BaseForm
         if (Session::isLoggedIn()) {
             $user = Session::getUser();
 
-            $this->addElement(new ElementCheckbox('editMode', 'Edit Mode', $user->getData('editMode')));
+            if ($user->hasPriv('ADMIN')) {
+                $this->addElement(new ElementCheckbox('editMode', 'Edit Mode', $user->getData('editMode')));
+            }
+
+            $groups = Session::getUser()->getUsergroups();
+            $groups = implode(', ', array_column($groups, 'title'));
+            $this->addElementReadOnly('usergroups', $groups);
         }
 
         $this->addDefaultButtons('Save preferences');
@@ -36,7 +42,10 @@ class FormUserPreferences extends \libAllure\Form implements \Sicroc\BaseForm
     {
         $user = Session::getUser();
 
-        $user->setData('editMode', $this->getElementValue('editMode'));
+        if ($user->hasPriv('ADMIN')) {
+            $user->setData('editMode', $this->getElementValue('editMode'));
+        }
+
         $user->getData('username', false);
     }
 }

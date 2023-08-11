@@ -4,20 +4,10 @@ namespace Sicroc;
 
 use libAllure\DatabaseFactory;
 use libAllure\HtmlLinksCollection;
+use libAllure\Session;
 
 class Navigation
 {
-    private function addSectionLinks($ll)
-    {
-        $sql = 'SELECT s.title, s.master, s.index FROM sections s ORDER BY s.ordinal, s.title ASC';
-        $stmt = DatabaseFactory::getInstance()->prepare($sql);
-        $stmt->execute();
-
-        foreach ($stmt->fetchAll() as $section) {
-            $ll->add('?page=' . $section['index'], $section['title']);
-        }
-    }
-
     public function lastPage(int $pageId): int|null
     {
         if ($pageId !== null) {
@@ -35,7 +25,19 @@ class Navigation
     {
         $links = new HtmlLinksCollection('Navigation');
 
-        $this->addSectionLinks($links);
+        if (Session::isLoggedIn()) {
+            $sql = 'SELECT l.title, l.master, l.index_page, l.usergroup FROM navigation_links l ORDER BY l.ordinal, l.title ASC';
+            $stmt = DatabaseFactory::getInstance()->prepare($sql);
+            $stmt->execute();
+
+            $usergroupIds = array_column(Session::getUser()->getUsergroups(), 'id');
+
+            foreach ($stmt->fetchAll() as $link) {
+                if (in_array($link['usergroup'], $usergroupIds)) {
+                    $links->add('?page=' . $link['index_page'], $link['title']);
+                }
+            }
+        }
 
         return $links;
     }

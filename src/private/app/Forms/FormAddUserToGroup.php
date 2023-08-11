@@ -6,7 +6,9 @@ use libAllure\Form;
 use libAllure\ElementSelect;
 use libAllure\DatabaseFactory;
 
-class FormAddUserToGroup extends Form
+use function libAllure\util\stmt;
+
+class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
 {
     public function __construct()
     {
@@ -51,13 +53,21 @@ class FormAddUserToGroup extends Form
         $user = $this->getElementValue('user');
         $group = $this->getElementValue('group');
 
-        var_dump($user, $group);
-
-        exit;
+        $sql = 'INSERT INTO group_memberships (`group`, `user`) VALUES (:group, :user)';
 
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
+        $this->bindStatementValues($stmt, [
+            'user',
+            'group'
+        ]);
 
-        $stmt->bindValue('title', $this->getElementValue('title'));
         $stmt->execute();
+    }
+
+    public function setupProcessedState($state): void
+    {
+        if ($state->processed) {
+            $state->setProcessedMessage('User added', 'good', false);
+        }
     }
 }

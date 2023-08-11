@@ -11,7 +11,7 @@ abstract class Widget
 {
     public $navigation;
     public $widgetId;
-    public $displayEdit = true;
+    public $displayEdit = false;
 
     protected $tpl;
 
@@ -22,6 +22,12 @@ abstract class Widget
         global $tpl; // FIXME
 
         $this->tpl = $tpl;
+
+        if (Session::isLoggedIn()) {
+            if (Session::getUser()->getData('editMode')) {
+                $this->displayEdit = true;
+            }
+        }
 
         $this->navigation = new \libAllure\HtmlLinksCollection();
         $this->tpl->assign('title', get_class($this));
@@ -80,10 +86,7 @@ abstract class Widget
 
     public function render()
     {
-        global $tpl;
-
-        $tpl->assign('message', 'This is a simple widget (widget has not overridden Controller::render(). )');
-        $tpl->display('simple.tpl');
+        $this->simpleMessage('This is a simple widget (widget has not overridden Controller::render(). )');
     }
 
     public static function getLink($caption, $controller, $method = 'index', $params = array())
@@ -133,7 +136,6 @@ abstract class Widget
             return null;
         }
     }
-
 
     public function getArguments()
     {

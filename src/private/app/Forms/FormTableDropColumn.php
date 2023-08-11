@@ -8,6 +8,6 @@ class FormTableDropColumn extends \libAllure\Form
     {
         parent::__construct('formTableDropColumn', 'Drop Column');
 
-        $this->addDefaultButtons();
+        $this->addDefaultButtons('Drop column');
     }
 }

@@ -9,7 +9,7 @@ use libAllure\ElementSelect;
 
 use function libAllure\util\san;
 
-class FormSectionCreate extends Form
+class FormSectionCreate extends Form implements \Sicroc\BaseForm
 {
     public function __construct()
     {
@@ -18,7 +18,7 @@ class FormSectionCreate extends Form
         $sectionToEdit = san()->filterUint('sectionToEdit');
 
         $this->addElement(new ElementInput('title', 'Title'));
-        $this->addDefaultButtons();
+        $this->addDefaultButtons('Create');
     }
 
     public function process()
@@ -27,5 +27,12 @@ class FormSectionCreate extends Form
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->execute();
+    }
+
+    public function setupProcessedState($state): void
+    {
+        if ($state->processed) {
+            $state->redirectIdent('SECTION_LIST');
+        }
     }
 }

@@ -23,7 +23,10 @@ class BaseDatabaseStructure
     {
         $this->db = \libAllure\DatabaseFactory::getInstance();
 
+        $this->definePage('HOME', 'Homepage', [$this->defineWidgetWiki('home', 'This is the homepage.')]);
         $this->definePage('ADMIN', 'Admin panel', []);
+        $this->definePageForm('USERGROUP_CREATE', 'Create Usergroup', 'FormCreateUsergroup');
+        $this->definePageForm('USERGROUP_ASSIGN', 'Add User to Group', 'FormAddUserToGroup');
         $this->definePageForm('WIKI_EDIT', 'Wiki Edit', 'FormWikiUpdate');
         $this->definePage('WIDGET_LIST', 'List of Widgets', [$this->defineWidgetTable('widget_instances')]);
         $this->definePage('SECTION_LIST', 'List of Sections', [$this->defineWidgetTable('sections')]);
@@ -84,6 +87,17 @@ class BaseDatabaseStructure
             'title' => 'Table: ' . $tbl,
             'args' => [
                 'table_configuration' => $this->ensureTableConfigurationExists($tbl),
+            ]
+        ];
+    }
+
+    public function defineWidgetWiki($title, $content)
+    {
+        return [
+            'type' => '\Sicroc\WikiContent',
+            'title' => $title,
+            'args' => [
+                'content' => $content,
             ]
         ];
     }

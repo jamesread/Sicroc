@@ -45,7 +45,10 @@ class WikiContent extends Widget
             }
         }
 
-        $this->navigation->add('dispatcher.php?controller=WikiContent&amp;pageIdent=WIKI_EDIT&amp;pageTitle=' . $pageTitle, 'Edit');
+        if ($this->displayEdit) {
+            $this->navigation->add('dispatcher.php?controller=WikiContent&amp;pageIdent=WIKI_EDIT&amp;pageTitle=' . $pageTitle, 'Edit');
+        }
+
         $this->tpl->assign('wikiPage', $wiki);
     }
 

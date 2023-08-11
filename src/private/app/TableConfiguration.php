@@ -19,6 +19,14 @@ class TableConfiguration
     public readonly ?string $keycol;
     public readonly ?int $singleRowId;
 
+    public readonly ?string $editPhrase;
+    public readonly ?int $editPageDelegate;
+
+    public readonly ?string $createPhrase;
+    public readonly ?int $createPageDelegate;
+
+    public readonly ?string $listPhrase;
+
     public ?string $error = null;
 
     public string $order = 'id';
@@ -46,7 +54,7 @@ class TableConfiguration
 
     public function load()
     {
-        $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, insertVerb, showId, showTypes FROM table_configurations WHERE id = :id';
+        $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, createPhrase, createPageDelegate, listPhrase, editPhrase, editPageDelegate, showId, showTypes FROM table_configurations WHERE id = :id';
         $stmt = stmt($sql);
         $stmt->bindValue(':id', $this->id);
         $stmt->execute();
@@ -60,6 +68,11 @@ class TableConfiguration
             $this->showTypes = ($fields->showTypes == true);
             $this->order = ($fields->orderColumn ? $fields->orderColumn : 'id');
             $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
+            $this->createPhrase = ($fields->createPhrase ? $fields->createPhrase : 'Insert');
+            $this->createPageDelegate = $fields->createPageDelegate;
+            $this->listPhrase = ($fields->createPhrase ? $fields->listPhrase : 'List');
+            $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
+            $this->editPageDelegate = $fields->editPageDelegate;
             $this->loadTable();
         }
     }
@@ -302,7 +315,9 @@ class TableConfiguration
             case 'TINY':
             case 'TINYINT':
             case 'BOOLEAN':
-                $el = new ElementCheckbox($header['name'], $header['name'], $val);
+                $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
+
+                $isRequired = false;
                 break;
             case 'FK':
                 $key = $header['name'];

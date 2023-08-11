@@ -36,7 +36,8 @@ div.subnav ul {
   display: inline-block; 
   cursor: pointer;
   padding: 0;
-  margin: 0; 
+  margin: 0;
+  margin-right: .5em; 
   list-style: none;
 }
 
@@ -47,18 +48,23 @@ div.subnav ul li ul {
   list-style: none;
 }
 
-div.subnav ul li, div.subnav ul li ul li {
+div.subnav > ul > li {
   padding: 0; 
   margin: 0;
   border: 0;
+  text-align: right;
 } 
+
+div.subnav ul li ul li {
+  background-color: #fff;
+  text-align: left;
+}
 
 div.subnav ul li {
   display: block;
   padding: .4em;
   width: 12em;
   text-decoration: none;
-  text-align: right;
   margin: 0;
 }
 
@@ -69,20 +75,22 @@ div.subnav ul li a, div.subnav ul li a:visited {
 }
 
 div.subnav ul li ul li a, div.subnav ul li ul li a:visited {
-  background-color: #dedede;
   color: black; 
 }
 
 div.subnav ul li ul li a:hover {
   background-color: #356AA0;
-  color: white;
+  background-color: #E6EACB;
+  color: black;
   text-decoration: none;
 }
 
 div.subnav ul li:hover ul {
   display: block;
   position: absolute;
-  z-index: 99; 
+  z-index: 99;
+  border: 1px solid #bbb;
+  box-shadow: 0 0 5px 0 #bbb;;
 } 
 
 a {
@@ -184,7 +192,8 @@ ul.navigation li a {
 
 ul.navigation li a:hover {
   background-color: #356AA0;
-  color: white;
+  background-color: #E6EACB;
+  color: black;
 }
 
 hr {
@@ -193,6 +202,12 @@ hr {
   border: 0;
   border-top: 1px solid black;
   margin: 0;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+ul hr {
+  border-top: 1px solid #bbb;
 }
 
 div.content {
@@ -317,7 +332,7 @@ th {
 }
 
 th, td {
-  border: 1px solid black;
+  border: 1px solid #666;
   padding: .5em;
   text-align: left;
 }
@@ -339,11 +354,6 @@ th .subtle {
 
 .subtle {
   color: #999;
-}
-
-hr {
-  margin-top: 6px;
-  margin-bottom: 6px;
 }
 
 footer {
@@ -406,6 +416,7 @@ div.toolbar {
   background-color: lightgray;
   border: 1px solid #666;
   border-bottom: 0;
+  padding: .2em;
 }
 
 button, a.button {
@@ -413,7 +424,7 @@ button, a.button {
   display: inline-block;
   border: 1px solid #999;
   color: black;
-  margin: .2em;
+  margin-right: .2em;
   background-color: #efefef;
 }
 
@@ -443,7 +454,6 @@ p.description {
 .wikiPage {
   background-color: white;
   padding: 6px;
-  border: 1px solid gray;
 }
 
 .wikiPage p:first-child {
@@ -468,7 +478,6 @@ p.description {
   padding: 1em;
 }
 
-
 .framedBox {
   border: 1px solid black;
   background-color: white;
@@ -485,6 +494,21 @@ p.description {
 span.dummyLink {
   color: blue;
   cursor: pointer;
+}
+
+form {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  gap: 1em;
+}
+
+form > * {
+  justify-self: left;
+}
+
+form p {
+  margin: 0;
+  padding: 0;
 }
 
 @media only screen and (max-width: 600px) {

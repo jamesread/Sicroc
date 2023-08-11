@@ -2,27 +2,36 @@
 
 namespace Sicroc;
 
+use Sicroc\TableConfiguration;
+
+use function \libAllure\util\san;
+use function \libAllure\util\db;
+
 class TableRow extends Widget
 {
-    public function display()
+    private ?array $rows = [];
+    private ?int $id;
+    private TableConfiguration $tc;
+
+    public function widgetSetupCompleted()
     {
-        $this->id = san()->filterString('primaryKey');
-        $this->table = san()->filterString('table');
-        $this->navigation->add('?pageIdent=TABLE_ROW_EDIT&amp;table=' . $this->table . '&amp;primaryKey=' . $this->id, 'Edit');
-        $this->navigation->add('?pageIdent=TABLE_ROW_DELETE&amp;table=' . $this->table . '&amp;primaryKey=' . $this->id, 'Delete');
+        $this->id = san()->filterUint('primaryKey');
+        $this->tc = new TableConfiguration(san()->filterString('tc'), $this->id);
 
-        $sql = 'SELECT * FROM ' . $this->table . ' WHERE id = ' . $this->id;
-        $stmt = db()->prepare($sql);
-        $stmt->execute();
+        $this->navigation->add('?pageIdent=TABLE_VIEW&amp;tc=' . $this->tc->id, $this->tc->listPhrase);
+        $this->navigation->add('?pageIdent=TABLE_ROW_EDIT&amp;tc=' . $this->tc->id . '&amp;primaryKey=' . $this->id, 'Edit');
+        $this->navigation->add('?pageIdent=TABLE_ROW_DELETE&amp;tc=' . $this->tc->id . '&amp;primaryKey=' . $this->id, 'Delete');
 
-        $this->row = $stmt->fetchRow();
+        $this->rows = $this->tc->getRows();
     }
 
     public function render()
     {
-
-        global $tpl;
-        $tpl->assign('row', $this->row);
-        $tpl->display('tableRow.tpl');
+        if (empty($this->rows)) {
+            $this->simpleMessage('Row not found', 'bad');
+        } else {
+            $this->tpl->assign('row', $this->rows[0]);
+            $this->tpl->display('tableRow.tpl');
+        }
     }
 }

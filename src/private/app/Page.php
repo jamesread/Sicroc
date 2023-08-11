@@ -40,11 +40,13 @@ class Page
         $stmt->bindValue(':id', $pageId);
         $stmt->execute();
 
-        try {
-            return $stmt->fetchRowNotNull();
-        } catch (Exception $e) {
-            throw new Exception('Page not found by ID:' . $pageId);
+        $page = $stmt->fetchRow();
+
+        if ($page == null) {
+            throw new \Exception('Page not found by ID:' . $pageId);
         }
+
+        return $page;
     }
 
     private function getPageByIdent()
@@ -59,7 +61,7 @@ class Page
         try {
             return $stmt->fetchRowNotNull();
         } catch (Exception $e) {
-            throw new Exception('Page not found by title:' . $pageIdent);
+            throw new \Exception('Page not found by title:' . $pageIdent);
         }
     }
 
@@ -115,12 +117,15 @@ class Page
             return $widget;
         }
 
-        try {
-            ob_start();
-            $widget['inst']->render();
-            $widget['content'] .= ob_get_clean();
-        } catch (Exception $e) {
-            $widgetRet['content'] = self::renderWidgetException($e);
+        if ($widget['shouldRender']) {
+            try {
+                ob_start();
+
+                $widget['inst']->render();
+                $widget['content'] .= ob_get_clean();
+            } catch (Exception $e) {
+                $widgetRet['content'] = self::renderWidgetException($e);
+            }
         }
 
         return $widget;
@@ -129,22 +134,31 @@ class Page
     public static function resolveWidget($widget, $page = null)
     {
         $widgetRet = $widget;
+        $widgetRet['shouldRender'] = true;
 
         try {
             assert(!empty($widget['viewableController']));
 
             $widgetRet['inst'] = $inst = new $widget['viewableController']();
-            //            $widgetRet['inst'] = $inst = new WidgetForm();
-            $widgetRet['inst']->page = $page;
-            $widgetRet['inst']->widgetId = $widget['id'];
-            $widgetRet['inst']->widgetSetupCompleted();
-            $widgetRet['content'] = '';
+        } catch (\Exception $e) {
+            new \Exception('Cannot instanticate widget: ' . $widget['viewableController']);
 
+            return $widgetRet;
+        }
+
+        $widgetRet['inst']->page = $page;
+        $widgetRet['inst']->widgetId = $widget['id'];
+        $widgetRet['content'] = '';
+
+        try {
             if (empty($widget['title'])) {
                 $widgetRet['title'] = $widgetRet['inst']->getTitle();
             }
+
+            $widgetRet['inst']->widgetSetupCompleted();
         } catch (\Exception $e) {
             $widgetRet['inst']->displayEdit = true;
+            $widgetRet['shouldRender'] = false;
             $widgetRet['content'] = self::renderWidgetException($e);
         }
 
@@ -192,7 +206,12 @@ class Page
         );
 
         $msg = new SimpleMessage($e->getMessage(), 'bad');
-        $this->widgets[] = array('inst' => $msg, 'content' => null, 'id' => 0);
+        $this->widgets[] = [
+            'inst' => $msg, 
+            'content' => null, 
+            'id' => 0,
+            'shouldRender' => true
+        ];
         $this->widgets = $this->renderWidgets($this->widgets);
     }
 

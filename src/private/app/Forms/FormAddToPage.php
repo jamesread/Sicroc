@@ -61,4 +61,11 @@ class FormAddToPage extends Form
         $stmt->bindValue(':widget', $this->getElementValue('widget'));
         $stmt->execute();
     }
+
+    public function setupProcessedState($state) 
+    {
+        if ($state->processed) {
+            $state->preventRender('Widget added.');
+        }
+    }
 }

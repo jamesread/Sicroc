@@ -7,7 +7,7 @@ use libAllure\Sanitizer;
 
 class WidgetForm extends Widget
 {
-    private \libAllure\Form $f;
+    private ?\libAllure\Form $f;
 
     private \Sicroc\ProcessedFormState $state;
 
@@ -28,10 +28,12 @@ class WidgetForm extends Widget
             $this->f->addElementDetached(new ElementHidden('page', null, LayoutManager::get()->getPage()->getId()));
 
             $this->setupForm();
+        } else {
+            $this->f = null;
         }
     }
 
-    public function setupForm()
+    private function setupForm()
     {
         if (!isset($this->f)) {
             return;
@@ -66,9 +68,7 @@ class WidgetForm extends Widget
                 return;
             }
 
-            $msg = $this->state->processedMessage;
-
-            $this->simpleMessage($msg, 'good');
+            $this->simpleMessage($this->state->message, $this->state->messageClass);
 
             if (!$this->state->shouldRender) {
                 return;
@@ -76,7 +76,7 @@ class WidgetForm extends Widget
         }
 
         if (!$this->state->shouldRender) {
-            $this->simpleMessage($this->state->nonRenderMessage, $this->state->nonRenderMessageClass);
+            $this->simpleMessage('nrm: ' . $this->state->message, $this->state->messageClass);
             return;
         }
 

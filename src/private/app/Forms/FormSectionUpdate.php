@@ -26,7 +26,26 @@ class FormSectionUpdate extends Form
         $this->addElement($this->getElementMaster($section['master']));
         $this->addElement($this->getElementIndexPage($section['index']));
         $this->addElement(new ElementNumeric('ordinal', 'Ordinal', $section['ordinal']));
-        $this->addDefaultButtons();
+        $this->addElement($this->getElementUsergroup($section['usergroup']));
+
+        $this->addDefaultButtons('Save');
+    }
+
+    private function getElementUsergroup($current) 
+    {
+        $sql = 'SELECT g.title, g.id FROM groups g ORDER by g.title';
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
+        $stmt->execute();
+
+        $el = new ElementSelect('usergroup', 'Usergroup');
+
+        foreach ($stmt->fetchAll() as $usergroup) {
+            $el->addOption($usergroup['title'], $usergroup['id']);
+        }
+
+        $el->setValue($current);
+
+        return $el;
     }
 
     private function getElementIndexPage($currentIndex)
@@ -66,7 +85,7 @@ class FormSectionUpdate extends Form
 
     private function getSection($id)
     {
-        $sql = 'SELECT title, master, `index`, ordinal FROM sections WHERE id = :id';
+        $sql = 'SELECT title, master, `index`, ordinal, usergroup FROM sections WHERE id = :id';
         $stmt = stmt($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
@@ -76,13 +95,14 @@ class FormSectionUpdate extends Form
 
     public function process()
     {
-        $sql = 'UPDATE sections SET title = :title, master = :master, `index` = :index, ordinal = :ordinal WHERE id = :id';
+        $sql = 'UPDATE sections SET title = :title, master = :master, `index` = :index, ordinal = :ordinal, usergroup = :usergroup WHERE id = :id';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->bindValue(':id', $this->getElementValue('sectionToEdit'));
         $stmt->bindValue(':master', $this->getElementValue('master'));
         $stmt->bindValue(':index', $this->getElementValue('indexPage'));
         $stmt->bindValue(':ordinal', $this->getElementValue('ordinal'));
+        $stmt->bindValue(':usergroup', $this->getElementValue('usergroup'));
         $stmt->execute();
     }
 }

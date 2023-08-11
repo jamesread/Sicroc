@@ -2,16 +2,18 @@
 
 <main>
 
-{if count($widgets) != 1 && $section.index == $page.id}
+{if count($widgets) != 1}
 <h2>
 	{if $editMode}
 	<abbr title = "{$page.id}">Page</abbr>: 
-	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
 	{/if}
 	{$page.title|default:"Untitled page"} 
 
 	{if $page.isSystem}
 		&#9888;
+	{/if}
+	{if $editMode}
+	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
 	{/if}
 </h2>
 {/if}
