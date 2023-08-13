@@ -6,8 +6,7 @@ use libAllure\Form;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\DatabaseFactory;
-
-use \Sicroc\TableConfiguration;
+use Sicroc\TableConfiguration;
 
 use function libAllure\util\san;
 
@@ -47,7 +46,7 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void 
+    public function setupProcessedState($state): void
     {
         if ($state->processed) {
             $state->redirect('?pageIdent=TABLE_VIEW&tc=' . $this->getElementValue('tc'));

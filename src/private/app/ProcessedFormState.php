@@ -28,7 +28,7 @@ class ProcessedFormState
         $this->redirectUrl = $url;
     }
 
-    public function redirectIdent($ident): void 
+    public function redirectIdent($ident): void
     {
         $this->redirect('?pageIdent=' . $ident);
     }
