@@ -10,6 +10,7 @@ use libAllure\ElementNumeric;
 use libAllure\ElementDate;
 
 use function libAllure\util\stmt;
+use function libAllure\util\db;
 
 class TableConfiguration
 {
@@ -27,17 +28,18 @@ class TableConfiguration
 
     public readonly ?string $listPhrase;
 
-    public ?string $error = null;
-
-    public string $order = 'id';
-    public string $orderDirection = 'DESC';
+    public readonly string $order;
+    public readonly string $orderDirection;
 
     public readonly bool $showId;
     public readonly bool $showTypes;
 
-    private array $headers;
+    public ?array $headers;
+
     private array $rows;
     private array $foreignKeys;
+
+    public ?string $error = null;
 
     private $stmt;
 
@@ -81,51 +83,42 @@ class TableConfiguration
     {
         $this->foreignKeys = $this->getForeignKeys();
         $this->rows = $this->getRowData();
-        $this->headers = $this->getHeaders();
-        $this->rows = $this->mangleForeignData();
+        $this->headers = $this->getHeadersFromRowData();
+        $this->addForeignKeyDescriptions();
     }
 
 
-    private function mangleForeignData()
+    private function addForeignKeyDescriptions()
     {
-        for ($i = 0; $i < sizeof($this->rows); $i++) {
-            $row = $this->rows[$i];
-            $cols = array_keys($row);
+        foreach ($this->foreignKeys as $fkey) {
 
-            for ($j = 0; $j < sizeof($row); $j++) {
-                $col = $cols[$j];
-                $val = $row[$col];
+            for ($i = 0; $i < sizeof($this->rows); $i++) {
+                $row = $this->rows[$i];
 
+                $realCol = $fkey['foreignField'];
 
-                if (strpos($col, '_fk') !== false) {
-                    $realCol = str_replace('_fk', '', $col);
+                $this->rows[$i][$fkey['sourceField']] .= ' (' . $this->rows[$i][$fkey['sourceField'] . '_fk_description'] . ')';
 
-                    if (!empty($this->rows[$i][$col])) {
-                        $ftable = $this->headers[$col]['table'];
-                        $this->rows[$i][$realCol] .= ' (<a href = "?pageIdent=TABLE_ROW&amp;primaryKey=' . $this->rows[$i][$realCol] . '&amp;table=' . $ftable . '">' . $this->rows[$i][$col] . '</a>)';
-                    }
-
-                    unset($this->rows[$i][$col]);
-                }
+                unset($this->rows[$i][$fkey['sourceField'] . '_fk_description']);
+                unset($this->headers[$fkey['sourceField'] . '_fk_description']);
+                unset($this->headers['index_page_fk_description']);
             }
         }
-
-        return $this->rows;
     }
 
     public function getForeignKeys(): array
     {
         // FIXME Check database
         $sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
-        $stmt = \libAllure\util\db()->prepare($sql);
-        $stmt->bindValue(':sourceTable', $this->table);
-        $stmt->execute();
+        $stmt = db()->prepare($sql);
+        $stmt->execute([
+            ':sourceTable' => $this->table,
+        ]);
 
-        $foreignKeys = $stmt->fetchAll();
         $ret = array();
 
-        foreach ($foreignKeys as $key) {
-            $ret[$key['sourceField']] = $key;
+        foreach ($stmt->fetchAll() as $fkey) {
+            $ret[$fkey['sourceField']] = $fkey;
         }
 
         return $ret;
@@ -142,6 +135,11 @@ class TableConfiguration
 
         $qb->from($this->table, null, $this->database);
         $qb->fields('*');
+
+        foreach ($this->foreignKeys as $fkey) {
+            $qb->join($fkey['foreignTable'], ' ')->onEq($fkey['foreignTable'] . '.' . $fkey['foreignField'], $fkey['sourceField']);
+            $qb->fields([$fkey['foreignTable'] . '.' . $fkey['foreignDescription'], $fkey['sourceField'] . '_fk_description']);
+        }
 
         if (isset($this->singleRowId)) {
             $qb->whereEqualsValue('id', $this->singleRowId);
@@ -161,7 +159,7 @@ class TableConfiguration
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
 
-        //\libAllure\util\vde($sqlQb, $sqlHacky);
+//        \libAllure\util\vde($sqlQb, $sqlHacky);
 
         $sql = $sqlQb;
 
@@ -202,7 +200,7 @@ class TableConfiguration
         $sql .= ' FROM `' . $this->database . '`.`' . $table . '`';
 
         if (count($ftables) > 0) {
-            foreach ($foreignKeys as $fk) {
+            foreach ($this->foreignKeys as $fk) {
                 $sql .= ' LEFT JOIN ' . $fk['foreignTable'] . ' ON ' . $fk['foreignTable'] . '.' . $fk['foreignField'] . ' = ' . $fk['sourceField'];
             }
         }
@@ -234,7 +232,7 @@ class TableConfiguration
         return $ret;
     }
 
-    public function getHeaders()
+    private function getHeadersFromRowData()
     {
         if ($this->stmt == null) {
             return array();
@@ -323,7 +321,7 @@ class TableConfiguration
                 $key = $header['name'];
                 $fk = $this->foreignKeys[$header['name']];
 
-                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'];
+                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
                 $stmt = db()->prepare($sql);
                 $stmt->execute();
 
