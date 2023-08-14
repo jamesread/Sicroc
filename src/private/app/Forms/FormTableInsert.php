@@ -25,7 +25,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
 
         $fields = array();
 
-        foreach ($this->tc->getHeaders() as $header) {
+        foreach ($this->tc->headers as $header) {
             $el = $this->tc->getElementForColumn($header);
 
             if ($el != null) {
