@@ -514,6 +514,19 @@ form p {
   padding: 0;
 }
 
+.controlPanel a {
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: .6em;
+  padding: 1em;
+  border: 1px solid #bbb;
+  border-radius: .2em;
+}
+
+.controlPanel a:hover {
+  background-color: #E6EACB;
+}
+
 @media only screen and (max-width: 600px) {
   h1 {
     display: none;

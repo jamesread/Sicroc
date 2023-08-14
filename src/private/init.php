@@ -27,6 +27,20 @@ function setupLibAllure()
     \libAllure\ErrorHandler::getInstance()->beGreedy();
 }
 
+function checkDatabaseVersion(string $requiredMigration): void
+{
+    $sql = 'SELECT id FROM gorp_migrations';
+    $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
+    $versionRows = array_column($stmt->fetchAll(), 'id');
+
+    natsort($versionRows);
+    $databaseMigration = end($versionRows);
+
+    if ($databaseMigration != $requiredMigration) {
+        die('This version of Sicroc requires the database to be at migration: <strong>' . $requiredMigration . '</strong> and you currently have migration: <strong>' . $databaseMigration . '</strong>. You probably need to upgrade the database.');
+    }
+}
+
 function setupDatabase()
 {
     global $db; // Needed for libAllure Shortcuts
@@ -36,6 +50,8 @@ function setupDatabase()
 
     $db = new \libAllure\Database($config->get('DB_DSN'), $config->get('DB_USER'), $config->get('DB_PASS'));
     \libAllure\DatabaseFactory::registerInstance($db);
+
+    checkDatabaseVersion('20.sectionPages.sql');
 
     \libAllure\Session::setSessionName('sicroc');
     \libAllure\Session::setCookieLifetimeInSeconds(10000000);

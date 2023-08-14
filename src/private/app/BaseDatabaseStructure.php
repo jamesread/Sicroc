@@ -24,17 +24,23 @@ class BaseDatabaseStructure
         $this->db = \libAllure\DatabaseFactory::getInstance();
 
         $this->definePage('HOME', 'Homepage', [$this->defineWidgetWiki('home', 'This is the homepage.')]);
-        $this->definePage('ADMIN', 'Admin panel', []);
+        $this->definePage('CONTROL_PANEL', 'Control Panel', [
+            [
+                'type' => '\Sicroc\ControlPanel',
+                'title' => 'Control Panel',
+                'args' => [],
+            ]
+        ]);
         $this->definePageForm('USERGROUP_CREATE', 'Create Usergroup', 'FormCreateUsergroup');
         $this->definePageForm('USERGROUP_ASSIGN', 'Add User to Group', 'FormAddUserToGroup');
         $this->definePageForm('WIKI_EDIT', 'Wiki Edit', 'FormWikiUpdate');
         $this->definePage('WIDGET_LIST', 'List of Widgets', [$this->defineWidgetTable('widget_instances')]);
-        $this->definePage('SECTION_LIST', 'List of Sections', [$this->defineWidgetTable('sections')]);
+        $this->definePage('NAVIGATION_LIST', 'List of Navigation Links', [$this->defineWidgetTable('navigation_links')]);
+        $this->definePage('NAVIGATION_UPDATE', 'Update Navigation Link', [$this->defineWidgetForm('FormNavigationLinkUpdate')]);
+        $this->definePage('NAVIGATION_CREATE', 'Create Navigation Link', [$this->defineWidgetForm('FormNavigationLinkCreate')]);
         $this->definePage('PAGE_LIST', 'List of Pages', [$this->defineWidgetTable('pages')]);
         $this->definePage('TABLE_CONFIGURATION_LIST', 'List of Table Configurations', [$this->defineWidgetTable('table_configurations')]);
-        $this->definePage('SECTION_UPDATE', 'Update Section', [$this->defineWidgetForm('FormSectionUpdate')]);
         $this->definePage('TABLE_ROW_EDIT', 'Edit Table Row', [$this->defineWidgetForm('FormTableEditRow')]);
-        $this->definePage('SECTION_CREATE', 'Create Section', [$this->defineWidgetForm('FormSectionCreate')]);
         $this->definePage('PAGE_CREATE', 'Create Page', [$this->defineWidgetForm('FormPageCreate')]);
         $this->definePage('WIDGET_CREATE', 'Create Widget', [$this->defineWidgetForm('FormWidgetCreate')]);
         $this->definePage('WIDGET_REGISTER', 'Register Widget', [$this->defineWidgetForm('FormWidgetClassRegister')]);
@@ -52,7 +58,7 @@ class BaseDatabaseStructure
         $this->definePage('TABLE_CREATE', 'Create Table', [$this->defineWidgetForm('FormTableCreate')]);
         $this->definePage('TABLE_INSERT', 'Insert Row', [$this->defineWidgetForm('FormTableInsert')]);
         $this->definePage('USER_PREFERENCES', 'User Preferences', [$this->defineWidgetForm('FormUserPreferences')]);
-        $this->definePage('LOGIN', 'Login', [$this->defineWidgetForm('FormLogin')]);
+        $this->definePage('LOGIN', 'Login', [$this->defineWidgetForm('FormLogin'), $this->defineWidget('\Sicroc\Oidc', 'OIDC')]);
         $this->definePage('TABLE_CONFIGURATION_CREATE', 'Create Table Configuration', [$this->defineWidgetForm('FormCreateTableConfiguration')]);
     }
 
@@ -67,6 +73,15 @@ class BaseDatabaseStructure
             'ident' => $ident,
             'title' => $title,
             'widgets' => $widgets,
+        ];
+    }
+
+    public function defineWidget($class, $title)
+    {
+        return [
+            'type' => $class,
+            'title' => $title,
+            'args' => [],
         ];
     }
 
