@@ -5,8 +5,7 @@ namespace Sicroc\Forms;
 use libAllure\Form;
 use libAllure\ElementSelect;
 use libAllure\DatabaseFactory;
-
-use function libAllure\util\stmt;
+use libAllure\Shortcuts as LA;
 
 class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
 {
@@ -20,7 +19,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
     private function addElementUser()
     {
         $sql = 'SELECT id, username FROM users ';
-        $stmt = stmt($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->execute();
 
         $selectUser = new ElementSelect('user', 'User');
@@ -36,7 +35,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
     private function addElementUserGroup()
     {
         $sql = 'SELECT id, title FROM groups ';
-        $stmt = stmt($sql);
+        $stmt = LA::stmt($sql);
         $stmt->execute();
 
         $selectGroup = new ElementSelect('group', 'Group');
@@ -55,7 +54,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
 
         $sql = 'INSERT INTO group_memberships (`group`, `user`) VALUES (:group, :user)';
 
-        $stmt = DatabaseFactory::getInstance()->prepare($sql);
+        $stmt = LA::prepare($sql);
         $this->bindStatementValues($stmt, [
             'user',
             'group'

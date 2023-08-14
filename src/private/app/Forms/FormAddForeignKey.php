@@ -6,6 +6,9 @@ use libAllure\Form;
 use libAllure\ElementCheckbox;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
+use libAllure\Sanitizer;
+
+use function libAllure\DatabaseFactory\getInstance as db;
 
 class FormAddForeignKey extends Form
 {
@@ -13,7 +16,7 @@ class FormAddForeignKey extends Form
     {
         parent::__construct('addFk', 'Add Foreign Key');
 
-        $table = san()->filterString('table');
+        $table = Sanitizer::getInstance()->filterString('table');
 
         $this->addElementReadOnly('Table', $table, 'table');
 
@@ -44,7 +47,7 @@ class FormAddForeignKey extends Form
 
     public function process()
     {
-        $sql = 'ALTER TABLE ' . san()->filterString('table') . ' ADD CONSTRAINT FOREIGN KEY (' . $this->getElementValue('sourceField') . ') REFERENCES ' . $this->getElementValue('foreignTable') . '(' .  $this->getElementValue('foreignField') . ') ';
+        $sql = 'ALTER TABLE ' . Sanitizer::getInstance()->filterString('table') . ' ADD CONSTRAINT FOREIGN KEY (' . $this->getElementValue('sourceField') . ') REFERENCES ' . $this->getElementValue('foreignTable') . '(' .  $this->getElementValue('foreignField') . ') ';
         $stmt = db()->prepare($sql);
         $stmt->execute();
 

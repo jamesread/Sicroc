@@ -47,7 +47,7 @@ class Config
                 $content = @parse_ini_file($possibleLocation, false);
 
                 if ($content === false) {
-                    throw new Exception('Could not parse file as a INI: ' . $possibleLocation);
+                    throw new \Exception('Could not parse file as a INI: ' . $possibleLocation);
                 }
 
                 $this->arguments = array_merge($this->arguments, $content);
