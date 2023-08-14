@@ -26,7 +26,7 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
 
         $this->fields = [];
 
-        foreach ($this->tc->getHeaders() as $key => $header) {
+        foreach ($this->tc->headers as $key => $header) {
             $this->fields[] = $header['name'];
 
             $el = $this->tc->getElementForColumn($header);

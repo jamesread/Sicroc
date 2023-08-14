@@ -72,7 +72,7 @@ class Table extends Widget
         } elseif ($this->tc->error != null) {
             $this->simpleErrorMessage($this->tc->error);
         } else {
-            $this->tpl->assign('headers', $this->tc->getHeaders());
+            $this->tpl->assign('headers', $this->tc->headers);
             $this->tpl->assign('rows', $this->tc->getRows());
             $this->tpl->assign('tc', $this->tc);
             $this->tpl->assign('showTypes', $this->tc->showTypes);

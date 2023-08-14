@@ -56,6 +56,7 @@ function setupDatabase()
     \libAllure\Session::setSessionName('sicroc');
     \libAllure\Session::setCookieLifetimeInSeconds(10000000);
     \libAllure\Session::start();
+
     $backend = new \libAllure\AuthBackendDatabase($db);
     \libAllure\AuthBackend::setBackend(new \libAllure\AuthBackendDatabase($db));
 }

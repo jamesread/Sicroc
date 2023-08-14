@@ -37,7 +37,6 @@ div.subnav ul {
   cursor: pointer;
   padding: 0;
   margin: 0;
-  margin-right: .5em; 
   list-style: none;
 }
 
@@ -46,6 +45,10 @@ div.subnav ul li ul {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+
+div.subnav > * {
+  margin-right: .5em !important;
 }
 
 div.subnav > ul > li {
@@ -170,19 +173,19 @@ ul.navigation {
   padding: 6px;
 }
 
-ul.navigation li {
+ul.navigation li, div.subnav > a {
   text-transform: uppercase;
   display: inline;
   padding: 0;
   margin: 0;
 }
 
-ul.navigation li a.activeSection {
+ul.navigation li a.activeSection, div.subnav > a.activeSection {
   background-color: black;
   color: white;
 }
 
-ul.navigation li a {
+ul.navigation li a, div.subnav > a {
   text-decoration: none;
   color: black;
   font-weight: bold;
@@ -190,7 +193,7 @@ ul.navigation li a {
   margin: 0;
 }
 
-ul.navigation li a:hover {
+ul.navigation li a:hover, div.subnav > a:hover {
   background-color: #356AA0;
   background-color: #E6EACB;
   color: black;
@@ -509,6 +512,19 @@ form > * {
 form p {
   margin: 0;
   padding: 0;
+}
+
+.controlPanel a {
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: .6em;
+  padding: 1em;
+  border: 1px solid #bbb;
+  border-radius: .2em;
+}
+
+.controlPanel a:hover {
+  background-color: #E6EACB;
 }
 
 @media only screen and (max-width: 600px) {

@@ -3,6 +3,7 @@
 namespace Sicroc\Forms;
 
 use libAllure\ElementAlphaNumeric;
+use libAllure\ElementCheckbox;
 
 class FormCreateTableConfiguration extends \libAllure\Form
 {
@@ -13,6 +14,7 @@ class FormCreateTableConfiguration extends \libAllure\Form
         $this->addElement(new ElementAlphaNumeric('db', 'Database', ''));
         $this->getElement('db')->setMinMaxLengths(1, 64);
         $this->addElement(new ElementAlphaNumeric('table', 'Table', ''));
+        $this->addElement(new ElementCheckbox('createTableWidget', 'Create Table Widget?', true));
 
         $this->addDefaultButtons('Create');
     }
@@ -27,6 +29,10 @@ class FormCreateTableConfiguration extends \libAllure\Form
         ]);
 
         $stmt->execute();
+
+        if ($this->getElementValue('createTableWidget')) {
+// TODO            $sql = 'INSERT INTO widget';
+        }
     }
 
     public function setupProcessedState($state)

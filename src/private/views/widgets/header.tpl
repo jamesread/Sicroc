@@ -27,6 +27,11 @@
 	{/if}
 
 	<div class = "subnav">
+	{if count($actionNavigation) == 1}
+	{$link = $actionNavigation->getAll()}
+	{$link = $link[0]}
+	<a href = "{$link.url}" class = "{if $page.title == $link.title}activeSection{/if}">{$link.title}</a>
+	{else}
 	<ul id = "sectionActions">
 		<li><span title = "Actions">&#9776;</span>
 			<ul>
@@ -40,6 +45,7 @@
 			</ul>
 		</li>
 	</ul>
+	{/if}
 	</div>
 </header>
 
