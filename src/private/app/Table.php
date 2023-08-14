@@ -32,8 +32,7 @@ class Table extends Widget
     {
         $tc = $this->getArgumentValue('table_configuration');
 
-        if ($tc == null) 
-        {
+        if ($tc == null) {
             $tc = san()->filterUint('tc');
         }
 

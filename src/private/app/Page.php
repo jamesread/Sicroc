@@ -207,8 +207,8 @@ class Page
 
         $msg = new SimpleMessage($e->getMessage(), 'bad');
         $this->widgets[] = [
-            'inst' => $msg, 
-            'content' => null, 
+            'inst' => $msg,
+            'content' => null,
             'id' => 0,
             'shouldRender' => true
         ];

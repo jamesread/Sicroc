@@ -4,8 +4,8 @@ namespace Sicroc;
 
 use Sicroc\TableConfiguration;
 
-use function \libAllure\util\san;
-use function \libAllure\util\db;
+use function libAllure\util\san;
+use function libAllure\util\db;
 
 class TableRow extends Widget
 {

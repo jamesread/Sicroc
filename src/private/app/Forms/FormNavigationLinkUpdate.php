@@ -31,7 +31,7 @@ class FormSectionUpdate extends Form
         $this->addDefaultButtons('Save');
     }
 
-    private function getElementUsergroup($current) 
+    private function getElementUsergroup($current)
     {
         $sql = 'SELECT g.title, g.id FROM groups g ORDER by g.title';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

@@ -62,7 +62,7 @@ class FormAddToPage extends Form
         $stmt->execute();
     }
 
-    public function setupProcessedState($state) 
+    public function setupProcessedState($state)
     {
         if ($state->processed) {
             $state->preventRender('Widget added.');

@@ -3,6 +3,9 @@ default: test package
 test:
 	phpunit tests/Test*
 
+phpcs:
+	phpcs
+
 package:
 	rm -rf pkg
 	mkdir -p pkg
