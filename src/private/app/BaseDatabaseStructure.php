@@ -47,6 +47,7 @@ class BaseDatabaseStructure
         $this->definePage('TABLE_STRUCTURE', 'Table Structure', [
             $this->defineWidgetForm('FormTableDropColumn'),
             $this->defineWidgetForm('FormTableAddColumn'),
+            $this->defineWidgetForm('FormAddForeignKey'),
         ]);
         $this->definePage('TABLE_CREATE', 'Create Table', [$this->defineWidgetForm('FormTableCreate')]);
         $this->definePage('TABLE_INSERT', 'Insert Row', [$this->defineWidgetForm('FormTableInsert')]);
