@@ -114,18 +114,9 @@ class LayoutManager
          */
 
         if (Session::isLoggedIn()) {
-            $links->addIfPriv('ADMIN', '?pageIdent=ADMIN', 'Control Panel');
-            $links->addIfPriv('ADMIN', '?pageIdent=USERGROUP_CREATE', 'Usergroup Create');
-            $links->addIfPriv('ADMIN', '?pageIdent=USERGROUP_ASSIGN', 'Usergroup Assign');
-            $links->addIfPriv('ADMIN', 'setup.php', 'Rerun setup');
+            $links->addIfPriv('ADMIN', '?pageIdent=CONTROL_PANEL', 'Control Panel');
             $links->addSeparator();
-            $links->addIfPriv('ADMIN', '?pageIdent=SECTION_LIST', 'Navigation');
-            $links->addIfPriv('ADMIN', '?pageIdent=PAGE_LIST', 'Page list');
             $links->addIfPriv('ADMIN', '?pageIdent=PAGE_UPDATE&pageToEdit=' . $this->page->getId(), 'Page update');
-            $links->addIfPriv('ADMIN', '?pageIdent=WIDGET_LIST', 'Widget list');
-            $links->addIfPriv('ADMIN', '?pageIdent=WIDGET_REGISTER', 'Widget register');
-            $links->addIfPriv('ADMIN', '?pageIdent=WIDGET_CREATE', 'Widget instanciate');
-            $links->addIfPriv('ADMIN', '?pageIdent=TABLE_CONFIGURATION_LIST', 'Table Configurations');
             $links->addSeparator();
             $links->add('?pageIdent=USER_PREFERENCES', 'Preferences');
             $links->add('?pageIdent=LOGOUT', 'Logout');
