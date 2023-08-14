@@ -22,4 +22,7 @@ container-instance:
 	podman create --name sicroc -p 1340:8080 -v /var/www/html/Sicroc/test:/etc/Sicroc jamesread/sicroc
 	podman start sicroc
 
+phpstan:
+	./src/private/libraries/bin/phpstan analyse src/private/app
+
 .PHONY: default test
