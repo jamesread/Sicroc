@@ -7,6 +7,7 @@ use libAllure\ElementCheckbox;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\Sanitizer;
+use libAllure\Shortcuts as LA;
 
 use Sicroc\TableConfiguration;
 
@@ -18,7 +19,7 @@ class FormAddForeignKey extends Form
     {
         parent::__construct('addFk', 'Add Foreign Key');
 
-        $this->tc = new TableConfiguration(san()->filterUint('tc'));
+        $this->tc = new TableConfiguration(LA::san()->filterUint('tc'));
 
         $this->addElementReadOnly('TC', $this->tc->id, 'tc');
 

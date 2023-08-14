@@ -7,9 +7,7 @@ use libAllure\DatabaseFactory;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\ElementNumeric;
-
-use function libAllure\util\san;
-use function libAllure\util\stmt;
+use libAllure\Shortcuts as LA;
 
 class FormSectionUpdate extends Form
 {
@@ -17,7 +15,7 @@ class FormSectionUpdate extends Form
     {
         parent::__construct('formSectionUpdate', 'Section Update');
 
-        $sectionToEdit = san()->filterUint('sectionToEdit');
+        $sectionToEdit = LA::san()->filterUint('sectionToEdit');
         $section = $this->getSection($sectionToEdit);
 
         $this->addElementHidden('sectionToEdit', $sectionToEdit);
@@ -86,7 +84,7 @@ class FormSectionUpdate extends Form
     private function getSection($id)
     {
         $sql = 'SELECT title, master, `index`, ordinal, usergroup FROM sections WHERE id = :id';
-        $stmt = stmt($sql);
+        $stmt = LA::stmt($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
 

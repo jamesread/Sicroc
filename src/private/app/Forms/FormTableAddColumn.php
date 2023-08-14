@@ -6,9 +6,8 @@ use libAllure\Form;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\DatabaseFactory;
+use libAllure\Shortcuts as LA;
 use Sicroc\TableConfiguration;
-
-use function libAllure\util\san;
 
 class FormTableAddColumn extends Form implements \Sicroc\BaseForm
 {
@@ -18,7 +17,7 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
     {
         parent::__construct('addColumn', 'Add Column');
 
-        $this->tc = new TableConfiguration(san()->filterInt('tc'));
+        $this->tc = new TableConfiguration(LA::san()->filterInt('tc'));
 
         $this->addElementReadOnly('tc', $this->tc->id, 'tc');
         $this->addElementReadOnly('db', $this->tc->database);

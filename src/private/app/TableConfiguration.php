@@ -8,9 +8,7 @@ use libAllure\ElementInput;
 use libAllure\ElementHidden;
 use libAllure\ElementNumeric;
 use libAllure\ElementDate;
-
-use function libAllure\util\stmt;
-use function libAllure\util\db;
+use libAllure\Shortcuts as LA;
 
 class TableConfiguration
 {
@@ -57,7 +55,7 @@ class TableConfiguration
     public function load()
     {
         $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, createPhrase, createPageDelegate, listPhrase, editPhrase, editPageDelegate, showId, showTypes FROM table_configurations WHERE id = :id';
-        $stmt = stmt($sql);
+        $stmt = LA::stmt($sql);
         $stmt->bindValue(':id', $this->id);
         $stmt->execute();
 
@@ -110,7 +108,7 @@ class TableConfiguration
     {
         // FIXME Check database
         $sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->execute([
             ':sourceTable' => $this->table,
         ]);
@@ -322,7 +320,7 @@ class TableConfiguration
                 $fk = $this->foreignKeys[$header['name']];
 
                 $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
-                $stmt = db()->prepare($sql);
+                $stmt = LA::db()->prepare($sql);
                 $stmt->execute();
 
                 $el = new ElementSelect($key, $key);

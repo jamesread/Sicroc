@@ -3,10 +3,9 @@
 namespace Sicroc\Forms;
 
 use libAllure\Form;
+use libAllure\Shortcuts as LA;
 use Sicroc\TableConfiguration;
 
-use function libAllure\util\san;
-use function libAllure\util\db;
 use function Sicroc\implodeQuoted;
 
 class FormTableInsert extends Form implements \Sicroc\BaseForm
@@ -19,7 +18,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
     {
         parent::__construct('formTableInsert', 'Insert into table');
 
-        $this->tc = new TableConfiguration(san()->filterUint('tc'));
+        $this->tc = new TableConfiguration(LA::san()->filterUint('tc'));
 
         $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
 
@@ -51,7 +50,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
         }
 
         $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . \Sicroc\implodeQuoted($values, '"', true) . ') ';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->execute();
     }
 

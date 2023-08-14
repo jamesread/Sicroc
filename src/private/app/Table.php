@@ -5,10 +5,7 @@ namespace Sicroc;
 use libAllure\DatabaseFactory;
 use libAllure\ElementSelect;
 use libAllure\ElementCheckbox;
-
-use function libAllure\util\vde;
-use function libAllure\util\stmt;
-use function libAllure\util\san;
+use libAllure\Shortcuts as LA;
 
 class Table extends Widget
 {
@@ -33,7 +30,7 @@ class Table extends Widget
         $tc = $this->getArgumentValue('table_configuration');
 
         if ($tc == null) {
-            $tc = san()->filterUint('tc');
+            $tc = LA::san()->filterUint('tc');
         }
 
         if ($tc != null) {
@@ -102,7 +99,7 @@ class Table extends Widget
 
                 $sql = 'SELECT tc.id, tc.database, tc.table FROM table_configurations tc ORDER BY tc.database, tc.table';
 
-                $stmt = stmt($sql);
+                $stmt = LA::stmt($sql);
                 $stmt->execute();
 
                 foreach ($stmt->fetchAll() as $tc) {

@@ -3,9 +3,9 @@
 namespace Sicroc;
 
 use libAllure\Session;
+use libAllure\Shortcuts as LA;
 use Sicroc\Controller;
 
-use function libAllure\util\stmt;
 
 abstract class Widget
 {
@@ -113,7 +113,7 @@ abstract class Widget
     {
         if ($this->argValues == null) {
             $sql = 'SELECT v.`key`, v.value FROM widget_argument_values v WHERE v.widget = :widget';
-            $stmt = stmt($sql);
+            $stmt = LA::stmt($sql);
             $stmt->bindValue(':widget', $this->widgetId);
             $stmt->execute();
 

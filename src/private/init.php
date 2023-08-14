@@ -20,10 +20,6 @@ function setupLibAllure()
         '^8.0.2'
     ) or trigger_error('libAllure needs to be installed', E_USER_ERROR);
 
-    // FIXME shortcuts should be autoloadable
-    \libAllure\IncludePath::addLibAllure();
-    require_once 'libAllure/util/shortcuts.php';
-
     \libAllure\ErrorHandler::getInstance()->beGreedy();
 }
 

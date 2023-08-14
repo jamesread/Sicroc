@@ -3,15 +3,14 @@
 namespace Sicroc;
 
 use libAllure\DatabaseFactory;
-
-use function libAllure\util\db;
+use libAllure\Shortcuts as LA;
 
 class WikiContent extends Widget
 {
     public function getPage($pageTitle)
     {
         $sql = 'SELECT w.principle AS title, w.content FROM wiki_content w WHERE w.principle = :principle';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->bindValue(':principle', $pageTitle);
         $stmt->execute();
 
@@ -21,7 +20,7 @@ class WikiContent extends Widget
     public function createWikiPage($pageTitle)
     {
         $sql = 'INSERT INTO wiki_content (principle) VALUES (:principle) ';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->bindValue(':principle', $pageTitle);
         $stmt->execute();
     }

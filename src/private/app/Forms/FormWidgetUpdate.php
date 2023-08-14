@@ -7,8 +7,7 @@ use libAllure\Form;
 use libAllure\ElementInput;
 use libAllure\Sanitizer;
 use libAllure\DatabaseFactory;
-
-use function libAllure\util\stmt;
+use libAllure\Shortcuts;
 
 class FormWidgetUpdate extends Form implements \Sicroc\BaseForm
 {
@@ -74,7 +73,7 @@ class FormWidgetUpdate extends Form implements \Sicroc\BaseForm
 
         foreach ($this->widget['inst']->getArguments() as $arg) {
             $sql = 'INSERT INTO widget_argument_values (`key`, `value`, `widget`) VALUES (:key1, :value1, :widget) ON DUPLICATE KEY UPDATE value = :value2';
-            $stmt = stmt($sql);
+            $stmt = LA::stmt($sql);
             $stmt->bindValue(':key1', $arg['name']);
             $stmt->bindValue(':value1', $this->getElementValue($arg['name']));
             $stmt->bindValue(':value2', $this->getElementValue($arg['name']));

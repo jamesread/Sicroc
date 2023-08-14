@@ -3,8 +3,7 @@
 namespace Sicroc\Forms;
 
 use libAllure\ElementInput;
-
-use function libAllure\util\db;
+use libAllure\Shortcuts as LA;
 
 class FormWidgetClassRegister extends \libAllure\Form
 {
@@ -17,7 +16,7 @@ class FormWidgetClassRegister extends \libAllure\Form
     public function process()
     {
         $sql = 'INSERT INTO widget_types (viewableController) VALUES (:viewableController)';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->bindValue(':viewableController', $this->getElementValue('viewableController'));
         $stmt->execute();
     }

@@ -2,7 +2,7 @@
 
 namespace Sicroc\Forms;
 
-use function libAllure\util\db;
+use libAllure\Shortcuts as LA;
 
 class FormCreateUsergroup extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -18,7 +18,7 @@ class FormCreateUsergroup extends \libAllure\Form implements \Sicroc\BaseForm
     public function process()
     {
         $sql = 'INSERT INTO `groups` (title) values (:title); ';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $this->bindStatementValues($stmt, [
             'title'
         ]);

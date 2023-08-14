@@ -3,9 +3,7 @@
 namespace Sicroc\Forms;
 
 use Sicroc\TableConfiguration;
-
-use function libAllure\util\san;
-use function libAllure\util\db;
+use libAllure\Shortcuts as LA;
 
 class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -16,9 +14,9 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
     {
         parent::__construct('editRow', 'Edit Row');
 
-        $primaryKeyValue = san()->filterUint('primaryKey');
+        $primaryKeyValue = LA::san()->filterUint('primaryKey');
 
-        $tcId = san()->filterUint('tc');
+        $tcId = LA::san()->filterUint('tc');
         $this->tc = new TableConfiguration($tcId, $primaryKeyValue);
 
         $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
@@ -36,7 +34,7 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
             }
         }
 
-        $this->addElementHidden('redirectTo', san()->filterString('redirectTo'));
+        $this->addElementHidden('redirectTo', LA::san()->filterString('redirectTo'));
 
         $this->addDefaultButtons('Save');
     }
@@ -84,7 +82,7 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
         $sql .= $this->tc->keycol . ' = ' . $this->tc->keycol;
         $sql .= ' WHERE ' . $this->tc->keycol . ' = ' . $this->getElementValue($this->tc->keycol);
 
-        $stmt = db()->prepare($sql);
+        $stmt = LA::db()->prepare($sql);
         $stmt->execute();
     }
 

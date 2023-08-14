@@ -3,9 +3,7 @@
 namespace Sicroc;
 
 use Sicroc\TableConfiguration;
-
-use function libAllure\util\san;
-use function libAllure\util\db;
+use libAllure\Shortcuts AS LA;
 
 class TableRow extends Widget
 {
@@ -15,8 +13,8 @@ class TableRow extends Widget
 
     public function widgetSetupCompleted()
     {
-        $this->id = san()->filterUint('primaryKey');
-        $this->tc = new TableConfiguration(san()->filterString('tc'), $this->id);
+        $this->id = LA::san()->filterUint('primaryKey');
+        $this->tc = new TableConfiguration(LA::san()->filterString('tc'), $this->id);
 
         $this->navigation->add('?pageIdent=TABLE_VIEW&amp;tc=' . $this->tc->id, $this->tc->listPhrase);
         $this->navigation->add('?pageIdent=TABLE_ROW_EDIT&amp;tc=' . $this->tc->id . '&amp;primaryKey=' . $this->id, 'Edit');

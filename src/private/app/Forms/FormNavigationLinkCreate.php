@@ -6,8 +6,7 @@ use libAllure\Form;
 use libAllure\DatabaseFactory;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
-
-use function libAllure\util\san;
+use libAllure\Shortcuts as LA;
 
 class FormSectionCreate extends Form implements \Sicroc\BaseForm
 {
@@ -15,7 +14,7 @@ class FormSectionCreate extends Form implements \Sicroc\BaseForm
     {
         parent::__construct('formSectionCreate', 'Section Create');
 
-        $sectionToEdit = san()->filterUint('sectionToEdit');
+        $sectionToEdit = LA::san()->filterUint('sectionToEdit');
 
         $this->addElement(new ElementInput('title', 'Title'));
         $this->addDefaultButtons('Create');

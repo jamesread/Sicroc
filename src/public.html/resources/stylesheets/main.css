@@ -17,6 +17,7 @@ body, td, input {
   font-size: 9pt;
   margin: 0;
   line-height: 1.5;
+  align-self: baseline;
 }
 
 main {
@@ -450,7 +451,6 @@ table.transparent, table.transparent td {
 }
 
 p.description {
-  padding-left: 1em;
   display: inline-block;
 }
 
