@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -8,5 +9,5 @@
 
 <body>
 <header>
-	<h1><a href = "?">Sicroc</a> &raquo; {$page.title|default:"Untitled page"}</h1>
+	<h1><a href = "index.php">Sicroc</a> &raquo; {$page.title|default:"Untitled page"}</h1>
 </header>

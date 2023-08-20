@@ -1,6 +1,8 @@
 <div class = "controlPanel">
-{if \libAllure\Session::hasPriv('USERGROUPS')}
-<h2>Usergroups</h2>
+{if \libAllure\Session::hasPriv('USER_MANAGEMENT')}
+<h2>Users and Usergroups</h2>
+<a href = "?pageIdent=USER_LIST">User List</a>
+<a href = "?pageIdent=USERGROUP_LIST">Usergroup List</a>
 <a href = "?pageIdent=USERGROUP_CREATE">Create</a>
 <a href = "?pageIdent=USERGROUP_ASSIGN">Assign User To Group</a>
 {/if}
@@ -16,7 +18,7 @@
 {/if}
 
 {if \libAllure\Session::hasPriv('DATASOURCES')}
-<h2>Datasources</h2>
+<h2>Datasources and Tables</h2>
 <a href = "?pageIdent=TABLE_CONFIGURATION_LIST">Table Configurations</a>
 {/if}
 

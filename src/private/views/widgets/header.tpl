@@ -9,6 +9,8 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="#673000">
+
+	<script type = "text/javascript" src = "resources/js/main.js"></script>
 </head>
 
 <body>
@@ -27,10 +29,12 @@
 	{/if}
 
 	<div class = "subnav">
-	{if count($actionNavigation) == 1}
+	{if count($actionNavigation) <= 2}
 	{$link = $actionNavigation->getAll()}
-	{$link = $link[0]}
+	{foreach from = $actionNavigation item = link}
 	<a href = "{$link.url}" class = "{if $page.title == $link.title}activeSection{/if}">{$link.title}</a>
+	{/foreach}
+
 	{else}
 	<ul id = "sectionActions">
 		<li><span title = "Actions">&#9776;</span>

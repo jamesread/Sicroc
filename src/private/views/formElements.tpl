@@ -22,7 +22,7 @@
 				{if !empty($element->getSuggestedValues())}
 				<div>
 					{foreach from = $element->getSuggestedValues() key = sv item = caption}
-						<span class = "dummyLink" onclick = "document.getElementById('{$element->getName()}').value = '{$sv} '">{$caption}</span>
+						<span class = "dummyLink" onclick = "document.getElementById('{$element->getName()}').value = '{$sv}'">{$caption}</span>
 					{/foreach}
 				</div>
 				{/if}
