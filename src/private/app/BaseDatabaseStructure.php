@@ -14,7 +14,8 @@ class BaseDatabaseStructure
         $this->db = \libAllure\DatabaseFactory::getInstance();
     }
 
-    public function defineCoreStructure() {
+    public function defineCoreStructure()
+    {
         $this->addPage('HOME', 'Homepage', [$this->defineWidgetWiki('home', 'This is the homepage.')]);
         $this->addPage('CONTROL_PANEL', 'Control Panel', [
             [

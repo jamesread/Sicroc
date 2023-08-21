@@ -41,7 +41,7 @@ class FormTableConditionalFormatting extends Form
         $this->addElement($sel);
 
         $el = new ElementInput('value', 'Value');
-        $el->setMinMaxLengths(1,64);
+        $el->setMinMaxLengths(1, 64);
         $this->addElement($el);
 
         $this->addSection('Format');
@@ -83,4 +83,3 @@ class FormTableConditionalFormatting extends Form
         ]);
     }
 }
-

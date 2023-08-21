@@ -90,8 +90,8 @@ class TableConfiguration
 
         $this->rows = $this->getRowData();
         $this->applyConditionalFormatting();
-        
-//        LA::vde($this->id, $this->conditionalFormatting, $this->rows);
+
+        //        LA::vde($this->id, $this->conditionalFormatting, $this->rows);
 
         $this->headers = $this->getHeadersFromRowData();
         $this->addForeignKeyDescriptions();
@@ -177,7 +177,7 @@ class TableConfiguration
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
 
-//        \libAllure\util\vde($sqlQb, $sqlHacky);
+        //        \libAllure\util\vde($sqlQb, $sqlHacky);
 
         $sql = $sqlQb;
 
@@ -381,46 +381,46 @@ class TableConfiguration
         $el = null;
 
         switch ($header['native_type']) {
-            case 'LONG':
-            case 'FLOAT':
-                $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
-                $el->setMinMaxLengths(0, 64);
-                break;
-            case 'DATETIME':
-                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-                $el->type = 'datetime-local';
-                break;
-            case 'VAR_STRING':
-                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-                $el->setMinMaxLengths(0, 64);
-                break;
-            case 'TINY':
-            case 'TINYINT':
-            case 'BOOLEAN':
-                $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
+        case 'LONG':
+        case 'FLOAT':
+            $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
+            break;
+        case 'DATETIME':
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->type = 'datetime-local';
+            break;
+        case 'VAR_STRING':
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
+            break;
+        case 'TINY':
+        case 'TINYINT':
+        case 'BOOLEAN':
+            $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
 
-                $isRequired = false;
-                break;
-            case 'FK':
-                $key = $header['name'];
-                $fk = $this->foreignKeys[$header['name']];
+            $isRequired = false;
+            break;
+        case 'FK':
+            $key = $header['name'];
+            $fk = $this->foreignKeys[$header['name']];
 
-                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
-                $stmt = LA::db()->prepare($sql);
-                $stmt->execute();
+            $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
+            $stmt = LA::db()->prepare($sql);
+            $stmt->execute();
 
-                $el = new ElementSelect($key, $key);
-                $el->addOption('--null--', '');
+            $el = new ElementSelect($key, $key);
+            $el->addOption('--null--', '');
 
-                foreach ($stmt->fetchAll() as $frow) {
-                    $el->addOption($frow['description'], $frow['fkey']);
-                }
+            foreach ($stmt->fetchAll() as $frow) {
+                $el->addOption($frow['description'], $frow['fkey']);
+            }
 
-                $el->setValue($val);
+            $el->setValue($val);
 
-                break;
-            default:
-                $el = new ElementHidden($header['name'], $val, $header['name']);
+            break;
+        default:
+            $el = new ElementHidden($header['name'], $val, $header['name']);
         }
 
         $el->setRequired($isRequired);

@@ -120,4 +120,3 @@ class CalendarView extends Widget {
         $this->tpl->display('calendar.tpl');
     }
 }
-

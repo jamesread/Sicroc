@@ -8,7 +8,6 @@ use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\Sanitizer;
 use libAllure\Shortcuts as LA;
-
 use Sicroc\TableConfiguration;
 
 class FormAddForeignKey extends Form

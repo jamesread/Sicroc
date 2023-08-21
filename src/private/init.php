@@ -23,7 +23,7 @@ function setupLibAllure()
     \libAllure\ErrorHandler::getInstance()->beGreedy();
 }
 
-function checkDatabaseVersion(string $requiredMigration): void
+function requireDatabaseVersion(string $requiredMigration): void
 {
     $sql = 'SELECT id FROM gorp_migrations';
     $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
@@ -47,7 +47,7 @@ function setupDatabase()
     $db = new \libAllure\Database($config->get('DB_DSN'), $config->get('DB_USER'), $config->get('DB_PASS'));
     \libAllure\DatabaseFactory::registerInstance($db);
 
-    checkDatabaseVersion('21.tableConditionalFormatting.sql');
+    requireDatabaseVersion('21.tableConditionalFormatting.sql');
 
     \libAllure\Session::setSessionName('sicroc');
     \libAllure\Session::setCookieLifetimeInSeconds(10000000);
