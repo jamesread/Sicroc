@@ -36,6 +36,11 @@ class Table extends Widget
         if ($tc != null) {
             $this->tc = new TableConfiguration($tc);
 
+            if (!$this->tc->loaded) {
+                $this->tc = null;
+                return;
+            }
+
             if ($this->tc->createPageDelegate == null) {
                 $this->navigation->add('?pageIdent=TABLE_INSERT&amp;tc=' . $this->tc->id, $this->tc->createPhrase);
             } else {
@@ -44,6 +49,7 @@ class Table extends Widget
             $this->navigation->addSeparator();
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;tc=' . $this->tc->id, 'Table Structure');
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_ROW_EDIT&amp;tc=4&amp;primaryKey=' . $this->tc->id, 'Table Configuration');
+            $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_CONDITIONAL_FORMATTING&amp;tc=' . $this->tc->id, 'Conditional Formatting');
         } else {
             $this->tc = null;
         }

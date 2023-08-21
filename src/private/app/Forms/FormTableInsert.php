@@ -30,6 +30,12 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
             if ($el != null) {
                 $fields[] = $header['name'];
 
+                $val = LA::san()->filterString($header['name']);
+
+                if ($val != null) {
+                    $el->setValue($val);
+                }
+
                 $this->addElement($el);
             }
         }

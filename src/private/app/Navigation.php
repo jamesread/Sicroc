@@ -33,7 +33,7 @@ class Navigation
             $usergroupIds = array_column(Session::getUser()->getUsergroups(), 'id');
 
             foreach ($stmt->fetchAll() as $link) {
-                if (in_array($link['usergroup'], $usergroupIds)) {
+                if (empty($link['usergroup']) || in_array($link['usergroup'], $usergroupIds)) {
                     $links->add('?page=' . $link['index_page'], $link['title']);
                 }
             }

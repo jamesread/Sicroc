@@ -7,7 +7,7 @@ use libAllure\Form;
 use libAllure\ElementInput;
 use libAllure\Sanitizer;
 use libAllure\DatabaseFactory;
-use libAllure\Shortcuts;
+use libAllure\Shortcuts as LA;
 
 class FormWidgetUpdate extends Form implements \Sicroc\BaseForm
 {

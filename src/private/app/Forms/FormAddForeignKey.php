@@ -56,7 +56,7 @@ class FormAddForeignKey extends Form
          */
 
         $sql = 'INSERT INTO table_fk_metadata (sourceTable, sourceField, foreignTable, foreignField, foreignDescription) VALUES (:sourceTable, :sourceField, :foreignTable, :foreignField, :foreignDescription)';
-        $stmt = db()->prepare($sql);
+        $stmt = LA::stmt($sql);
         $stmt->bindValue(':sourceTable', $this->tc->table);
         $stmt->bindValue(':sourceField', $this->getElementValue('sourceField'));
         $stmt->bindValue(':foreignTable', $this->getElementValue('foreignTable'));

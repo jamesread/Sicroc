@@ -2,20 +2,23 @@
 
 namespace Sicroc;
 
+use Sicroc\TableConfiguration;
+use libAllure\Shortcuts as LA;
+
 class TableRowDelete extends Widget
 {
-    public function display()
+    public function render()
     {
-        $table = san()->filterString('table');
-        $id = san()->filterUint('primaryKey');
+        $tc = new TableConfiguration(LA::san()->filterUint('tc'));
+        $id = LA::san()->filterUint('primaryKey');
 
-        $sql = 'DELETE FROM ' . $table . ' WHERE id = ' . $id;
+        $sql = 'DELETE FROM ' . $tc->table . ' WHERE id = :id';
+        $stmt = LA::db()->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+        ]);
 
-        $stmt = db()->prepare($sql);
-        $stmt->execute();
-
-        global $tpl;
-        $tpl->assign('message', 'Row deleted.');
-        $tpl->display('simple.tpl');
+        $this->tpl->assign('message', 'Row deleted.');
+        $this->tpl->display('simple.tpl');
     }
 }

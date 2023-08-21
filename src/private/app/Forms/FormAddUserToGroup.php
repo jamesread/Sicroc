@@ -54,7 +54,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
 
         $sql = 'INSERT INTO group_memberships (`group`, `user`) VALUES (:group, :user)';
 
-        $stmt = LA::prepare($sql);
+        $stmt = LA::stmt($sql);
         $this->bindStatementValues($stmt, [
             'user',
             'group'

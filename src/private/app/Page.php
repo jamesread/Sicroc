@@ -60,8 +60,8 @@ class Page
 
         try {
             return $stmt->fetchRowNotNull();
-        } catch (Exception $e) {
-            throw new \Exception('Page not found by title:' . $pageIdent);
+        } catch (\Exception $e) {
+            throw new \Exception('Page not found by title: ' . $pageIdent);
         }
     }
 

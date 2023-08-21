@@ -47,7 +47,7 @@ function setupDatabase()
     $db = new \libAllure\Database($config->get('DB_DSN'), $config->get('DB_USER'), $config->get('DB_PASS'));
     \libAllure\DatabaseFactory::registerInstance($db);
 
-    checkDatabaseVersion('20.sectionPages.sql');
+    checkDatabaseVersion('21.tableConditionalFormatting.sql');
 
     \libAllure\Session::setSessionName('sicroc');
     \libAllure\Session::setCookieLifetimeInSeconds(10000000);
