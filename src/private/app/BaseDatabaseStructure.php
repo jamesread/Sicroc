@@ -7,6 +7,8 @@ class BaseDatabaseStructure
     private $db = null;
     private array $structure = [];
 
+    private array $wikiContent = [];
+
     public int $changeCount = 0;
 
     public function __construct()
@@ -16,7 +18,7 @@ class BaseDatabaseStructure
 
     public function defineCoreStructure()
     {
-        $this->addPage('HOME', 'Homepage', [$this->defineWidgetWiki('home', 'This is the homepage.')]);
+        $this->addPage('HOME', 'Homepage', [$this->defineWidgetWiki('home', 'This is the homepage, if you are reading this for the first time, Sicroc is ready! Now <a href = "?pageIdent=REGISTER">register your first user</a> if you have not done that already.\n\nNote that you cannot edit this homepage permanently - it gets reset everytime setup is run.')]);
         $this->addPage('CONTROL_PANEL', 'Control Panel', [
             [
                 'type' => '\Sicroc\ControlPanel',
@@ -118,11 +120,13 @@ class BaseDatabaseStructure
 
     public function defineWidgetWiki($title, $content)
     {
+        $this->wikiContent[$title] = $content;
+
         return [
             'type' => '\Sicroc\WikiContent',
-            'title' => $title,
+            'title' => 'Wiki page: ' . $title,
             'args' => [
-                'content' => $content,
+                'pageTitle' => $title, 
             ]
         ];
     }
@@ -137,6 +141,16 @@ class BaseDatabaseStructure
 
                 $this->ensureWidgetOnPage($pageId, $widgetInstanceId);
             }
+        }
+
+        foreach ($this->wikiContent as $title => $content)
+        {
+            $sql = 'INSERT INTO wiki_content (principle, content) VALUES (:title, :content) ON DUPLICATE KEY UPDATE content = :content';
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                'title' => $title,
+                'content' => $content,
+            ]);
         }
     }
 

@@ -475,7 +475,7 @@ p.description {
 }
 
 .good {
-  background-color: LimeGreen;
+  background-color: #DBFFB0;
   padding: 1em;
 }
 
@@ -509,6 +509,10 @@ form {
 
 form > * {
   justify-self: left;
+}
+
+form > div {
+  align-self: center;
 }
 
 form p {

@@ -192,8 +192,21 @@ class Page
         }
 
         $this->widgets = $this->getWidgets($this->page['id']);
-        $this->widgets = $this->resolveWidgets($this->widgets);
-        $this->widgets = $this->renderWidgets($this->widgets);
+
+        if ($this->page['id'] == 1 && empty($this->widgets)) {
+            $msg = new SimpleMessage('Sicroc seems to be working, but the homepage is empty. You probably need to run <a href = "setup.php">setup</a>.', 'good');
+            $this->widgets[] = [
+                'inst' => $msg,
+                'content' => null,
+                'id' => 0,
+                'shouldRender' => true,
+            ];
+
+            $this->widgets = $this->renderWidgets($this->widgets);
+        } else {
+            $this->widgets = $this->resolveWidgets($this->widgets);
+            $this->widgets = $this->renderWidgets($this->widgets);
+        }
     }
 
     private function createFakePageForError(\Exception $e)
