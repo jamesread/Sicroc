@@ -1,4 +1,4 @@
 -- +migrate Up
-INSERT INTO pages (id, title, ident, isSystem) VALUES (1, 'Homepage', 'HOME', true);
+INSERT INTO pages (id, title, ident, isSystem) VALUES (1, 'Welcome', 'WELCOME', true);
 
 -- +migrate Down

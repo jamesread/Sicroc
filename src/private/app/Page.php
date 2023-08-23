@@ -194,7 +194,7 @@ class Page
         $this->widgets = $this->getWidgets($this->page['id']);
 
         if ($this->page['id'] == 1 && empty($this->widgets)) {
-            $msg = new SimpleMessage('Sicroc seems to be working, but the homepage is empty. You probably need to run <a href = "setup.php">setup</a>.', 'good');
+            $msg = new SimpleMessage('Sicroc started up successfully! However, the homepage is empty. <br /><br />This is most likely because you have just run database migrations, and now need to run <a href = "setup.php">setup</a> to finish populating the database.', 'good');
             $this->widgets[] = [
                 'inst' => $msg,
                 'content' => null,

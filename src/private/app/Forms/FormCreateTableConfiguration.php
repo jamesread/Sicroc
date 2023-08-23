@@ -46,8 +46,6 @@ class FormCreateTableConfiguration extends \libAllure\Form
         $dbs = new BaseDatabaseStructure();
 
         if ($this->getElementValue('createTableWidgetAndPage')) {
-            var_dump('Creating DBS stuff');
-
             $dbs->addPage($tbl, $tbl, [
                 $dbs->defineWidgetTable($tbl, $db),
             ]);

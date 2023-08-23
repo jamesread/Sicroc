@@ -10,7 +10,8 @@ class FormWidgetClassRegister extends \libAllure\Form
     public function __construct()
     {
         $this->addElement(new ElementInput('viewableController', 'Viewable Controller Class'));
-        $this->addDefaultButtons();
+        
+        $this->addDefaultButtons('Register Widget Type');
     }
 
     public function process()

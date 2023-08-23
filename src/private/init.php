@@ -15,18 +15,37 @@ function sicrocInit()
     try {
         setupDatabase($config);
     } catch (Exception $e) {
-        initError('Could not intialize database. ' . $e->getMessage());
+        startupError('Could not intialize database. ' . $e->getMessage());
     }
 
     setupTimezone();
 }
 
-function initError($message)
+/**
+ * This is only used within this file, if one of the core dependencies like the
+ * Database, Temlating, or other things cannot be found. While inline HTML is 
+ * ugly, we cannot assume anything else is working (Templating), and we know 
+ * that no headers or anything else will have been sent.
+ */
+function startupError($message)
 {
-    global $tpl;
-
-    $message = '<strong>Sicroc init error:</strong> ' . $message;
-
+    $message = nl2br($message);
+    $message = <<<HTML
+<head>
+<title>Sicroc startup error</title>
+<style type = "text/css">
+body {
+    backgrond-color: #efefef;
+    font-family: sans-serif;
+    padding: 2em;
+}
+</style>
+</head>
+<body>
+    <h1>Sicroc startup error</h1>
+    $message
+</body>
+HTML;
     echo $message;
 
     exit;
@@ -51,14 +70,14 @@ function requireDatabaseVersion(string $requiredMigration): void
         $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
         $versionRows = array_column($stmt->fetchAll(), 'id');
     } catch (Exception $e) {
-        initError('Could not read migrations table, this is probably because you have an empty database. Try running the database migration scripts to get up to date.'); 
+        startupError('Sicroc has connected to the database successfully, but it could not read migrations table. <br /><br />This is probably because you have an empty database. Try running the database migration scripts to get up to date.'); 
     }
 
     natsort($versionRows);
     $databaseMigration = end($versionRows);
 
     if ($databaseMigration != $requiredMigration) {
-        initError('This version of Sicroc requires the database to be at migration: <strong>' . $requiredMigration . '</strong> and you currently have migration: <strong>' . $databaseMigration . '</strong>. You probably need to upgrade the database.');
+        startupError('This version of Sicroc requires the database to be at migration: <strong>' . $requiredMigration . '</strong> and you currently have migration: <strong>' . $databaseMigration . '</strong>. You probably need to upgrade the database.');
     }
 }
 

@@ -8,21 +8,21 @@ use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\Shortcuts as LA;
 
-class FormSectionCreate extends Form implements \Sicroc\BaseForm
+class FormNavigationLinkCreate extends Form implements \Sicroc\BaseForm
 {
     public function __construct()
     {
-        parent::__construct('formSectionCreate', 'Section Create');
+        parent::__construct('formNavigatonLinkCreate', 'Create Navigation Link');
 
         $sectionToEdit = LA::san()->filterUint('sectionToEdit');
 
         $this->addElement(new ElementInput('title', 'Title'));
-        $this->addDefaultButtons('Create');
+        $this->addDefaultButtons('Create link');
     }
 
     public function process()
     {
-        $sql = 'INSERT INTO sections (title, master) VALUES (:title, 1)';
+        $sql = 'INSERT INTO navigaton_links (title, master) VALUES (:title, 1)';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->execute();
@@ -31,7 +31,7 @@ class FormSectionCreate extends Form implements \Sicroc\BaseForm
     public function setupProcessedState($state): void
     {
         if ($state->processed) {
-            $state->redirectIdent('SECTION_LIST');
+            $state->redirectIdent('NAVIGATION_LIST');
         }
     }
 }
