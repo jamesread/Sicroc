@@ -17,7 +17,9 @@
 			{$element->render()}
 
 			<div>
+				{if !empty($element->description)}
 				<p class = "description">{$element->description}</p>
+				{/if}
 
 				{if !empty($element->getSuggestedValues())}
 				<div>
@@ -26,11 +28,11 @@
 					{/foreach}
 				</div>
 				{/if}
-			</div>
 
-			{if $element->getValidationError() ne ''}
-			<p class = "formValidationError">{$element->getValidationError()}</p>
-			{/if}
+				{if $element->getValidationError() ne ''}
+				<p class = "formValidationError">{$element->getValidationError()}</p>
+				{/if}
+			</div>
 		{/if}
 	{/if}
 {/foreach}
