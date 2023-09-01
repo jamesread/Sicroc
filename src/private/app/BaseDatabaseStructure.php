@@ -18,7 +18,17 @@ class BaseDatabaseStructure
 
     public function defineCoreStructure()
     {
+        # page ID:1 needs to be WELCOME
         $this->addPage('WELCOME', 'Welcome!', [$this->defineWidgetWiki('welcome', "This is the welcome page, if you are reading this for the first time, <strong>Sicroc is ready</strong>!\n\nNow <a href = '?pageIdent=REGISTER'>register your first user</a> if you have not done that already. The first user that is registered will automatically be given SUPERUSER permissions.\n\n<strong>Note:</strong> you should not edit this wiki page with the welcome message - it gets reset everytime setup is run. Instead, <a href = '?pageIdent=WIDGET_INSTANCE_UPDATE&widgetToUpdate=1'>update this wiki widget</a> so that the page title points to a new page - call that 'home' or something like that, so that you stop seeing this welcome message every time you login! ")]);
+        $this->addPage('TABLE_CONFIGURATION_CREATE', 'Create Table Configuration', [$this->defineWidgetForm('FormCreateTableConfiguration')]);
+        # tc ID:1 needs to be table_configurations
+        $this->addPage('TABLE_CONFIGURATION_LIST', 'List of Table Configurations', [$this->defineWidgetTable('table_configurations', null, [
+            'createPhrase' => 'Create TC',
+            'createPageDelegate' => 'TABLE_CONFIGURATION_CREATE',
+        ])]);
+
+        # Anything else can come now.
+
         $this->addPage('CONTROL_PANEL', 'Control Panel', [
             [
                 'type' => '\Sicroc\ControlPanel',
@@ -43,11 +53,6 @@ class BaseDatabaseStructure
         $this->addPage('PAGE_LIST', 'List of Pages', [$this->defineWidgetTable('pages', null, [
             'createPhrase' => 'Create page',
             'createPageDelegate' => 'PAGE_CREATE',
-        ])]);
-        $this->addPage('TABLE_CONFIGURATION_CREATE', 'Create Table Configuration', [$this->defineWidgetForm('FormCreateTableConfiguration')]);
-        $this->addPage('TABLE_CONFIGURATION_LIST', 'List of Table Configurations', [$this->defineWidgetTable('table_configurations', null, [
-            'createPhrase' => 'Create TC',
-            'createPageDelegate' => 'TABLE_CONFIGURATION_CREATE',
         ])]);
         $this->addPage('TABLE_ROW_EDIT', 'Edit Table Row', [$this->defineWidgetForm('FormTableEditRow')]);
         $this->addPageForm('WIDGET_INSTANCE_UPDATE', 'Update Widget Instance', 'FormWidgetUpdate');
