@@ -4,7 +4,7 @@ test:
 	phpunit tests/Test*
 
 phpcs:
-	phpcs
+	src/private/libraries/bin/phpcs
 
 package:
 	rm -rf pkg

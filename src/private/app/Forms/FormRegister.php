@@ -2,10 +2,11 @@
 
 namespace Sicroc\Forms;
 
-use \libAllure\ElementInput;
-use \libAllure\ElementPassword;
-use \libAllure\DatabaseFactory;
-use \libAllure\AuthBackend;
+use libAllure\ElementInput;
+use libAllure\ElementPassword;
+use libAllure\DatabaseFactory;
+use libAllure\AuthBackend;
+use libAllure\User;
 
 class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -32,8 +33,7 @@ class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
             $this->setElementError('username', 'That username is already taken.');
         }
 
-        if ($this->getElementValue('password') != $this->getElementValue('passwordAgain')) 
-        {
+        if ($this->getElementValue('password') != $this->getElementValue('passwordAgain')) {
             $this->setElementError('passwordAgain', 'The passwords do not match.');
         }
     }
@@ -46,12 +46,17 @@ class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
             'username' => $this->getElementValue('username'),
             'password' => AuthBackend::getInstance()->hashPassword($this->getElementValue('password')),
         ]);
+
+        $uid = DatabaseFactory::getInstance()->lastInsertId();
+
+        if (User::getCountLocalUsers() == 1) {
+            User::grantPermissionToUid('SUPERUSER', $uid);
+        }
     }
 
     public function setupProcessedState($state): void
     {
-        if ($state->processed)
-        {
+        if ($state->processed) {
             $state->redirect('?pageIdent=LOGIN');
         }
     }

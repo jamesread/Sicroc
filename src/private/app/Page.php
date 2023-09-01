@@ -60,8 +60,8 @@ class Page
 
         try {
             return $stmt->fetchRowNotNull();
-        } catch (Exception $e) {
-            throw new \Exception('Page not found by title:' . $pageIdent);
+        } catch (\Exception $e) {
+            throw new \Exception('Page not found by title: ' . $pageIdent);
         }
     }
 
@@ -192,8 +192,21 @@ class Page
         }
 
         $this->widgets = $this->getWidgets($this->page['id']);
-        $this->widgets = $this->resolveWidgets($this->widgets);
-        $this->widgets = $this->renderWidgets($this->widgets);
+
+        if ($this->page['id'] == 1 && empty($this->widgets)) {
+            $msg = new SimpleMessage('Sicroc started up successfully! However, the homepage is empty. <br /><br />This is most likely because you have just run database migrations, and now need to run <a href = "setup.php">setup</a> to finish populating the database.', 'good');
+            $this->widgets[] = [
+                'inst' => $msg,
+                'content' => null,
+                'id' => 0,
+                'shouldRender' => true,
+            ];
+
+            $this->widgets = $this->renderWidgets($this->widgets);
+        } else {
+            $this->widgets = $this->resolveWidgets($this->widgets);
+            $this->widgets = $this->renderWidgets($this->widgets);
+        }
     }
 
     private function createFakePageForError(\Exception $e)

@@ -3,7 +3,7 @@
 namespace Sicroc;
 
 use Sicroc\TableConfiguration;
-use libAllure\Shortcuts AS LA;
+use libAllure\Shortcuts as LA;
 
 class TableRow extends Widget
 {

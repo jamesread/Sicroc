@@ -58,16 +58,16 @@
         },
         {
             "name": "jwread/lib-allure",
-            "version": "8.1.6",
+            "version": "8.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jamesread/libAllure.git",
-                "reference": "bbb9d49bc636ab089a361eb7dd4a3047c9dfef40"
+                "reference": "4cd8f916810ec985438854ff04277cfe200d37cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jamesread/libAllure/zipball/bbb9d49bc636ab089a361eb7dd4a3047c9dfef40",
-                "reference": "bbb9d49bc636ab089a361eb7dd4a3047c9dfef40",
+                "url": "https://api.github.com/repos/jamesread/libAllure/zipball/4cd8f916810ec985438854ff04277cfe200d37cd",
+                "reference": "4cd8f916810ec985438854ff04277cfe200d37cd",
                 "shasum": ""
             },
             "require": {
@@ -100,9 +100,9 @@
             "homepage": "https://github.com/jamesread/libAllure",
             "support": {
                 "issues": "https://github.com/jamesread/libAllure/issues",
-                "source": "https://github.com/jamesread/libAllure/tree/8.1.6"
+                "source": "https://github.com/jamesread/libAllure/tree/8.1.9"
             },
-            "time": "2023-08-14T19:54:30+00:00"
+            "time": "2023-08-19T19:27:39+00:00"
         },
         {
             "name": "smarty/smarty",

@@ -1,4 +1,3 @@
 -- +migrate Up
--- ALTER TABLE table_configurations ADD (showTypes BOOLEAN default true);
-
+-- PLACEHOLDER: This migration was deleted.
 -- +migrate Down

@@ -6,7 +6,6 @@ use libAllure\Session;
 use libAllure\Shortcuts as LA;
 use Sicroc\Controller;
 
-
 abstract class Widget
 {
     public $navigation;

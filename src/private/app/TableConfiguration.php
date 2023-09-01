@@ -37,9 +37,13 @@ class TableConfiguration
     private array $rows;
     private array $foreignKeys;
 
+    public array $conditionalFormatting;
+
     public ?string $error = null;
 
     private $stmt;
+
+    public bool $loaded = false;
 
     public function __construct($tcId, int $singleRowId = null)
     {
@@ -74,17 +78,35 @@ class TableConfiguration
             $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
             $this->editPageDelegate = $fields->editPageDelegate;
             $this->loadTable();
+
+            $this->loaded = true;
         }
     }
 
     public function loadTable()
     {
         $this->foreignKeys = $this->getForeignKeys();
+        $this->conditionalFormatting = $this->getConditionalFormatting();
+
         $this->rows = $this->getRowData();
+        $this->applyConditionalFormatting();
+
+        //        LA::vde($this->id, $this->conditionalFormatting, $this->rows);
+
         $this->headers = $this->getHeadersFromRowData();
         $this->addForeignKeyDescriptions();
     }
 
+    private function getConditionalFormatting(): array
+    {
+        $sql = 'SELECT cf.cell_style, cf.field, cf.operator, cf.cell_value, cf.display_as FROM table_conditional_formatting cf WHERE tc = :id ORDER BY priority_order ASC';
+        $stmt = LA::db()->prepare($sql);
+        $stmt->execute([
+            'id' => $this->id,
+        ]);
+
+        return $stmt->fetchAll();
+    }
 
     private function addForeignKeyDescriptions()
     {
@@ -95,11 +117,9 @@ class TableConfiguration
 
                 $realCol = $fkey['foreignField'];
 
-                $this->rows[$i][$fkey['sourceField']] .= ' (' . $this->rows[$i][$fkey['sourceField'] . '_fk_description'] . ')';
+                $this->rows[$i][$fkey['sourceField'] . '_fk_description'] = $this->rows[$i][$fkey['sourceField'] . '_fk_description'];
 
-                unset($this->rows[$i][$fkey['sourceField'] . '_fk_description']);
                 unset($this->headers[$fkey['sourceField'] . '_fk_description']);
-                unset($this->headers['index_page_fk_description']);
             }
         }
     }
@@ -157,7 +177,7 @@ class TableConfiguration
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
 
-//        \libAllure\util\vde($sqlQb, $sqlHacky);
+        //        \libAllure\util\vde($sqlQb, $sqlHacky);
 
         $sql = $sqlQb;
 
@@ -170,6 +190,71 @@ class TableConfiguration
         }
 
         return $this->stmt->fetchAll();
+    }
+
+    private function applyConditionalFormatting()
+    {
+        foreach ($this->rows as $index => $cells) {
+            $this->rows[$index]['meta'] = [
+                'cell_style' => null,
+                'cell_style_field' => null,
+            ];
+
+            foreach ($this->conditionalFormatting as $rule) {
+                $this->rows[$index]['meta'] = array_merge(
+                    $this->rows[$index]['meta'],
+                    $this->applyConditionalFormattingRule($index, $cells, $rule)
+                );
+            }
+        }
+    }
+
+    private function applyConditionalFormattingRule($key, $cells, $rule): array 
+    {
+        $ret = [
+        ];
+
+        $value = null;
+
+        if (isset($this->rows[$key][$rule['field']])) {
+            $value = $this->rows[$key][$rule['field']];
+        }
+
+        if ($value != null) {
+            if ($this->doesConditionalFormattingRuleApplyToRow($rule, $value)) {
+                $ret['cell_style'] = $rule['cell_style'];
+                $ret['cell_style_field'] = $rule['field'];
+
+                switch ($rule['display_as']) {
+                case 'hyperlink':
+                    $this->rows[$key][$rule['field']] = '<a href = "' . $value . '">' . $value . '</a>';
+                }
+            }
+        }
+
+        return $ret;
+    }
+
+    private function doesConditionalFormattingRuleApplyToRow($rule, $value): bool
+    {
+        switch ($rule['operator']) {
+        case 'contains':
+            if (stripos($value, $rule['cell_value']) !== false) {
+                return true;
+            }
+
+            break;
+        case 'equals':
+            if ($value == $rule['cell_value']) {
+                return true;
+            }
+
+            break;
+        case 'always':
+            return true;
+        }
+
+        return false;
     }
 
     private function queryRowDataHacky(): string
@@ -296,45 +381,46 @@ class TableConfiguration
         $el = null;
 
         switch ($header['native_type']) {
-            case 'LONG':
-            case 'FLOAT':
-                $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
-                $el->setMinMaxLengths(0, 64);
-                break;
-            case 'DATETIME':
-                $el = new ElementDate($header['name'], $header['name'], $val, $header['native_type']);
-                break;
-            case 'VAR_STRING':
-                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-                $el->setMinMaxLengths(0, 64);
-                break;
-            case 'TINY':
-            case 'TINYINT':
-            case 'BOOLEAN':
-                $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
+        case 'LONG':
+        case 'FLOAT':
+            $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
+            break;
+        case 'DATETIME':
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->type = 'datetime-local';
+            break;
+        case 'VAR_STRING':
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->setMinMaxLengths(0, 64);
+            break;
+        case 'TINY':
+        case 'TINYINT':
+        case 'BOOLEAN':
+            $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
 
-                $isRequired = false;
-                break;
-            case 'FK':
-                $key = $header['name'];
-                $fk = $this->foreignKeys[$header['name']];
+            $isRequired = false;
+            break;
+        case 'FK':
+            $key = $header['name'];
+            $fk = $this->foreignKeys[$header['name']];
 
-                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
-                $stmt = LA::db()->prepare($sql);
-                $stmt->execute();
+            $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
+            $stmt = LA::db()->prepare($sql);
+            $stmt->execute();
 
-                $el = new ElementSelect($key, $key);
-                $el->addOption('--null--', '');
+            $el = new ElementSelect($key, $key);
+            $el->addOption('--null--', '');
 
-                foreach ($stmt->fetchAll() as $frow) {
-                    $el->addOption($frow['description'], $frow['fkey']);
-                }
+            foreach ($stmt->fetchAll() as $frow) {
+                $el->addOption($frow['description'], $frow['fkey']);
+            }
 
-                $el->setValue($val);
+            $el->setValue($val);
 
-                break;
-            default:
-                $el = new ElementHidden($header['name'], $val, $header['name']);
+            break;
+        default:
+            $el = new ElementHidden($header['name'], $val, $header['name']);
         }
 
         $el->setRequired($isRequired);

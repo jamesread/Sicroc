@@ -40,7 +40,7 @@ class WikiContent extends Widget
             }
 
             if ($wiki != false && $wiki['content'] != null) {
-                $wiki['content'] = str_replace("\n\n", '<br />', $wiki['content']);
+                $wiki['content'] = str_replace("\n", '<br />', $wiki['content']);
             }
         }
 

@@ -29,6 +29,7 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
         $el = new ElementSelect('type', 'Type');
         $el->addOption('varchar(255)');
         $el->addOption('datetime default current_timestamp()');
+        $el->addOption('date default null');
         $el->addOption('float(8,2)');
         $el->addOption('tinyint(1)');
         $el->addOption('int');

@@ -5,6 +5,7 @@ namespace Sicroc\Forms;
 use libAllure\ElementInput;
 use libAllure\ElementPassword;
 use libAllure\Session;
+use libAllure\User;
 use Sicroc\BaseForm;
 
 class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\BaseForm
@@ -25,6 +26,12 @@ class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\BaseForm
 
         if (Session::isLoggedIn()) {
             $state->preventRender('You are already logged in.');
+            return;
+        }
+
+        if (empty(User::getCountLocalUsers()))
+        {
+            $state->preventRender('There are zero users registerd. If you have just setup Sicroc, please <a href = "?pageIdent=REGISTER">register the first user</a>.');
             return;
         }
     }

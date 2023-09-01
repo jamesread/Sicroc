@@ -6,11 +6,51 @@ function sicrocInit()
 
     require_once 'utils.php';
 
+    $config = \Sicroc\Config::getInstance();
+    $config->read();
+    
+    setupTemplateEngine();    
     setupLibAllure();
-    setupDatabase();
-    setupTemplateEngine();
+
+    try {
+        setupDatabase($config);
+    } catch (Exception $e) {
+        startupError('Could not intialize database. ' . $e->getMessage());
+    }
+
     setupTimezone();
 }
+
+/**
+ * This is only used within this file, if one of the core dependencies like the
+ * Database, Temlating, or other things cannot be found. While inline HTML is 
+ * ugly, we cannot assume anything else is working (Templating), and we know 
+ * that no headers or anything else will have been sent.
+ */
+function startupError($message)
+{
+    $message = nl2br($message);
+    $message = <<<HTML
+<head>
+<title>Sicroc startup error</title>
+<style type = "text/css">
+body {
+    backgrond-color: #efefef;
+    font-family: sans-serif;
+    padding: 2em;
+}
+</style>
+</head>
+<body>
+    <h1>Sicroc startup error</h1>
+    $message
+</body>
+HTML;
+    echo $message;
+
+    exit;
+}
+
 
 function setupLibAllure()
 {
@@ -23,31 +63,32 @@ function setupLibAllure()
     \libAllure\ErrorHandler::getInstance()->beGreedy();
 }
 
-function checkDatabaseVersion(string $requiredMigration): void
+function requireDatabaseVersion(string $requiredMigration): void
 {
-    $sql = 'SELECT id FROM gorp_migrations';
-    $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
-    $versionRows = array_column($stmt->fetchAll(), 'id');
+    try {
+        $sql = 'SELECT id FROM gorp_migrations';
+        $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
+        $versionRows = array_column($stmt->fetchAll(), 'id');
+    } catch (Exception $e) {
+        startupError('Sicroc has connected to the database successfully, but it could not read migrations table. <br /><br />This is probably because you have an empty database. Try running the database migration scripts to get up to date.'); 
+    }
 
     natsort($versionRows);
     $databaseMigration = end($versionRows);
 
     if ($databaseMigration != $requiredMigration) {
-        die('This version of Sicroc requires the database to be at migration: <strong>' . $requiredMigration . '</strong> and you currently have migration: <strong>' . $databaseMigration . '</strong>. You probably need to upgrade the database.');
+        startupError('This version of Sicroc requires the database to be at migration: <strong>' . $requiredMigration . '</strong> and you currently have migration: <strong>' . $databaseMigration . '</strong>. You probably need to upgrade the database.');
     }
 }
 
-function setupDatabase()
+function setupDatabase($config)
 {
     global $db; // Needed for libAllure Shortcuts
-
-    $config = \Sicroc\Config::getInstance();
-    $config->read();
 
     $db = new \libAllure\Database($config->get('DB_DSN'), $config->get('DB_USER'), $config->get('DB_PASS'));
     \libAllure\DatabaseFactory::registerInstance($db);
 
-    checkDatabaseVersion('20.sectionPages.sql');
+    requireDatabaseVersion('22.superuser.sql');
 
     \libAllure\Session::setSessionName('sicroc');
     \libAllure\Session::setCookieLifetimeInSeconds(10000000);

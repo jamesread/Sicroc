@@ -1,20 +1,17 @@
 <div class = "controlPanel">
 {if \libAllure\Session::hasPriv('USER_MANAGEMENT')}
 <h2>Users and Usergroups</h2>
-<a href = "?pageIdent=USER_LIST">User List</a>
-<a href = "?pageIdent=USERGROUP_LIST">Usergroup List</a>
-<a href = "?pageIdent=USERGROUP_CREATE">Create</a>
+<a href = "?pageIdent=USER_LIST">Users</a>
+<a href = "?pageIdent=USERGROUP_LIST">Usergroups</a>
 <a href = "?pageIdent=USERGROUP_ASSIGN">Assign User To Group</a>
 {/if}
 
 {if \libAllure\Session::hasPriv('PAGE_STRUCTURE')}
 <h2>Page Structure</h2>
 <a href = "?pageIdent=NAVIGATION_LIST">Navigation</a>
-<a href = "?pageIdent=NAVIGATION_CREATE">Create</a>
 <a href = "?pageIdent=PAGE_LIST">Pages</a>
-<a href = "?pageIdent=WIDGET_LIST">Widgets</a>
-<a href = "?pageIdent=WIDGET_REGISTER">Widget Register</a>
-<a href = "?pageIdent=WIDGET_CREATE">Widget Instanciate</a>
+<a href = "?pageIdent=WIDGET_LIST">Widget Instances</a>
+<a href = "?pageIdent=WIDGET_TYPES_LIST">Widget Types</a>
 {/if}
 
 {if \libAllure\Session::hasPriv('DATASOURCES')}

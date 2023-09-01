@@ -7,7 +7,8 @@
 			<input type = "hidden" name = "{$element->getName()}" value = "{$element->getValue()}" />
 		{elseif $element->getType() eq 'html'}
 			{$element->getValue()}
-		{elseif $element->getType() eq 'submit'}
+		{elseif $element->getType() eq 'ElementButton'}
+			<div class = "noLabel"></div>
 			<button value = "{$form->getName()}" name = "{$element->getName()}" type = "submit">{$element->getCaption()}</button>
 		{elseif $element->getType() eq 'ElementHidden'}
 			{$element->render()}

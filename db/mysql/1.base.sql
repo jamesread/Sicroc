@@ -21,10 +21,10 @@
 -- Table structure for table `content`
 --
 
-DROP TABLE IF EXISTS `content`;
+DROP TABLE IF EXISTS `page_content`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `content` (
+CREATE TABLE `page_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page` int(11) DEFAULT NULL,
   `widget` int(11) NOT NULL,

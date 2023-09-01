@@ -19,7 +19,7 @@ class FormWikiUpdate extends Form
         $this->addElementReadOnly('Page Title', $this->page['principle'], 'pageTitle');
         $this->addElement(new ElementTextbox('content', 'Content', $this->page['content']));
 
-        $this->addDefaultButtons();
+        $this->addDefaultButtons('Save page');
     }
 
     private function actualGetPage($page)

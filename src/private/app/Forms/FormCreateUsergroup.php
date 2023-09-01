@@ -12,7 +12,7 @@ class FormCreateUsergroup extends \libAllure\Form implements \Sicroc\BaseForm
 
         $this->addElement(new \libAllure\ElementInput('title', 'Title'));
 
-        $this->addDefaultButtons('Create');
+        $this->addDefaultButtons('Create usergroup');
     }
 
     public function process()
