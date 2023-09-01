@@ -28,6 +28,7 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
 
         $el = new ElementSelect('type', 'Type');
         $el->addOption('varchar(255)');
+//        $el->addOption("varchar(255) comment 'filename_image'");
         $el->addOption('datetime default current_timestamp()');
         $el->addOption('date default null');
         $el->addOption('float(8,2)');
@@ -40,7 +41,9 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
 
     public function process()
     {
-        $sql = 'ALTER TABLE ' . $this->tc->database . '.' . $this->tc->table . ' ADD ' . $this->getElementValue('name') . ' ' . $this->getElementValue('type');
+        $type = $this->getElementValue('type');
+
+        $sql = 'ALTER TABLE ' . $this->tc->database . '.' . $this->tc->table . ' ADD ' . $this->getElementValue('name') . ' ' . $type;
 
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->execute();
