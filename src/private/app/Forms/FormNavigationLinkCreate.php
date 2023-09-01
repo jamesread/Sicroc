@@ -12,7 +12,7 @@ class FormNavigationLinkCreate extends Form implements \Sicroc\BaseForm
 {
     public function __construct()
     {
-        parent::__construct('formNavigatonLinkCreate', 'Create Navigation Link');
+        parent::__construct('formNavigationLinkCreate', 'Create Navigation Link');
 
         $sectionToEdit = LA::san()->filterUint('sectionToEdit');
 
@@ -22,7 +22,7 @@ class FormNavigationLinkCreate extends Form implements \Sicroc\BaseForm
 
     public function process()
     {
-        $sql = 'INSERT INTO navigaton_links (title, master) VALUES (:title, 1)';
+        $sql = 'INSERT INTO navigation_links (title, master) VALUES (:title, 1)';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':title', $this->getElementValue('title'));
         $stmt->execute();
