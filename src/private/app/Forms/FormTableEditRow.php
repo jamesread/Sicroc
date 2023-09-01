@@ -19,6 +19,10 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
         $tcId = LA::san()->filterUint('tc');
         $this->tc = new TableConfiguration($tcId, $primaryKeyValue);
 
+        if (!$this->tc->loaded) {
+            throw new \Exception('cant load tc');
+        }
+
         $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
         $this->addElementReadOnly('Primary Key', $primaryKeyValue, $this->tc->keycol);
 

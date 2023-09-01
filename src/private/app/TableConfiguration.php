@@ -390,6 +390,10 @@ class TableConfiguration
             $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
             $el->setMinMaxLengths(0, 64);
             break;
+        case 'DATE':
+            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+            $el->type = 'date';
+            break;
         case 'DATETIME':
             $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
             $el->type = 'datetime-local';
