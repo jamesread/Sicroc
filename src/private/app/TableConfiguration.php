@@ -6,6 +6,7 @@ use libAllure\ElementSelect;
 use libAllure\ElementCheckbox;
 use libAllure\ElementInput;
 use libAllure\ElementHidden;
+use libAllure\ElementFile;
 use libAllure\ElementNumeric;
 use libAllure\ElementDate;
 use libAllure\Shortcuts as LA;
@@ -91,9 +92,8 @@ class TableConfiguration
         $this->rows = $this->getRowData();
         $this->applyConditionalFormatting();
 
-        //        LA::vde($this->id, $this->conditionalFormatting, $this->rows);
-
         $this->headers = $this->getHeadersFromRowData();
+
         $this->addForeignKeyDescriptions();
     }
 
@@ -378,6 +378,10 @@ class TableConfiguration
             return null;
         }
 
+        if ($header['name'] == 'picture') {
+            $header['native_type'] = 'FILENAME';
+        }
+
         $el = null;
 
         switch ($header['native_type']) {
@@ -389,6 +393,11 @@ class TableConfiguration
         case 'DATETIME':
             $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
             $el->type = 'datetime-local';
+            break;
+        case 'FILENAME':
+            $el = new ElementFile($header['name'], $header['name'], null);
+            $el->tempDir = '/var/www/html/sicroc_uploads_temp/';
+            $el->destinationDir = '/var/www/html/sicroc_uploads/';
             break;
         case 'VAR_STRING':
             $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
