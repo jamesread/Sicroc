@@ -612,6 +612,11 @@ table.calendar li {
     border-right: 0;
   }
 
+  table.calendar td {
+    padding: .2em;
+    font-size: smaller;
+  }
+
   .hideThin {
     display: none;
   }
