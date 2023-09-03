@@ -8,8 +8,8 @@ function sicrocInit()
 
     $config = \Sicroc\Config::getInstance();
     $config->read();
-    
-    setupTemplateEngine();    
+
+    setupTemplateEngine();
     setupLibAllure();
 
     try {
@@ -25,8 +25,8 @@ function sicrocInit()
 
 /**
  * This is only used within this file, if one of the core dependencies like the
- * Database, Temlating, or other things cannot be found. While inline HTML is 
- * ugly, we cannot assume anything else is working (Templating), and we know 
+ * Database, Temlating, or other things cannot be found. While inline HTML is
+ * ugly, we cannot assume anything else is working (Templating), and we know
  * that no headers or anything else will have been sent.
  */
 function startupError($message)
@@ -72,7 +72,7 @@ function requireDatabaseVersion(string $requiredMigration): void
         $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
         $versionRows = array_column($stmt->fetchAll(), 'id');
     } catch (Exception $e) {
-        startupError('Sicroc has connected to the database successfully, but it could not read migrations table. <br /><br />This is probably because you have an empty database. Try running the database migration scripts to get up to date.'); 
+        startupError('Sicroc has connected to the database successfully, but it could not read migrations table. <br /><br />This is probably because you have an empty database. Try running the database migration scripts to get up to date.');
     }
 
     natsort($versionRows);

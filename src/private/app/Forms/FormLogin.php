@@ -29,8 +29,7 @@ class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\BaseForm
             return;
         }
 
-        if (empty(User::getCountLocalUsers()))
-        {
+        if (empty(User::getCountLocalUsers())) {
             $state->preventRender('There are zero users registerd. If you have just setup Sicroc, please <a href = "?pageIdent=REGISTER">register the first user</a>.');
             return;
         }

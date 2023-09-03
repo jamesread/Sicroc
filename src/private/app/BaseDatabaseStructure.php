@@ -158,7 +158,7 @@ class BaseDatabaseStructure
             'type' => '\Sicroc\WikiContent',
             'title' => 'Wiki page: ' . $title,
             'args' => [
-                'pageTitle' => $title, 
+                'pageTitle' => $title,
             ]
         ];
     }
@@ -175,8 +175,7 @@ class BaseDatabaseStructure
             }
         }
 
-        foreach ($this->wikiContent as $title => $content)
-        {
+        foreach ($this->wikiContent as $title => $content) {
             $sql = 'INSERT INTO wiki_content (principle, content) VALUES (:title, :content) ON DUPLICATE KEY UPDATE content = :content';
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
