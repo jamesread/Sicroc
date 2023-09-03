@@ -1,9 +1,3 @@
-<h2>
-	<a href = "?page={$pid}&start={$datePrev}">&laquo;</a> 
-	{$dateStart} til {$dateFinish} 
-	<a href = "?page={$pid}&start={$dateNext}">&raquo;</a>
-</h2>
-
 <table class = "calendar">
 <tr>
 	<th>Mon</th>
@@ -19,7 +13,7 @@
 	{foreach from = $week.days item = day}
 	<td class = "{if $day.weekend}weekend{/if} {if $day.today}today{/if}">
 		<p class = "dayTitle">
-			<a href = "?pageIdent=TABLE_INSERT&tc={$tc}&datetime={$day.datetime} 00:00">{$day.title}</a>
+			<a href = "?pageIdent=TABLE_INSERT&tc={$tc->id}&datetime={$day.datetime} 00:00">{$day.title}</a>
 		</p>
 
 		<ul>

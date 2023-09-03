@@ -48,7 +48,7 @@ class Table extends Widget
             }
             $this->navigation->addSeparator();
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;tc=' . $this->tc->id, 'Table Structure');
-            $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_ROW_EDIT&amp;tc=5&amp;primaryKey=' . $this->tc->id, 'Table Configuration');
+            $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_ROW_EDIT&amp;tc=1&amp;primaryKey=' . $this->tc->id, 'Table Configuration');
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_CONDITIONAL_FORMATTING&amp;tc=' . $this->tc->id, 'Conditional Formatting');
         } else {
             $this->tc = null;

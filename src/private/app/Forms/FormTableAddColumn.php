@@ -17,7 +17,11 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
     {
         parent::__construct('addColumn', 'Add Column');
 
-        $this->tc = new TableConfiguration(LA::san()->filterInt('tc'));
+        $san = LA::san();
+        $tcId = $san->filterUint('tc');
+        $this->tc = new TableConfiguration($tcId);
+
+//        var_dump($_REQUEST); exit;
 
         $this->addElementReadOnly('tc', $this->tc->id, 'tc');
         $this->addElementReadOnly('db', $this->tc->database);

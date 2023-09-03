@@ -19,6 +19,8 @@ function sicrocInit()
     }
 
     setupTimezone();
+
+    \libAllure\Sanitizer::getInstance()->enableSearchingPrefixKeys();
 }
 
 /**

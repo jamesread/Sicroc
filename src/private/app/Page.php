@@ -141,9 +141,7 @@ class Page
 
             $widgetRet['inst'] = $inst = new $widget['viewableController']();
         } catch (\Exception $e) {
-            new \Exception('Cannot instanticate widget: ' . $widget['viewableController']);
-
-            return $widgetRet;
+            throw new \Exception('Cannot instanticate widget: ' . $widget['viewableController']);
         }
 
         $widgetRet['inst']->page = $page;
@@ -156,6 +154,14 @@ class Page
             }
 
             $widgetRet['inst']->widgetSetupCompleted();
+
+            foreach ($widgetRet['inst']->getArguments() as $arg) {
+                if (isset($arg['required']) && $arg['required']) {
+                    if ($widgetRet['inst']->getArgumentValue($arg['name']) == null) {
+                        throw new \Exception('Argument: ' . $arg['name'] . ' is required');
+                    }
+                }
+            }
         } catch (\Exception $e) {
             $widgetRet['inst']->displayEdit = true;
             $widgetRet['shouldRender'] = false;

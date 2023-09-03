@@ -24,16 +24,13 @@ class FormAddToPage extends Form
 
     private function getPage()
     {
-        $sanitizer = new Sanitizer();
-
         $sql = 'SELECT p.id, p.title FROM pages p WHERE p.id = :page LIMIT 1';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
-        $stmt->bindValue(':page', $sanitizer->filterUint('pageToEdit'));
+        $stmt->bindValue(':page', Sanitizer::getInstance()->filterUint('pageToEdit'));
         $stmt->execute();
 
         return $stmt->fetchRow();
     }
-
 
     private function getWidgetSelectionElement()
     {

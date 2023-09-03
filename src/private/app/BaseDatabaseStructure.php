@@ -99,11 +99,15 @@ class BaseDatabaseStructure
 
     public function addPage($ident, $title, $widgets)
     {
-        $this->structure[] = [
+        $page = [
             'ident' => $ident,
             'title' => $title,
             'widgets' => $widgets,
         ];
+
+        $this->ensurePageExists($page);
+
+        $this->structure[] = $page;
     }
 
     public function addPageForm($ident, $title, $formClass)
@@ -215,6 +219,10 @@ class BaseDatabaseStructure
         ]);
 
         $row = $stmt->fetchRow();
+
+        if ($row == null) {
+            throw new \Exception('Page ID not found: ' . $ident);
+        }
 
         return $row['id'];
     }

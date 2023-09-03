@@ -42,7 +42,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
 
         $this->fields = $fields;
 
-        $this->addDefaultButtons('Insert');
+        $this->addDefaultButtons($this->tc->createPhrase);
     }
 
 
@@ -63,7 +63,11 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
     public function setupProcessedState($state): void
     {
         if ($state->processed) {
-            $state->redirect('?pageIdent=TABLE_VIEW&tc=' . $this->tc->id);
+            if (isset($_SESSION['lastTcViewPage'])) {
+                $state->redirect('?page=' . $_SESSION['lastTcViewPage']);
+            } else {
+                $state->redirect('?pageIdent=TABLE_VIEW&tc=' . $this->tc->id);
+            }
         }
     }
 }
