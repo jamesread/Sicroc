@@ -558,6 +558,10 @@ table.calendar td.weekend {
   background-color: #efefef;
 }
 
+table.calendar td.anotherMonth p.dayTitle a {
+  color: gray;
+}
+
 table.calendar td.today {
   background-color: beige;
   font-weight: bold;
@@ -592,7 +596,23 @@ table.calendar li {
 
   div.widget {
     border-radius: 0;
-    padding: 1em;
+    padding: 0;
     margin-top: 1em;
+  }
+
+  table {
+    border: 0;
+  }
+
+  table td:first-child {
+    border-left: 0;
+  }
+
+  table td:last-child {
+    border-right: 0;
+  }
+
+  .hideThin {
+    display: none;
   }
 }

@@ -133,11 +133,13 @@ class CalendarView extends Widget
                 $events = isset($this->events[$date]) ? $this->events[$date] : [];
 
                 $day = [
-                    'title' => $dt->format('jS M'),
+                    'day' => $dt->format('jS'),
+                    'month' => $dt->format('M'),
                     'datetime' => $date,
                     'today' => $date == $now,
                     'weekend' => $dt->format('N') == '6' || $dt->format('N') == '7',
                     'events' => $events,
+                    'anotherMonth' => $dt->format('F Y') != $this->currentMonth,
                 ];
 
                 $weekContents[] = $day;
