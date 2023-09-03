@@ -153,15 +153,16 @@ class Page
                 $widgetRet['title'] = $widgetRet['inst']->getTitle();
             }
 
-            $widgetRet['inst']->widgetSetupCompleted();
-
             foreach ($widgetRet['inst']->getArguments() as $arg) {
                 if (isset($arg['required']) && $arg['required']) {
+                    var_dump($arg['name'], $this->getArgumentValue($arg['name']);
                     if ($widgetRet['inst']->getArgumentValue($arg['name']) == null) {
                         throw new \Exception('Argument: ' . $arg['name'] . ' is required');
                     }
                 }
             }
+
+            $widgetRet['inst']->widgetSetupCompleted();
         } catch (\Exception $e) {
             $widgetRet['inst']->displayEdit = true;
             $widgetRet['shouldRender'] = false;
