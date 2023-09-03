@@ -1,6 +1,8 @@
 Sicroc
 ===
 
+[![PHP CodeStyle](https://github.com/jamesread/Sicroc/actions/workflows/php-codestyle.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/php-codestyle.yml)
+
 Build CRUD (Create, Read, Update and Delete) apps around the MySQL Database.
 
 ![var/screenshot.png](var/screenshot.png)
