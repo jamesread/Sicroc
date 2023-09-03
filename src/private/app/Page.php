@@ -155,7 +155,6 @@ class Page
 
             foreach ($widgetRet['inst']->getArguments() as $arg) {
                 if (isset($arg['required']) && $arg['required']) {
-                    var_dump($arg['name'], $this->getArgumentValue($arg['name']);
                     if ($widgetRet['inst']->getArgumentValue($arg['name']) == null) {
                         throw new \Exception('Argument: ' . $arg['name'] . ' is required');
                     }
