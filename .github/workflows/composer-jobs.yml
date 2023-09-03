@@ -36,32 +36,8 @@ jobs:
         run: |
           echo "$GITHUB_WORKSPACE/src/private/libraries/bin/" >> $GITHUB_PATH
 
-      - name: cache
-        uses: actions/cache/save@v3
-        id: composer-installed
-        with:
-          key: composer-installed
-          path: |
-            ./
-
-  phpcs:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: restore cache
-        uses: actions/cache/restore@v3
-        key: composer-installed
-
       - name: Run phpcs
         run: phpcs
-
-  phpstan:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: restore cache
-        uses: actions/cache/restore@v3
-        key: composer-installed
 
       - name: Run phpstan
         run: phpstan
