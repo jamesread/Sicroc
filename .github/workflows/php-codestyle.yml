@@ -37,12 +37,14 @@ jobs:
           echo "$GITHUB_WORKSPACE/src/private/libraries/bin/" >> $GITHUB_PATH
 
   phpcs:
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Run phpcs
         run: phpcs
 
   phpstan:
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Run phpstan
