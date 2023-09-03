@@ -121,7 +121,7 @@ class LayoutManager
             $links->add('?pageIdent=USER_PREFERENCES', 'Preferences');
             $links->add('?pageIdent=LOGOUT', 'Logout');
         } else {
-            $links->add('?pageIdent=REGISTER', 'Register');
+            $links->addIf(!getSiteSetting('disable_registration'), '?pageIdent=REGISTER', 'Register');
             $links->add('?pageIdent=LOGIN', 'Login');
         }
 

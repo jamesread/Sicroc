@@ -83,6 +83,29 @@ function requireDatabaseVersion(string $requiredMigration): void
     }
 }
 
+function getSiteSetting($searchKey): mixed
+{
+    global $settings;
+
+    if (empty($settings)) {
+        $sql = 'SELECT setting_key, setting_value FROM site_settings';
+        $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
+
+        $settings = [];
+        global $settings;
+
+        foreach ($stmt->fetchAll() as $setting) {
+            $settings[$setting['setting_key']] = $setting['setting_value'];
+        }
+    }
+
+    if (isset($settings[$searchKey])) {
+        return $settings[$searchKey];
+    } else {
+        return false; // Most settings are feature flags
+    }
+}
+
 function setupDatabase($config)
 {
     global $db; // Needed for libAllure Shortcuts
@@ -90,7 +113,7 @@ function setupDatabase($config)
     $db = new \libAllure\Database($config->get('DB_DSN'), $config->get('DB_USER'), $config->get('DB_PASS'));
     \libAllure\DatabaseFactory::registerInstance($db);
 
-    requireDatabaseVersion('22.superuser.sql');
+    requireDatabaseVersion('23.settings.sql');
 
     \libAllure\Session::setSessionName('sicroc');
     \libAllure\Session::setCookieLifetimeInSeconds(10000000);

@@ -20,7 +20,8 @@
 {/if}
 
 {if \libAllure\Session::hasPriv('ADMIN')}
-<h2>Setup</h2>
+<h2>Admin</h2>
+<a href = "?pageIdent=SETTINGS">Site Settings</a>
 <a href = "setup.php">Rerun Setup</a>
 {/if}
 </div>

@@ -91,6 +91,8 @@ class BaseDatabaseStructure
             $this->defineWidgetForm('FormTableConditionalFormatting', 'Conditional Formatting'),
             $this->defineWidgetTable('table_conditional_formatting')
         ]);
+        
+        $this->addPage('SETTINGS', 'Settings', [$this->defineWidgetTable('site_settings', null)]);
 
         $this->addPage('DUMMY', 'Dummy page', [
             $this->defineWidget('\Sicroc\CalendarView', 'Calendar View'),
