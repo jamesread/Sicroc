@@ -64,7 +64,7 @@ class WidgetForm extends Widget
             if ($this->state->redirectUrl != null) {
                 $redirectMessage = 'FIXME Redirect message';
 
-                redirect($this->state->redirectUrl, $redirectMessage);
+                Utils::redirect($this->state->redirectUrl, $redirectMessage);
                 return;
             }
 

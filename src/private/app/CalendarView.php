@@ -2,13 +2,13 @@
 
 namespace Sicroc;
 
-use \libAllure\Shortcuts as LA;
+use libAllure\Shortcuts as LA;
 
-class CalendarView extends Widget {
+class CalendarView extends Widget
+{
     private ?TableConfiguration $tc = null;
     private array $events = [];
-    private string $currentDateStart = 'start';
-    private string $currentDateFinish = 'finish';
+    private string $currentMonth = 'month';
     private string $dateNext = 'next';
     private string $datePrev = 'prev';
     private ?array $days = [];
@@ -27,7 +27,9 @@ class CalendarView extends Widget {
     {
         $id = $this->getArgumentValue('table_configuration');
 
-        if ($this->page == null) { return; } // FIXME error on edit
+        if ($this->page == null) {
+            return;
+        } // FIXME error on edit
 
         if ($id != null) {
             $this->tc = new TableConfiguration($id);
@@ -46,7 +48,7 @@ class CalendarView extends Widget {
 
             $now = date_create()->format('Y-m-d');
             $this->navigation->add("?page={$this->page->getId()}&start={$now}", 'Today');
-            
+
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;tc=' . $this->tc->id, 'Table Structure');
         } else {
             throw new \Exception('TC is not set.');
@@ -70,8 +72,7 @@ class CalendarView extends Widget {
 
         $rows = $this->tc->getRows();
 
-        foreach ($rows as $row) 
-        {
+        foreach ($rows as $row) {
             if (!isset($row[$dtfield])) { // arg may point to a missing field
                 continue;
             }
@@ -116,7 +117,7 @@ class CalendarView extends Widget {
 
         // Rewind to the nearest Monday
         while ($dt->format('N') != '1') {
-            $dt->modify('-24 hours'); 
+            $dt->modify('-24 hours');
         }
 
         $this->datePrev = date_create($dt->format('Y-m-d'))->modify('-14 days')->format('Y-m-d');
@@ -141,7 +142,7 @@ class CalendarView extends Widget {
 
                 $weekContents[] = $day;
 
-                $dt->modify('+24 hours'); 
+                $dt->modify('+24 hours');
             }
 
             $weeks[] = [

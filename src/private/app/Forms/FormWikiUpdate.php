@@ -51,7 +51,7 @@ class FormWikiUpdate extends Form
             $wiki = $this->actualGetPage($page);
 
             if ($wiki == null) {
-                throw new Exception('Could not create page');
+                throw new \Exception('Could not create page');
             }
         }
 

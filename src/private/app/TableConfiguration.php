@@ -16,7 +16,6 @@ class TableConfiguration
     public readonly int $id;
     public readonly ?string $table;
     public readonly ?string $database;
-    public readonly ?string $keycol;
     public readonly ?int $singleRowId;
 
     public readonly ?string $editPhrase;
@@ -34,6 +33,7 @@ class TableConfiguration
     public readonly bool $showTypes;
 
     public ?array $headers;
+    public ?string $keycol; // Is only available after we select some rows
 
     private array $rows;
     private array $foreignKeys;
@@ -52,13 +52,10 @@ class TableConfiguration
 
         if ($singleRowId) {
             $this->singleRowId = $singleRowId;
+        } else {
+            $this->singleRowId = null;
         }
 
-        $this->load();
-    }
-
-    public function load()
-    {
         $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, createPhrase, createPageDelegate, listPhrase, editPhrase, editPageDelegate, showId, showTypes FROM table_configurations WHERE id = :id';
         $stmt = LA::stmt($sql);
         $stmt->bindValue(':id', $this->id);
@@ -66,22 +63,24 @@ class TableConfiguration
 
         $fields = $stmt->fetchRow(\PDO::FETCH_OBJ);
 
-        if ($fields != false) {
-            $this->table = $fields->table;
-            $this->database = $fields->database;
-            $this->showId = ($fields->showId == true);
-            $this->showTypes = ($fields->showTypes == true);
-            $this->order = ($fields->orderColumn ? $fields->orderColumn : 'id');
-            $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
-            $this->createPhrase = ($fields->createPhrase ? $fields->createPhrase : 'Insert');
-            $this->createPageDelegate = $fields->createPageDelegate;
-            $this->listPhrase = ($fields->createPhrase ? $fields->listPhrase : 'List');
-            $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
-            $this->editPageDelegate = $fields->editPageDelegate;
-            $this->loadTable();
-
-            $this->loaded = true;
+        if ($fields == false) {
+            throw new \Exception("Cannot find table configuration {$tcId} in the database.");
         }
+
+        $this->table = $fields->table;
+        $this->database = $fields->database;
+        $this->showId = ($fields->showId == true);
+        $this->showTypes = ($fields->showTypes == true);
+        $this->order = ($fields->orderColumn ? $fields->orderColumn : 'id');
+        $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
+        $this->createPhrase = ($fields->createPhrase ? $fields->createPhrase : 'Insert');
+        $this->createPageDelegate = $fields->createPageDelegate;
+        $this->listPhrase = ($fields->createPhrase ? $fields->listPhrase : 'List');
+        $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
+        $this->editPageDelegate = $fields->editPageDelegate;
+        $this->loadTable();
+
+        $this->loaded = true;
     }
 
     public function loadTable()
@@ -111,7 +110,6 @@ class TableConfiguration
     private function addForeignKeyDescriptions()
     {
         foreach ($this->foreignKeys as $fkey) {
-
             for ($i = 0; $i < sizeof($this->rows); $i++) {
                 $row = $this->rows[$i];
 
@@ -209,7 +207,7 @@ class TableConfiguration
         }
     }
 
-    private function applyConditionalFormattingRule($key, $cells, $rule): array 
+    private function applyConditionalFormattingRule($key, $cells, $rule): array
     {
         $ret = [
         ];
@@ -226,8 +224,8 @@ class TableConfiguration
                 $ret['cell_style_field'] = $rule['field'];
 
                 switch ($rule['display_as']) {
-                case 'hyperlink':
-                    $this->rows[$key][$rule['field']] = '<a href = "' . $value . '">' . $value . '</a>';
+                    case 'hyperlink':
+                        $this->rows[$key][$rule['field']] = '<a href = "' . $value . '">' . $value . '</a>';
                 }
             }
         }
@@ -238,20 +236,20 @@ class TableConfiguration
     private function doesConditionalFormattingRuleApplyToRow($rule, $value): bool
     {
         switch ($rule['operator']) {
-        case 'contains':
-            if (stripos($value, $rule['cell_value']) !== false) {
-                return true;
-            }
+            case 'contains':
+                if (stripos($value, $rule['cell_value']) !== false) {
+                    return true;
+                }
 
-            break;
-        case 'equals':
-            if ($value == $rule['cell_value']) {
-                return true;
-            }
+                break;
+            case 'equals':
+                if ($value == $rule['cell_value']) {
+                    return true;
+                }
 
-            break;
-        case 'always':
-            return true;
+                break;
+            case 'always':
+                return true;
         }
 
         return false;
@@ -385,55 +383,55 @@ class TableConfiguration
         $el = null;
 
         switch ($header['native_type']) {
-        case 'LONG':
-        case 'FLOAT':
-            $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
-            $el->setMinMaxLengths(0, 64);
-            break;
-        case 'DATE':
-            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-            $el->type = 'date';
-            break;
-        case 'DATETIME':
-            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-            $el->type = 'datetime-local';
-            break;
-        case 'FILENAME':
-            $el = new ElementFile($header['name'], $header['name'], null);
-            $el->tempDir = '/var/www/html/sicroc_uploads_temp/';
-            $el->destinationDir = '/var/www/html/sicroc_uploads/';
-            break;
-        case 'VAR_STRING':
-            $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
-            $el->setMinMaxLengths(0, 64);
-            break;
-        case 'TINY':
-        case 'TINYINT':
-        case 'BOOLEAN':
-            $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
+            case 'LONG':
+            case 'FLOAT':
+                $el = new ElementNumeric($header['name'], $header['name'], $val, $header['native_type']);
+                $el->setMinMaxLengths(0, 64);
+                break;
+            case 'DATE':
+                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+                $el->type = 'date';
+                break;
+            case 'DATETIME':
+                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+                $el->type = 'datetime-local';
+                break;
+            case 'FILENAME':
+                $el = new ElementFile($header['name'], $header['name'], null);
+                $el->tempDir = '/var/www/html/sicroc_uploads_temp/';
+                $el->destinationDir = '/var/www/html/sicroc_uploads/';
+                break;
+            case 'VAR_STRING':
+                $el = new ElementInput($header['name'], $header['name'], $val, $header['native_type']);
+                $el->setMinMaxLengths(0, 64);
+                break;
+            case 'TINY':
+            case 'TINYINT':
+            case 'BOOLEAN':
+                $el = new ElementCheckbox($header['name'], $header['name'], $val == 1);
 
-            $isRequired = false;
-            break;
-        case 'FK':
-            $key = $header['name'];
-            $fk = $this->foreignKeys[$header['name']];
+                $isRequired = false;
+                break;
+            case 'FK':
+                $key = $header['name'];
+                $fk = $this->foreignKeys[$header['name']];
 
-            $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
-            $stmt = LA::db()->prepare($sql);
-            $stmt->execute();
+                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
+                $stmt = LA::db()->prepare($sql);
+                $stmt->execute();
 
-            $el = new ElementSelect($key, $key);
-            $el->addOption('--null--', '');
+                $el = new ElementSelect($key, $key);
+                $el->addOption('--null--', '');
 
-            foreach ($stmt->fetchAll() as $frow) {
-                $el->addOption($frow['description'], $frow['fkey']);
-            }
+                foreach ($stmt->fetchAll() as $frow) {
+                    $el->addOption($frow['description'], $frow['fkey']);
+                }
 
-            $el->setValue($val);
+                $el->setValue($val);
 
-            break;
-        default:
-            $el = new ElementHidden($header['name'], $val, $header['name']);
+                break;
+            default:
+                $el = new ElementHidden($header['name'], $val, $header['name']);
         }
 
         $el->setRequired($isRequired);

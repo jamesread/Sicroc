@@ -4,6 +4,7 @@ namespace Sicroc\Forms;
 
 use Sicroc\TableConfiguration;
 use libAllure\Shortcuts as LA;
+use Sicroc\Utils;
 
 class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -43,29 +44,9 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Save');
     }
 
-
-    private function getHeaders($stmt)
-    {
-        $headers = array();
-        $this->keycol = null;
-
-        for ($i = 0; $i < $stmt->columnCount(); $i++) {
-            $col = $stmt->getColumnMeta($i);
-
-
-            if (in_array('primary_key', $col['flags']) && $this->keycol == null) {
-                $this->keycol = $col['name'];
-            }
-
-            $headers[$col['name']] = $col;
-        }
-
-        return $headers;
-    }
-
     public function process()
     {
-        $fields = \Sicroc\implodeQuoted($this->fields, '`');
+        $fields = Utils::implodeQuoted($this->fields, '`');
         $values = array();
         unset($this->fields[0]);
 

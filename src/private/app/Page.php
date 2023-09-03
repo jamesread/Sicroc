@@ -123,7 +123,7 @@ class Page
 
                 $widget['inst']->render();
                 $widget['content'] .= ob_get_clean();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $widgetRet['content'] = self::renderWidgetException($e);
             }
         }
