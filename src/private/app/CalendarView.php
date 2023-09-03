@@ -73,8 +73,8 @@ class CalendarView extends Widget
         $rows = $this->tc->getRows();
 
         foreach ($rows as $row) {
-            if (!isset($row[$dtfield])) { // arg may point to a missing field
-                continue;
+            if (!isset($row[$dtfield]) || !isset($row[$titleField])) { // arg may point to a missing field
+                throw new \Exception('Got a row, but it did not have the expected date or title fields. Are they set correctly?');
             }
 
             $eventDay = date_create($row[$dtfield]);
