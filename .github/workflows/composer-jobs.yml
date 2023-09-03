@@ -40,6 +40,7 @@ jobs:
         uses: actions/cache/save@v3
         id: composer-installed
         with:
+          key: composer-installed
           path: |
             ./
 
@@ -49,7 +50,7 @@ jobs:
     steps:
       - name: restore cache
         uses: actions/cache/restore@v3
-        id: composer-installed
+        key: composer-installed
 
       - name: Run phpcs
         run: phpcs
@@ -60,7 +61,7 @@ jobs:
     steps:
       - name: restore cache
         uses: actions/cache/restore@v3
-        id: composer-installed
+        key: composer-installed
 
       - name: Run phpstan
         run: phpstan
