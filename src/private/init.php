@@ -4,8 +4,6 @@ function sicrocInit()
 {
     require_once 'libraries/autoload.php';
 
-    require_once 'utils.php';
-
     $config = \Sicroc\Config::getInstance();
     $config->read();
 

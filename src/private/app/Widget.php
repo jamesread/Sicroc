@@ -90,7 +90,7 @@ abstract class Widget
 
     public static function getLink($caption, $controller, $method = 'index', $params = array())
     {
-        return '<a href = "' . ViewableController::getUrl($controller, $method, $params) . '">' . $caption . '</a>';
+        return '<a href = "' . self::getUrl($controller, $method, $params) . '">' . $caption . '</a>';
     }
 
     public static function getUrl($controller, $method = 'index', $params = array())

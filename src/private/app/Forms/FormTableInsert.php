@@ -5,8 +5,7 @@ namespace Sicroc\Forms;
 use libAllure\Form;
 use libAllure\Shortcuts as LA;
 use Sicroc\TableConfiguration;
-
-use function Sicroc\implodeQuoted;
+use Sicroc\Utils;
 
 class FormTableInsert extends Form implements \Sicroc\BaseForm
 {
@@ -48,14 +47,14 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
 
     public function process()
     {
-        $fields = implodeQuoted($this->fields, '`');
+        $fields = Utils::implodeQuoted($this->fields, '`');
         $values = array();
 
         foreach ($this->fields as $field) {
             $values[] = $this->getElementValue($field);
         }
 
-        $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . \Sicroc\implodeQuoted($values, '"', true) . ') ';
+        $sql = 'INSERT INTO ' . $this->tc->database . '.' . $this->tc->table . ' (' . $fields . ') VALUES (' . Utils::implodeQuoted($values, '"', true) . ') ';
         $stmt = LA::db()->prepare($sql);
         $stmt->execute();
     }

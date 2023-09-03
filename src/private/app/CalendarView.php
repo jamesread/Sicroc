@@ -8,8 +8,7 @@ class CalendarView extends Widget
 {
     private ?TableConfiguration $tc = null;
     private array $events = [];
-    private string $currentDateStart = 'start';
-    private string $currentDateFinish = 'finish';
+    private string $currentMonth = 'month';
     private string $dateNext = 'next';
     private string $datePrev = 'prev';
     private ?array $days = [];

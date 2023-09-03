@@ -16,7 +16,6 @@ class TableConfiguration
     public readonly int $id;
     public readonly ?string $table;
     public readonly ?string $database;
-    public readonly ?string $keycol;
     public readonly ?int $singleRowId;
 
     public readonly ?string $editPhrase;
@@ -34,6 +33,7 @@ class TableConfiguration
     public readonly bool $showTypes;
 
     public ?array $headers;
+    public ?string $keycol; // Is only available after we select some rows
 
     private array $rows;
     private array $foreignKeys;
@@ -52,13 +52,10 @@ class TableConfiguration
 
         if ($singleRowId) {
             $this->singleRowId = $singleRowId;
+        } else {
+            $this->singleRowId = null;
         }
 
-        $this->load();
-    }
-
-    public function load()
-    {
         $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, createPhrase, createPageDelegate, listPhrase, editPhrase, editPageDelegate, showId, showTypes FROM table_configurations WHERE id = :id';
         $stmt = LA::stmt($sql);
         $stmt->bindValue(':id', $this->id);
@@ -66,22 +63,24 @@ class TableConfiguration
 
         $fields = $stmt->fetchRow(\PDO::FETCH_OBJ);
 
-        if ($fields != false) {
-            $this->table = $fields->table;
-            $this->database = $fields->database;
-            $this->showId = ($fields->showId == true);
-            $this->showTypes = ($fields->showTypes == true);
-            $this->order = ($fields->orderColumn ? $fields->orderColumn : 'id');
-            $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
-            $this->createPhrase = ($fields->createPhrase ? $fields->createPhrase : 'Insert');
-            $this->createPageDelegate = $fields->createPageDelegate;
-            $this->listPhrase = ($fields->createPhrase ? $fields->listPhrase : 'List');
-            $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
-            $this->editPageDelegate = $fields->editPageDelegate;
-            $this->loadTable();
-
-            $this->loaded = true;
+        if ($fields == false) {
+            throw new \Exception("Cannot find table configuration {$tcId} in the database.");
         }
+
+        $this->table = $fields->table;
+        $this->database = $fields->database;
+        $this->showId = ($fields->showId == true);
+        $this->showTypes = ($fields->showTypes == true);
+        $this->order = ($fields->orderColumn ? $fields->orderColumn : 'id');
+        $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
+        $this->createPhrase = ($fields->createPhrase ? $fields->createPhrase : 'Insert');
+        $this->createPageDelegate = $fields->createPageDelegate;
+        $this->listPhrase = ($fields->createPhrase ? $fields->listPhrase : 'List');
+        $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
+        $this->editPageDelegate = $fields->editPageDelegate;
+        $this->loadTable();
+
+        $this->loaded = true;
     }
 
     public function loadTable()
