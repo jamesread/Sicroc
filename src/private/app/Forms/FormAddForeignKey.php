@@ -23,6 +23,7 @@ class FormAddForeignKey extends Form
         $this->addElementReadOnly('TC', $this->tc->id, 'tc');
 
         $this->addElement($this->getElementSourceField());
+        $this->addElement(new ElementInput('foreignDatabase', 'Foreign Database'));
         $this->addElement(new ElementInput('foreignTable', 'Foreign Table', ''));
         $this->addElement(new ElementInput('foreignField', 'Foreign Field', 'id', 'This normally should be `id`.'));
         $this->getElement('foreignField')->setMinMaxLengths(0, 64);

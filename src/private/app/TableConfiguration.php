@@ -9,6 +9,7 @@ use libAllure\ElementHidden;
 use libAllure\ElementFile;
 use libAllure\ElementNumeric;
 use libAllure\ElementDate;
+use libAllure\QueryBuilder;
 use libAllure\Shortcuts as LA;
 
 class TableConfiguration
@@ -150,18 +151,16 @@ class TableConfiguration
         $qb = new \libAllure\QueryBuilder();
 
         $qb->from($this->table, null, $this->database);
-        $qb->fields('*');
+        $qb->fields('*')->groupBy('id');
 
         foreach ($this->foreignKeys as $fkey) {
-            $qb->join($fkey['foreignTable'], ' ')->onEq($fkey['foreignTable'] . '.' . $fkey['foreignField'], $fkey['sourceField']);
-            $qb->fields([$fkey['foreignTable'] . '.' . $fkey['foreignDescription'], $fkey['sourceField'] . '_fk_description']);
+            $qb->join($fkey['foreignTable'], null, 'dw')->onFromFieldsEq($fkey['sourceField'], $fkey['foreignField']);
+            $qb->fields([$fkey['foreignDescription'], $fkey['sourceField'] . '_fk_description']);
         }
 
         if (isset($this->singleRowId)) {
             $qb->whereEqualsValue('id', $this->singleRowId);
         }
-
-        $qb->groupBy('id');
 
         if (!empty($this->order)) {
             $qb->orderBy($this->order . ' ' . $this->orderDirection);
@@ -175,7 +174,7 @@ class TableConfiguration
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
 
-        //        \libAllure\util\vde($sqlQb, $sqlHacky);
+        //\libAllure\Shortcuts::vde($sqlQb, $sqlHacky);
 
         $sql = $sqlQb;
 
@@ -416,8 +415,12 @@ class TableConfiguration
                 $key = $header['name'];
                 $fk = $this->foreignKeys[$header['name']];
 
-                $sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
-                $stmt = LA::db()->prepare($sql);
+                $qb = new QueryBuilder();
+                $qb->from($fk['foreignTable'], null, $fk['foreignDatabase'])->fields([$fk['foreignField'], 'fkey'], [$fk['foreignDescription'], 'description']);
+
+                //$sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
+                //$stmt = LA::db()->prepare($sql);
+                $stmt = LA::db()->prepare($qb->build());
                 $stmt->execute();
 
                 $el = new ElementSelect($key, $key);
