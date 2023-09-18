@@ -26,6 +26,10 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
         foreach ($this->tc->headers as $header) {
             $el = $this->tc->getElementForColumn($header);
 
+            if (strpos($header['name'], '_fk_')) {
+                continue;
+            }
+
             if ($el != null) {
                 $fields[] = $header['name'];
 

@@ -30,7 +30,15 @@
 				<a href = "?pageIdent=TABLE_ROW&amp;tc={$tc->id}&amp;primaryKey={$cell}">{$cell}</a> |
 				<a href = "?pageIdent=TABLE_ROW_EDIT&amp;tc={$tc->id}&amp;primaryKey={$cell}&amp;redirectTo={}">edit</a>
 			{else}
+				{if $headers[$key]['native_type'] == 'TINY'}
+					{if $cell == 1}
+					&#10004;
+					{else}
+					&#10005;
+					{/if}
+				{else}
 				{$cell}
+				{/if}
 
 				{$desc="`$key`_fk_description"}
 				{if isset($row[$desc])}

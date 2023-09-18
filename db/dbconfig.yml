@@ -1,4 +1,4 @@
 development:
   dialect: mysql
-  datasource: user:${DB_PASSWORD}@/Sicroc?parseTime=true
+  datasource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST})/${DB_NAME}?parseTime=true
   dir: mysql
