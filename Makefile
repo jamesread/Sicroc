@@ -6,6 +6,9 @@ test:
 phpcs:
 	src/private/libraries/bin/phpcs
 
+phpcbf:
+	src/private/libraries/bin/phpcbf src/private/app/
+
 package:
 	rm -rf pkg
 	mkdir -p pkg
