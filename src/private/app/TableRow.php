@@ -34,7 +34,6 @@ class TableRow extends Widget
             }
 
             $this->simpleMessage($message, 'bad');
-
         } else {
             $this->tpl->assign('row', $this->rows[0]);
             $this->tpl->display('tableRow.tpl');
