@@ -36,15 +36,22 @@
 					{else}
 					&#10005;
 					{/if}
+				{else if $cell === null}
+				<span class = "subtle">NULL</span>
 				{else}
-				{$cell}
+					{$desc="`$key`_fk_description"}
+					{if isset($row[$desc])}
+						{if \libAllure\Session::getUser()->getData('fkStyle') == 'DESC_ONLY'}
+						{$row[$desc]}
+						{else}
+						{$cell} ({$row[$desc]})
+						{/if}
+					{else}
+					{$cell}
+					{/if}
 				{/if}
 
-				{$desc="`$key`_fk_description"}
-				{if isset($row[$desc])}
-				({$row[$desc]})
 				{/if}
-			{/if}
 		</td>
 		{/foreach}
 	</tr>

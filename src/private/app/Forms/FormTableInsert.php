@@ -3,6 +3,7 @@
 namespace Sicroc\Forms;
 
 use libAllure\Form;
+use libAllure\ElementHidden;
 use libAllure\Shortcuts as LA;
 use Sicroc\TableConfiguration;
 use Sicroc\Utils;
@@ -19,7 +20,11 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
 
         $this->tc = new TableConfiguration(LA::san()->filterUint('tc'));
 
-        $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
+        if (\Session::getUser->getData('showTcOnRowEdit')) {
+            $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
+        } else {
+            $this->addElement(new ElementHidden('tc',$this->tc->id, 'tc'));
+        }
 
         $fields = array();
 

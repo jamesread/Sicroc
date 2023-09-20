@@ -36,6 +36,8 @@ class TableConfiguration
     public ?array $headers;
     public ?string $keycol; // Is only available after we select some rows
 
+    public ?string $lastQuery;
+
     private array $rows;
     private array $foreignKeys;
 
@@ -153,13 +155,13 @@ class TableConfiguration
         $qb->from($this->table, null, $this->database);
         $qb->fields('*')->groupBy('id');
 
-        foreach ($this->foreignKeys as $fkey) {
-            $qb->join($fkey['foreignTable'], null, 'dw')->onFromFieldsEq($fkey['sourceField'], $fkey['foreignField']);
-            $qb->fields([$fkey['foreignDescription'], $fkey['sourceField'] . '_fk_description']);
-        }
-
         if (isset($this->singleRowId)) {
             $qb->whereEqualsValue('id', $this->singleRowId);
+        }
+
+        foreach ($this->foreignKeys as $fkey) {
+            $qb->join($fkey['foreignTable'], null, $fkey['foreignDatabase'])->onFromFieldsEq($fkey['sourceField'], $fkey['foreignField']);
+            $qb->fields([$fkey['foreignDescription'], $fkey['sourceField'] . '_fk_description']);
         }
 
         if (!empty($this->order)) {
@@ -174,7 +176,8 @@ class TableConfiguration
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
 
-        //\libAllure\Shortcuts::vde($sqlQb, $sqlHacky);
+        $this->lastQuery = $sqlQb;
+//        \libAllure\Shortcuts::vde($sqlQb, $sqlHacky);
 
         $sql = $sqlQb;
 
@@ -438,6 +441,10 @@ class TableConfiguration
         }
 
         $el->setRequired($isRequired);
+
+        if (!\libAllure\Session::getUser()->getData('showDatatypes')) {
+            $el->description = null;
+        }
 
         return $el;
     }

@@ -24,6 +24,7 @@ class FormAddForeignKey extends Form
 
         $this->addElement($this->getElementSourceField());
         $this->addElement(new ElementInput('foreignDatabase', 'Foreign Database'));
+        $this->getElement('foreignDatabase')->setMinMaxLengths(1, 64);
         $this->addElement(new ElementInput('foreignTable', 'Foreign Table', ''));
         $this->addElement(new ElementInput('foreignField', 'Foreign Field', 'id', 'This normally should be `id`.'));
         $this->getElement('foreignField')->setMinMaxLengths(0, 64);
@@ -55,12 +56,13 @@ class FormAddForeignKey extends Form
         $stmt->execute();
          */
 
-        $sql = 'INSERT INTO table_fk_metadata (sourceTable, sourceField, foreignTable, foreignField, foreignDescription) VALUES (:sourceTable, :sourceField, :foreignTable, :foreignField, :foreignDescription)';
+        $sql = 'INSERT INTO table_fk_metadata (sourceTable, sourceField, foreignTable, foreignDatabase, foreignField, foreignDescription) VALUES (:sourceTable, :sourceField, :foreignTable, :foreignDatabase, :foreignField, :foreignDescription)';
         $stmt = LA::stmt($sql);
         $stmt->bindValue(':sourceTable', $this->tc->table);
         $stmt->bindValue(':sourceField', $this->getElementValue('sourceField'));
         $stmt->bindValue(':foreignTable', $this->getElementValue('foreignTable'));
         $stmt->bindValue(':foreignField', $this->getElementValue('foreignField'));
+        $stmt->bindValue(':foreignDatabase', $this->getElementValue('foreignDatabase'));
         $stmt->bindValue(':foreignDescription', $this->getElementValue('foreignDescription'));
         $stmt->execute();
     }

@@ -26,7 +26,14 @@ class TableRow extends Widget
     public function render()
     {
         if (empty($this->rows)) {
-            $this->simpleMessage('Row not found', 'bad');
+            $message = 'Row not found.';
+
+            if (getSiteSetting('TC_DEBUG_SQL')) {
+                $message .= '<hr /> ' . $this->tc->lastQuery;
+            }
+
+            $this->simpleMessage($message, 'bad');
+
         } else {
             $this->tpl->assign('row', $this->rows[0]);
             $this->tpl->display('tableRow.tpl');
