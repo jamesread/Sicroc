@@ -3,13 +3,13 @@
 namespace Sicroc;
 
 use libAllure\DatabaseFactory;
+use libAllure\Element;
 use libAllure\ElementSelect;
 use libAllure\ElementCheckbox;
 use libAllure\Shortcuts as LA;
 
 class Table extends Widget
 {
-    public $displayEdit = false;
     private ?TableConfiguration $tc = null;
 
     public function __construct()
@@ -17,7 +17,7 @@ class Table extends Widget
         parent::__construct();
     }
 
-    public function getArguments()
+    public function getArguments(): array
     {
         $args = array();
         $args[] = array('type' => 'int', 'name' => 'table_configuration', 'default' => 0, 'description' => 'Table Configuration');
@@ -25,7 +25,7 @@ class Table extends Widget
         return $args;
     }
 
-    public function widgetSetupCompleted()
+    public function widgetSetupCompleted(): void
     {
         $tc = $this->getArgumentValue('table_configuration');
 
@@ -70,7 +70,7 @@ class Table extends Widget
         $_SESSION['lastTcViewPage'] = $this->page->getId();
     }
 
-    public function render()
+    public function render(): void
     {
         if ($this->tc == null) {
             $this->simpleErrorMessage('TableConfiguration has not been set');
@@ -91,7 +91,7 @@ class Table extends Widget
         }
     }
 
-    public function getArgumentElement(string $name, string $type, $default = 0)
+    public function getArgumentElement(string $name, string $type, mixed $default = 0): Element
     {
         switch ($type) {
             case 'boolean':

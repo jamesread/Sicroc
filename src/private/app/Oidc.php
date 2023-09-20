@@ -4,7 +4,7 @@ namespace Sicroc;
 
 class Oidc extends Widget
 {
-    public function render()
+    public function render(): void
     {
         $this->tpl->display('oidc.tpl');
     }

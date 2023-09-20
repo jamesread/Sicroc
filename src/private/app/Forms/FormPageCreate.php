@@ -2,6 +2,7 @@
 
 namespace Sicroc\Forms;
 
+use Sicroc\ProcessedFormState;
 use libAllure\Form;
 use libAllure\ElementInput;
 use libAllure\DatabaseFactory;
@@ -18,7 +19,7 @@ class FormPageCreate extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Create page');
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO pages (title, ident) VALUES (:title, :ident)';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -27,7 +28,7 @@ class FormPageCreate extends Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->redirectIdent('PAGE_LIST');

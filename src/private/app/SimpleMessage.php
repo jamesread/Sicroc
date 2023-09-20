@@ -4,10 +4,10 @@ namespace Sicroc;
 
 class SimpleMessage extends Widget
 {
-    private ?string $message;
-    private ?string $class;
+    private ?string $message = null;
+    private ?string $class = null;
 
-    public function __construct($message, $class = 'neutral')
+    public function __construct(string $message, string $class = 'neutral')
     {
         parent::__construct();
 
@@ -15,7 +15,7 @@ class SimpleMessage extends Widget
         $this->class = $class;
     }
 
-    public function render()
+    public function render(): void
     {
         $this->simpleMessage($this->message, $this->class);
     }

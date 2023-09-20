@@ -5,22 +5,22 @@ namespace Sicroc\Forms;
 use libAllure\Form;
 use libAllure\ElementHidden;
 use libAllure\Shortcuts as LA;
+use libAllure\Session;
 use Sicroc\TableConfiguration;
 use Sicroc\Utils;
 
 class FormTableInsert extends Form implements \Sicroc\BaseForm
 {
-    private string|null $keycol;
     private array $fields;
     private ?\Sicroc\TableConfiguration $tc;
 
-    public function __construct($controller)
+    public function __construct()
     {
         parent::__construct('formTableInsert', 'Insert into table');
 
         $this->tc = new TableConfiguration(LA::san()->filterUint('tc'));
 
-        if (\Session::getUser->getData('showTcOnRowEdit')) {
+        if (Session::getUser()->getData('showTcOnRowForms')) {
             $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
         } else {
             $this->addElement(new ElementHidden('tc',$this->tc->id, 'tc'));

@@ -35,7 +35,7 @@ function startupError($message)
 <title>Sicroc startup error</title>
 <style type = "text/css">
 body {
-    backgrond-color: #efefef;
+    background-color: #efefef;
     font-family: sans-serif;
     padding: 2em;
 }
@@ -78,29 +78,6 @@ function requireDatabaseVersion(string $requiredMigration): void
 
     if ($databaseMigration != $requiredMigration) {
         startupError('This version of Sicroc requires the database to be at migration: <strong>' . $requiredMigration . '</strong> and you currently have migration: <strong>' . $databaseMigration . '</strong>. You probably need to upgrade the database.');
-    }
-}
-
-function getSiteSetting($searchKey): mixed
-{
-    global $settings;
-
-    if (empty($settings)) {
-        $sql = 'SELECT setting_key, setting_value FROM site_settings';
-        $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
-
-        $settings = [];
-        global $settings;
-
-        foreach ($stmt->fetchAll() as $setting) {
-            $settings[$setting['setting_key']] = $setting['setting_value'];
-        }
-    }
-
-    if (isset($settings[$searchKey])) {
-        return $settings[$searchKey];
-    } else {
-        return false; // Most settings are feature flags
     }
 }
 

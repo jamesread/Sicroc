@@ -346,12 +346,6 @@ class TableConfiguration
 
     public function getRows()
     {
-        if (false && $this->keycol != null) {
-            foreach ($this->rows as &$row) {
-                $row[$this->keycol] = '<a href = "">' . $row[$this->keycol] . '</a>';
-            }
-        }
-
         return $this->rows;
     }
 

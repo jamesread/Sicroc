@@ -16,7 +16,7 @@ class Page
     private array $widgets;
     private array $page;
 
-    private function loadPage()
+    private function loadPage(): void
     {
         if (isset($_REQUEST['pageIdent'])) {
             $page = $this->getPageByIdent();
@@ -27,7 +27,7 @@ class Page
         $this->page = $page;
     }
 
-    private function getPageById()
+    private function getPageById(): array
     {
         $pageId = Sanitizer::getInstance()->filterUint('page');
 
@@ -49,7 +49,7 @@ class Page
         return $page;
     }
 
-    private function getPageByIdent()
+    private function getPageByIdent(): array
     {
         $pageIdent =  Sanitizer::getInstance()->filterString('pageIdent');
 
@@ -65,12 +65,12 @@ class Page
         }
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->page['id'];
     }
 
-    public function getWidgetByType($search)
+    public function getWidgetByType($search): ?object
     {
         foreach ($this->widgets as $widget) {
             if (get_class($widget['inst']) == $search) {
@@ -81,7 +81,7 @@ class Page
         return null;
     }
 
-    private function getWidgets($pageId)
+    private function getWidgets($pageId): array
     {
         $sql = 'SELECT wt.viewableController, wi.id, wi.title FROM page_content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.ordinal';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -93,7 +93,7 @@ class Page
         return $widgets;
     }
 
-    private function resolveWidgets($widgets)
+    private function resolveWidgets($widgets): array
     {
         foreach ($widgets as $key => $widget) {
             $widgets[$key] = self::resolveWidget($widget, $this);
@@ -102,7 +102,7 @@ class Page
         return $widgets;
     }
 
-    private function renderWidgets($widgets)
+    private function renderWidgets($widgets): array
     {
         foreach ($widgets as $key => $widget) {
             $widgets[$key] = self::renderWidget($widget);
@@ -111,7 +111,7 @@ class Page
         return $widgets;
     }
 
-    private static function renderWidget($widget)
+    private static function renderWidget($widget): array
     {
         if (!isset($widget['inst'])) {
             return $widget;
@@ -131,7 +131,7 @@ class Page
         return $widget;
     }
 
-    public static function resolveWidget($widget, $page = null)
+    public static function resolveWidget($widget, $page = null): array
     {
         $widgetRet = $widget;
         $widgetRet['shouldRender'] = true;
@@ -186,7 +186,7 @@ class Page
         return $html;
     }
 
-    public function resolve()
+    public function resolve(): void
     {
         $this->widgets = array();
 
@@ -215,7 +215,7 @@ class Page
         }
     }
 
-    private function createFakePageForError(\Exception $e)
+    private function createFakePageForError(\Exception $e): void
     {
         $this->page = array(
             'id' => 0,
@@ -231,22 +231,23 @@ class Page
             'id' => 0,
             'shouldRender' => true
         ];
+
         $this->widgets = $this->renderWidgets($this->widgets);
     }
 
-    public function getForTpl()
+    public function getForTpl(): array
     {
         return $this->page;
     }
 
-    public function getWidgetsForTpl()
+    public function getWidgetsForTpl(): array
     {
         return $this->widgets;
     }
 
-    public function isSystem()
+    public function isSystem(): bool
     {
-        return $this->page['isSystem'];
+        return $this->page['isSystem'] === true;
     }
 
     public function getLayout(): string

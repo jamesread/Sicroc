@@ -3,6 +3,7 @@
 namespace Sicroc;
 
 use Sicroc\TableConfiguration;
+use Sicroc\Utils;
 use libAllure\Shortcuts as LA;
 
 class TableRow extends Widget
@@ -11,7 +12,7 @@ class TableRow extends Widget
     private ?int $id;
     private TableConfiguration $tc;
 
-    public function widgetSetupCompleted()
+    public function widgetSetupCompleted(): void
     {
         $this->id = LA::san()->filterUint('primaryKey');
         $this->tc = new TableConfiguration(LA::san()->filterString('tc'), $this->id);
@@ -23,12 +24,12 @@ class TableRow extends Widget
         $this->rows = $this->tc->getRows();
     }
 
-    public function render()
+    public function render(): void
     {
         if (empty($this->rows)) {
             $message = 'Row not found.';
 
-            if (getSiteSetting('TC_DEBUG_SQL')) {
+            if (Utils::getSiteSetting('TC_DEBUG_SQL')) {
                 $message .= '<hr /> ' . $this->tc->lastQuery;
             }
 

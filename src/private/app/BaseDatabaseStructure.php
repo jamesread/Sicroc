@@ -16,7 +16,7 @@ class BaseDatabaseStructure
         $this->db = \libAllure\DatabaseFactory::getInstance();
     }
 
-    public function defineCoreStructure()
+    public function defineCoreStructure(): void
     {
         # page ID:1 needs to be WELCOME
         $this->addPage('WELCOME', 'Welcome!', [$this->defineWidgetWiki('welcome', "This is the welcome page, if you are reading this for the first time, <strong>Sicroc is ready</strong>!\n\nNow <a href = '?pageIdent=REGISTER'>register your first user</a> if you have not done that already. The first user that is registered will automatically be given SUPERUSER permissions.\n\n<strong>Note:</strong> you should not edit this wiki page with the welcome message - it gets reset everytime setup is run. Instead, <a href = '?pageIdent=WIDGET_INSTANCE_UPDATE&widgetToUpdate=1'>update this wiki widget</a> so that the page title points to a new page - call that 'home' or something like that, so that you stop seeing this welcome message every time you login! ")]);
@@ -88,7 +88,7 @@ class BaseDatabaseStructure
         $this->addPage('REGISTER', 'Register', [$this->defineWidgetForm('FormRegister')]);
         $this->addPage('TABLE_ROW_DELETE', 'Delete Row', [$this->defineWidget('\Sicroc\TableRowDelete', 'Delete Row')]);
         $this->addPage('TABLE_CONDITIONAL_FORMATTING', 'Conditional Formatting', [
-            $this->defineWidgetForm('FormTableConditionalFormatting', 'Conditional Formatting'),
+            $this->defineWidgetForm('FormTableConditionalFormatting'),
             $this->defineWidgetTable('table_conditional_formatting')
         ]);
 
@@ -99,7 +99,7 @@ class BaseDatabaseStructure
         ]);
     }
 
-    public function addPage($ident, $title, $widgets)
+    public function addPage(string $ident, string $title, array $widgets): void
     {
         $page = [
             'ident' => $ident,
@@ -112,12 +112,12 @@ class BaseDatabaseStructure
         $this->structure[] = $page;
     }
 
-    public function addPageForm($ident, $title, $formClass)
+    public function addPageForm(string $ident, string $title, string $formClass): void
     {
         $this->addPage($ident, $title, [$this->defineWidgetForm($formClass)]);
     }
 
-    public function defineWidget($class, $title)
+    public function defineWidget(string $class, string $title): array
     {
         return [
             'type' => $class,
@@ -126,7 +126,7 @@ class BaseDatabaseStructure
         ];
     }
 
-    public function defineWidgetForm($arg)
+    public function defineWidgetForm(string $arg): array
     {
         return [
             'type' => '\Sicroc\WidgetForm',
@@ -137,7 +137,7 @@ class BaseDatabaseStructure
         ];
     }
 
-    public function defineWidgetTable($tbl, $db = null, $tcArgs = [])
+    public function defineWidgetTable(string $tbl, ?string $db = null, $tcArgs = []): array
     {
         if ($db == null) {
             $db = 'Sicroc';
@@ -152,7 +152,7 @@ class BaseDatabaseStructure
         ];
     }
 
-    public function defineWidgetWiki($title, $content)
+    public function defineWidgetWiki(string $title, string $content): array
     {
         $this->wikiContent[$title] = $content;
 
@@ -165,7 +165,7 @@ class BaseDatabaseStructure
         ];
     }
 
-    public function execute()
+    public function execute(): void
     {
         foreach ($this->structure as $page) {
             $pageId = $this->ensurePageExists($page);
@@ -187,7 +187,7 @@ class BaseDatabaseStructure
         }
     }
 
-    public function ensureTableConfigurationExists($tbl, $db, $tcArgs)
+    public function ensureTableConfigurationExists($tbl, $db, $tcArgs): ?int
     {
         $sql = 'INSERT INTO table_configurations (`table`, `database`, isSystem, createPhrase, createPageDelegate) VALUES (:table, :database, true, :createPhrase, :createPageDelegate) ON DUPLICATE KEY UPDATE createPhrase = :createPhrase, createPageDelegate = :createPageDelegate, id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
@@ -228,7 +228,7 @@ class BaseDatabaseStructure
         return $row['id'];
     }
 
-    public function ensurePageExists($page)
+    public function ensurePageExists($page): ?int
     {
         $sql = 'INSERT INTO pages (ident, title, isSystem) VALUES (:ident, :title, true) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
@@ -239,7 +239,7 @@ class BaseDatabaseStructure
         return $this->db->lastInsertId();
     }
 
-    public function ensureWidgetExists($widget)
+    public function ensureWidgetExists($widget): ?int
     {
         $sql = 'INSERT INTO widget_types (viewableController) VALUES (:type) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
@@ -268,7 +268,7 @@ class BaseDatabaseStructure
         return $widgetInstance;
     }
 
-    public function ensureWidgetOnPage($pageId, $widgetInstanceId)
+    public function ensureWidgetOnPage($pageId, $widgetInstanceId): void
     {
         $sql = 'INSERT INTO page_content (page, widget) VALUES (:page, :widget) ON DUPLICATE KEY UPDATE id=id';
         $stmt = $this->db->prepare($sql);

@@ -4,7 +4,7 @@ namespace Sicroc;
 
 abstract class Utils
 {
-    public static function implodeQuoted($a, $quoteChar = '"', $useNulls = false)
+    public static function implodeQuoted(array $a, string $quoteChar = '"', bool $useNulls = false): string
     {
         $ret = "";
 
@@ -23,8 +23,32 @@ abstract class Utils
         return $ret;
     }
 
-    public static function redirect($url)
+    public static function redirect(string $url, string $message): void
     {
         header('Location:' . $url);
+        echo $message;
+    }
+
+    public static function getSiteSetting(string $searchKey): mixed
+    {
+        global $settings;
+
+        if (empty($settings)) {
+            $sql = 'SELECT setting_key, setting_value FROM site_settings';
+            $stmt = \libAllure\DatabaseFactory::getInstance()->query($sql);
+
+            $settings = [];
+            global $settings;
+
+            foreach ($stmt->fetchAll() as $setting) {
+                $settings[$setting['setting_key']] = $setting['setting_value'];
+            }
+        }
+
+        if (isset($settings[$searchKey])) {
+            return $settings[$searchKey];
+        } else {
+            return false; // Most settings are feature flags
+        }
     }
 }

@@ -23,12 +23,12 @@ class ProcessedFormState
         $this->shouldRender = $shouldRender;
     }
 
-    public function redirect($url): void
+    public function redirect(string $url): void
     {
         $this->redirectUrl = $url;
     }
 
-    public function redirectIdent($ident): void
+    public function redirectIdent(string $ident): void
     {
         $this->redirect('?pageIdent=' . $ident);
     }

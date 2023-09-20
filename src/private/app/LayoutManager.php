@@ -5,26 +5,23 @@ namespace Sicroc;
 use Sicroc\Page;
 use Sicroc\Table;
 use Sicroc\Navigation;
+use Sicroc\Utils;
 use libAllure\Session;
 use libAllure\HtmlLinksCollection;
 
 class LayoutManager
 {
-    private $principle;
-    private $method;
-    private $widgets;
-    private $page;
+    private Page $page;
     private ?Navigation $nav;
-    private ?array $section;
 
-    private static $inst;
+    private static ?LayoutManager $inst = null;
 
     private function __construct()
     {
         global $db;
     }
 
-    public static function get()
+    public static function get(): LayoutManager
     {
         if (self::$inst == null) {
             self::$inst = new LayoutManager();
@@ -33,17 +30,12 @@ class LayoutManager
         return self::$inst;
     }
 
-    private function resolvePage()
-    {
-        $this->page->assignTpl();
-    }
-
-    public function getPage()
+    public function getPage(): Page
     {
         return $this->page;
     }
 
-    public function getEditMode()
+    public function getEditMode(): bool
     {
         $isSystemPage = $this->page->isSystem();
 
@@ -55,7 +47,7 @@ class LayoutManager
         }
     }
 
-    public function render()
+    public function render(): void
     {
         global $tpl;
 
@@ -121,14 +113,14 @@ class LayoutManager
             $links->add('?pageIdent=USER_PREFERENCES', 'Preferences');
             $links->add('?pageIdent=LOGOUT', 'Logout');
         } else {
-            $links->addIf(!getSiteSetting('disable_registration'), '?pageIdent=REGISTER', 'Register');
+            $links->addIf(!Utils::getSiteSetting('disable_registration'), '?pageIdent=REGISTER', 'Register');
             $links->add('?pageIdent=LOGIN', 'Login');
         }
 
         return $links;
     }
 
-    private function assertPageRenderable()
+    private function assertPageRenderable(): void
     {
         assert(!empty($this->page));
         assert(!empty($this->page->page));

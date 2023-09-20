@@ -14,7 +14,7 @@ class FormUsergroupCreate extends Form
         $this->addDefaultButtons();
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO groups (title) VALUES (:title) ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

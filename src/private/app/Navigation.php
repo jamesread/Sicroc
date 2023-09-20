@@ -8,7 +8,7 @@ use libAllure\Session;
 
 class Navigation
 {
-    public function lastPage(int $pageId): int|null
+    public function lastPage(int $pageId = null): int|null
     {
         if ($pageId !== null) {
             $_SESSION['pageId'] = $pageId;
@@ -21,7 +21,7 @@ class Navigation
         return null;
     }
 
-    public function getLinks()
+    public function getLinks(): HtmlLinksCollection
     {
         $links = new HtmlLinksCollection('Navigation');
 

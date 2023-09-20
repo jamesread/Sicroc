@@ -29,6 +29,6 @@ container-instance:
 	podman start sicroc
 
 phpstan:
-	./src/private/libraries/bin/phpstan analyse src/private/app
+	./src/private/libraries/bin/phpstan analyse -c phpstan.neon
 
 .PHONY: default test

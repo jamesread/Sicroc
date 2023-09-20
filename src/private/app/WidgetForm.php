@@ -11,7 +11,7 @@ class WidgetForm extends Widget
 
     private \Sicroc\ProcessedFormState $state;
 
-    public function widgetSetupCompleted()
+    public function widgetSetupCompleted(): void
     {
         $formClass = $this->getArgumentValue('formClass');
 
@@ -33,7 +33,7 @@ class WidgetForm extends Widget
         }
     }
 
-    private function setupForm()
+    private function setupForm(): void
     {
         if (!isset($this->f)) {
             return;
@@ -50,7 +50,7 @@ class WidgetForm extends Widget
         }
     }
 
-    public function getArguments()
+    public function getArguments(): array
     {
         $args = array();
         $args[] = array('type' => 'varchar', 'name' => 'formClass', 'default' => '', 'description' => 'The name of the form class');
@@ -58,7 +58,7 @@ class WidgetForm extends Widget
         return $args;
     }
 
-    public function render()
+    public function render(): void
     {
         if ($this->state->processed) {
             if ($this->state->redirectUrl != null) {
@@ -88,12 +88,12 @@ class WidgetForm extends Widget
         }
     }
 
-    public function validate()
+    public function validate(): void
     {
         $this->f->process();
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         if (isset($this->f)) {
             return 'Form: ' . $this->f->getTitle();

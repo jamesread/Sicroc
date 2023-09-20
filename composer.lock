@@ -58,16 +58,16 @@
         },
         {
             "name": "jwread/lib-allure",
-            "version": "8.1.21",
+            "version": "8.1.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jamesread/libAllure.git",
-                "reference": "fc2535a3a3c44bf227cf389e630e75e65a869a2a"
+                "reference": "9397514223eb169d4bd16821b4ba0d719e629392"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jamesread/libAllure/zipball/fc2535a3a3c44bf227cf389e630e75e65a869a2a",
-                "reference": "fc2535a3a3c44bf227cf389e630e75e65a869a2a",
+                "url": "https://api.github.com/repos/jamesread/libAllure/zipball/9397514223eb169d4bd16821b4ba0d719e629392",
+                "reference": "9397514223eb169d4bd16821b4ba0d719e629392",
                 "shasum": ""
             },
             "require": {
@@ -100,22 +100,22 @@
             "homepage": "https://github.com/jamesread/libAllure",
             "support": {
                 "issues": "https://github.com/jamesread/libAllure/issues",
-                "source": "https://github.com/jamesread/libAllure/tree/8.1.21"
+                "source": "https://github.com/jamesread/libAllure/tree/8.1.22"
             },
-            "time": "2023-09-05T22:22:34+00:00"
+            "time": "2023-09-11T15:41:47+00:00"
         },
         {
             "name": "smarty/smarty",
-            "version": "v4.3.2",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "1d9cda2be34fd6edb74924684260636fd0b89288"
+                "reference": "3931d8f54b8f7a4ffab538582d34d4397ba8daa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/1d9cda2be34fd6edb74924684260636fd0b89288",
-                "reference": "1d9cda2be34fd6edb74924684260636fd0b89288",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/3931d8f54b8f7a4ffab538582d34d4397ba8daa5",
+                "reference": "3931d8f54b8f7a4ffab538582d34d4397ba8daa5",
                 "shasum": ""
             },
             "require": {
@@ -166,9 +166,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v4.3.2"
+                "source": "https://github.com/smarty-php/smarty/tree/v4.3.4"
             },
-            "time": "2023-07-19T10:27:36+00:00"
+            "time": "2023-09-14T10:59:08+00:00"
         }
     ],
     "packages-dev": [
@@ -392,16 +392,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.25.1",
+            "version": "v3.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "8e21d69801de6b5ecb0dbe0bcdf967b335b1260b"
+                "reference": "e73ccaae1208f017bb7860986eebb3da48bd25d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/8e21d69801de6b5ecb0dbe0bcdf967b335b1260b",
-                "reference": "8e21d69801de6b5ecb0dbe0bcdf967b335b1260b",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/e73ccaae1208f017bb7860986eebb3da48bd25d6",
+                "reference": "e73ccaae1208f017bb7860986eebb3da48bd25d6",
                 "shasum": ""
             },
             "require": {
@@ -475,7 +475,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.25.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.27.0"
             },
             "funding": [
                 {
@@ -483,20 +483,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-04T01:22:52+00:00"
+            "time": "2023-09-17T14:37:54+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.33",
+            "version": "1.10.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "03b1cf9f814ba0863c4e9affea49a4d1ed9a2ed1"
+                "reference": "e730e5facb75ffe09dfb229795e8c01a459f26c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/03b1cf9f814ba0863c4e9affea49a4d1ed9a2ed1",
-                "reference": "03b1cf9f814ba0863c4e9affea49a4d1ed9a2ed1",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e730e5facb75ffe09dfb229795e8c01a459f26c3",
+                "reference": "e730e5facb75ffe09dfb229795e8c01a459f26c3",
                 "shasum": ""
             },
             "require": {
@@ -545,7 +545,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-04T12:20:53+00:00"
+            "time": "2023-09-19T15:27:56+00:00"
         },
         {
             "name": "psr/container",

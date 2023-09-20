@@ -1,0 +1,7 @@
+parameters:
+	level: 5
+	paths:
+	  - src/private/app
+
+#	ignoreErrors:
+#	  - '#value type specified in iterable type array#'

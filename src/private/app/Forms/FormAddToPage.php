@@ -9,27 +9,13 @@ use libAllure\ElementSelect;
 
 class FormAddToPage extends Form
 {
-    private array $page;
-
     public function __construct()
     {
         parent::__construct('formAddToPage', 'Add widget');
 
-        $this->page = $this->getPage();
-
         $this->addElementReadOnly('Page ID', Sanitizer::getInstance()->filterUint('pageToEdit'), 'pageToEdit');
         $this->addElement($this->getWidgetSelectionElement());
         $this->addDefaultButtons('Add widget');
-    }
-
-    private function getPage()
-    {
-        $sql = 'SELECT p.id, p.title FROM pages p WHERE p.id = :page LIMIT 1';
-        $stmt = DatabaseFactory::getInstance()->prepare($sql);
-        $stmt->bindValue(':page', Sanitizer::getInstance()->filterUint('pageToEdit'));
-        $stmt->execute();
-
-        return $stmt->fetchRow();
     }
 
     private function getWidgetSelectionElement()

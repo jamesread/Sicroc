@@ -6,7 +6,7 @@ use libAllure\DatabaseFactory;
 
 class TableRelatedRows extends Widget
 {
-    public function render()
+    public function render(): void
     {
         $widget = $this->page->getWidgetByType('TableRow');
 
@@ -26,13 +26,14 @@ class TableRelatedRows extends Widget
 
         foreach ($stmt->fetchAll() as $relation) {
             $fid = $widget['inst']->row[$relation['sourceField']];
-
+            /*
             $table = new Table($relation['foreignTable'], $fid);
 
             echo $relation['foreignTable'];
 
             $table->render();
             echo '<br />';
+             */
         }
     }
 }

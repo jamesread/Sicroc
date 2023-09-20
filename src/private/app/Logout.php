@@ -6,16 +6,16 @@ use libAllure\Session;
 
 class Logout extends Widget
 {
-    public function display()
+    public function display(): void
     {
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return "Logout";
     }
 
-    public function render()
+    public function render(): void
     {
         if (Session::isLoggedIn()) {
             Session::logout();

@@ -14,7 +14,7 @@ class FormWidgetClassRegister extends \libAllure\Form
         $this->addDefaultButtons('Register Widget Type');
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO widget_types (viewableController) VALUES (:viewableController)';
         $stmt = LA::db()->prepare($sql);

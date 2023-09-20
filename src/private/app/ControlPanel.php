@@ -7,7 +7,7 @@ use libAllure\Session;
 
 class ControlPanel extends \Sicroc\Widget
 {
-    public function render()
+    public function render(): void
     {
         $this->tpl->display('controlPanel.tpl');
     }

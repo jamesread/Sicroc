@@ -3,29 +3,28 @@
 namespace Sicroc;
 
 use libAllure\DatabaseFactory;
-use libAllure\Shortcuts as LA;
 
 class WikiContent extends Widget
 {
-    public function getPage($pageTitle)
+    public function getPage(string $pageTitle): array|false
     {
         $sql = 'SELECT w.principle AS title, w.content FROM wiki_content w WHERE w.principle = :principle';
-        $stmt = LA::db()->prepare($sql);
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':principle', $pageTitle);
         $stmt->execute();
 
         return $stmt->fetchRow();
     }
 
-    public function createWikiPage($pageTitle)
+    public function createWikiPage(string $pageTitle): void
     {
         $sql = 'INSERT INTO wiki_content (principle) VALUES (:principle) ';
-        $stmt = LA::db()->prepare($sql);
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':principle', $pageTitle);
         $stmt->execute();
     }
 
-    public function widgetSetupCompleted()
+    public function widgetSetupCompleted(): void
     {
         $pageTitle = $this->getArgumentValue('pageTitle');
 
@@ -51,17 +50,17 @@ class WikiContent extends Widget
         $this->tpl->assign('wikiPage', $wiki);
     }
 
-    public function render()
+    public function render(): void
     {
         $this->tpl->display('wiki.tpl');
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Wiki content';
     }
 
-    public function getArguments()
+    public function getArguments(): array
     {
         $args = array();
         $args[] = array('type' => 'varchar', 'name' => 'pageTitle', 'default' => '', 'description' => 'The page name');

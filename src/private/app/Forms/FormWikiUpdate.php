@@ -22,7 +22,7 @@ class FormWikiUpdate extends Form
         $this->addDefaultButtons('Save page');
     }
 
-    private function actualGetPage($page)
+    private function actualGetPage($page): false|array
     {
         $sql = 'SELECT w.principle, w.content FROM wiki_content w WHERE w.principle = :principle';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

@@ -13,7 +13,7 @@ class CalendarView extends Widget
     private string $datePrev = 'prev';
     private ?array $days = [];
 
-    public function getArguments()
+    public function getArguments(): array
     {
         $args = [];
         $args[] = array('type' => 'int', 'name' => 'table_configuration', 'default' => 0, 'description' => 'Table Configuration');
@@ -23,7 +23,7 @@ class CalendarView extends Widget
         return $args;
     }
 
-    public function widgetSetupCompleted()
+    public function widgetSetupCompleted(): void
     {
         $id = $this->getArgumentValue('table_configuration');
 
@@ -61,10 +61,10 @@ class CalendarView extends Widget
         $_SESSION['lastTcViewPage'] = $this->page->getId();
     }
 
-    private function loadEvents()
+    private function loadEvents(): void
     {
         if ($this->tc == null) {
-            return [];
+            return;
         }
 
         $dtfield = $this->getArgumentValue('start_field');
@@ -113,7 +113,7 @@ class CalendarView extends Widget
 
         // Set to the 1st of the Month
         $dt = \DateTime::createFromInterface($start);
-        $dt->setDate($dt->format('Y'), $dt->format('m'), 1);
+        $dt->setDate((int)$dt->format('Y'), (int)$dt->format('m'), 1);
 
         // Rewind to the nearest Monday
         while ($dt->format('N') != '1') {
@@ -157,7 +157,7 @@ class CalendarView extends Widget
         return $weeks;
     }
 
-    public function render()
+    public function render(): void
     {
         $this->tpl->assign('weeks', $this->days);
         $this->tpl->assign('currentMonth', $this->currentMonth);

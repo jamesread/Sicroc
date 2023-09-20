@@ -7,7 +7,7 @@ use libAllure\Shortcuts as LA;
 
 class TableRowDelete extends Widget
 {
-    public function render()
+    public function render(): void
     {
         $tc = new TableConfiguration(LA::san()->filterUint('tc'));
         $id = LA::san()->filterUint('primaryKey');
