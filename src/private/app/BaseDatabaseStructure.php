@@ -2,9 +2,11 @@
 
 namespace Sicroc;
 
+use libAllure\Database;
+
 class BaseDatabaseStructure
 {
-    private $db = null;
+    private ?Database $db = null;
     private array $structure = [];
 
     private array $wikiContent = [];
@@ -137,7 +139,7 @@ class BaseDatabaseStructure
         ];
     }
 
-    public function defineWidgetTable(string $tbl, ?string $db = null, $tcArgs = []): array
+    public function defineWidgetTable(string $tbl, ?string $db = null, array $tcArgs = []): array
     {
         if ($db == null) {
             $db = 'Sicroc';
@@ -187,7 +189,7 @@ class BaseDatabaseStructure
         }
     }
 
-    public function ensureTableConfigurationExists($tbl, $db, $tcArgs): ?int
+    public function ensureTableConfigurationExists(string $tbl, string $db, array $tcArgs): ?int
     {
         $sql = 'INSERT INTO table_configurations (`table`, `database`, isSystem, createPhrase, createPageDelegate) VALUES (:table, :database, true, :createPhrase, :createPageDelegate) ON DUPLICATE KEY UPDATE createPhrase = :createPhrase, createPageDelegate = :createPageDelegate, id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
@@ -208,10 +210,10 @@ class BaseDatabaseStructure
 
         $stmt->execute();
 
-        return $this->db->lastInsertId();
+        return (int)$this->db->lastInsertId();
     }
 
-    public function getPageIdFromIdent($ident): int
+    public function getPageIdFromIdent(string $ident): int
     {
         $sql = 'SELECT p.id FROM pages p WHERE p.ident = :ident LIMIT 1';
         $stmt = $this->db->prepare($sql);
@@ -219,16 +221,20 @@ class BaseDatabaseStructure
             ':ident' => $ident,
         ]);
 
-        $row = $stmt->fetchRow();
-
-        if ($row == null) {
+        if ($stmt == false) {
             throw new \Exception('Page ID not found: ' . $ident);
+        } else {
+            $row = $stmt->fetch();
+
+            if ($row == null) {
+                throw new \Exception('Page ID not found: ' . $ident);
+            }
         }
 
         return $row['id'];
     }
 
-    public function ensurePageExists($page): ?int
+    public function ensurePageExists(array $page): ?int
     {
         $sql = 'INSERT INTO pages (ident, title, isSystem) VALUES (:ident, :title, true) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
@@ -236,10 +242,10 @@ class BaseDatabaseStructure
         $stmt->bindValue(':title', $page['title']);
         $stmt->execute();
 
-        return $this->db->lastInsertId();
+        return (int)$this->db->lastInsertId();
     }
 
-    public function ensureWidgetExists($widget): ?int
+    public function ensureWidgetExists(array $widget): ?int
     {
         $sql = 'INSERT INTO widget_types (viewableController) VALUES (:type) ON DUPLICATE KEY UPDATE id=last_insert_id(id)';
         $stmt = $this->db->prepare($sql);
@@ -254,7 +260,7 @@ class BaseDatabaseStructure
         $stmt->bindValue(':title', $widget['title']);
         $stmt->execute();
 
-        $widgetInstance = $this->db->lastInsertId();
+        $widgetInstance = (int)$this->db->lastInsertId();
 
         foreach ($widget['args'] as $key => $val) {
             $sql = 'INSERT INTO widget_argument_values (widget, `key`, `value`) VALUES (:widget, :key, :value) ON DUPLICATE KEY UPDATE id=id';
@@ -268,7 +274,7 @@ class BaseDatabaseStructure
         return $widgetInstance;
     }
 
-    public function ensureWidgetOnPage($pageId, $widgetInstanceId): void
+    public function ensureWidgetOnPage(int $pageId, int $widgetInstanceId): void
     {
         $sql = 'INSERT INTO page_content (page, widget) VALUES (:page, :widget) ON DUPLICATE KEY UPDATE id=id';
         $stmt = $this->db->prepare($sql);

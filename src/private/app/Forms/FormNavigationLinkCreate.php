@@ -7,6 +7,7 @@ use libAllure\DatabaseFactory;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\Shortcuts as LA;
+use Sicroc\ProcessedFormState;
 
 class FormNavigationLinkCreate extends Form implements \Sicroc\BaseForm
 {
@@ -20,7 +21,7 @@ class FormNavigationLinkCreate extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Create link');
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO navigation_links (title, master) VALUES (:title, 1)';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -28,7 +29,7 @@ class FormNavigationLinkCreate extends Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->redirectIdent('NAVIGATION_LIST');

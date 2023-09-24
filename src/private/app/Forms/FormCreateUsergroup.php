@@ -3,6 +3,7 @@
 namespace Sicroc\Forms;
 
 use libAllure\Shortcuts as LA;
+use Sicroc\ProcessedFormState;
 
 class FormCreateUsergroup extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -15,7 +16,7 @@ class FormCreateUsergroup extends \libAllure\Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Create usergroup');
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO `groups` (title) values (:title); ';
         $stmt = LA::db()->prepare($sql);
@@ -26,7 +27,7 @@ class FormCreateUsergroup extends \libAllure\Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         $state->setProcessedMessage('Group created.', 'good');
     }

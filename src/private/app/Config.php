@@ -28,13 +28,13 @@ class Config
         return self::$instance;
     }
 
-    public function read()
+    public function read(): void
     {
         $this->readConfigFile();
         $this->readEnvironmentVariables();
     }
 
-    private function readConfigFile()
+    private function readConfigFile(): void
     {
         $configFileLocations = [
             '/etc/Sicroc/sicroc-config.ini',
@@ -55,12 +55,12 @@ class Config
         }
     }
 
-    private function readEnvironmentVariables()
+    private function readEnvironmentVariables(): void
     {
         $this->tryReadEnvironmentVariable('DB_DSN');
     }
 
-    private function tryReadenvironmentVariable($name)
+    private function tryReadenvironmentVariable(string $name): void
     {
         $value = getenv($name);
 
@@ -69,12 +69,12 @@ class Config
         }
     }
 
-    public function get($name)
+    public function get(string $name): string
     {
         return $this->arguments[$name];
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->arguments;
     }

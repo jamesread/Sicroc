@@ -6,6 +6,7 @@ use libAllure\Form;
 use libAllure\Sanitizer;
 use libAllure\DatabaseFactory;
 use libAllure\ElementSelect;
+use Sicroc\ProcessedFormState;
 
 class FormAddToPage extends Form
 {
@@ -18,7 +19,7 @@ class FormAddToPage extends Form
         $this->addDefaultButtons('Add widget');
     }
 
-    private function getWidgetSelectionElement()
+    private function getWidgetSelectionElement(): ElementSelect
     {
         $el = new ElementSelect('widget', 'Widget instance');
 
@@ -36,7 +37,7 @@ class FormAddToPage extends Form
         return $el;
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO page_content (page, widget) values (:page, :widget) ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -45,7 +46,7 @@ class FormAddToPage extends Form
         $stmt->execute();
     }
 
-    public function setupProcessedState($state)
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->preventRender('Widget added.');

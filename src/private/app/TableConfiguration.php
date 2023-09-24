@@ -10,7 +10,8 @@ use libAllure\ElementFile;
 use libAllure\ElementNumeric;
 use libAllure\ElementDate;
 use libAllure\QueryBuilder;
-use libAllure\Shortcuts as LA;
+use libAllure\DatabaseStatement;
+use libAllure\DatabaseFactory;
 
 class TableConfiguration
 {
@@ -45,11 +46,11 @@ class TableConfiguration
 
     public ?string $error = null;
 
-    private $stmt;
+    private ?DatabaseStatement $stmt;
 
     public bool $loaded = false;
 
-    public function __construct($tcId, int $singleRowId = null)
+    public function __construct(int $tcId, int $singleRowId = null)
     {
         $this->id = $tcId;
 
@@ -60,7 +61,7 @@ class TableConfiguration
         }
 
         $sql = 'SELECT `table`, `database`, orderColumn, orderAsc, createPhrase, createPageDelegate, listPhrase, editPhrase, editPageDelegate, showId, showTypes FROM table_configurations WHERE id = :id';
-        $stmt = LA::stmt($sql);
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->bindValue(':id', $this->id);
         $stmt->execute();
 
@@ -86,7 +87,7 @@ class TableConfiguration
         $this->loaded = true;
     }
 
-    public function loadTable()
+    public function loadTable(): void
     {
         $this->foreignKeys = $this->getForeignKeys();
         $this->conditionalFormatting = $this->getConditionalFormatting();
@@ -102,7 +103,7 @@ class TableConfiguration
     private function getConditionalFormatting(): array
     {
         $sql = 'SELECT cf.cell_style, cf.field, cf.operator, cf.cell_value, cf.display_as FROM table_conditional_formatting cf WHERE tc = :id ORDER BY priority_order ASC';
-        $stmt = LA::db()->prepare($sql);
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->execute([
             'id' => $this->id,
         ]);
@@ -110,7 +111,7 @@ class TableConfiguration
         return $stmt->fetchAll();
     }
 
-    private function addForeignKeyDescriptions()
+    private function addForeignKeyDescriptions(): void
     {
         foreach ($this->foreignKeys as $fkey) {
             for ($i = 0; $i < sizeof($this->rows); $i++) {
@@ -129,7 +130,7 @@ class TableConfiguration
     {
         // FIXME Check database
         $sql = 'SELECT * FROM table_fk_metadata WHERE sourceTable = :sourceTable';
-        $stmt = LA::db()->prepare($sql);
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
         $stmt->execute([
             ':sourceTable' => $this->table,
         ]);
@@ -171,7 +172,7 @@ class TableConfiguration
         return $qb->build();
     }
 
-    private function getRowData()
+    private function getRowData(): array
     {
         $sqlQb = $this->queryRowDataQb();
         $sqlHacky = $this->queryRowDataHacky();
@@ -192,7 +193,7 @@ class TableConfiguration
         return $this->stmt->fetchAll();
     }
 
-    private function applyConditionalFormatting()
+    private function applyConditionalFormatting(): void
     {
         foreach ($this->rows as $index => $cells) {
             $this->rows[$index]['meta'] = [
@@ -209,7 +210,7 @@ class TableConfiguration
         }
     }
 
-    private function applyConditionalFormattingRule($key, $cells, $rule): array
+    private function applyConditionalFormattingRule(string $key, array $cells, array $rule): array
     {
         $ret = [
         ];
@@ -235,7 +236,7 @@ class TableConfiguration
         return $ret;
     }
 
-    private function doesConditionalFormattingRuleApplyToRow($rule, $value): bool
+    private function doesConditionalFormattingRuleApplyToRow(array $rule, string $value): bool
     {
         switch ($rule['operator']) {
             case 'contains':
@@ -301,7 +302,7 @@ class TableConfiguration
         return $sql;
     }
 
-    public function getHeadersOfType()
+    public function getHeadersOfType(): array
     {
         $searchTypes = func_get_args();
         $ret = array();
@@ -315,7 +316,7 @@ class TableConfiguration
         return $ret;
     }
 
-    private function getHeadersFromRowData()
+    private function getHeadersFromRowData(): array
     {
         if ($this->stmt == null) {
             return array();
@@ -344,12 +345,12 @@ class TableConfiguration
         return $headers;
     }
 
-    public function getRows()
+    public function getRows(): array
     {
         return $this->rows;
     }
 
-    public function getElementForColumn($header): ?\libAllure\Element
+    public function getElementForColumn(array $header): ?\libAllure\Element
     {
         if (isset($this->singleRowId)) {
             $row = current($this->rows);
@@ -416,8 +417,7 @@ class TableConfiguration
                 $qb->from($fk['foreignTable'], null, $fk['foreignDatabase'])->fields([$fk['foreignField'], 'fkey'], [$fk['foreignDescription'], 'description']);
 
                 //$sql = 'SELECT ' . $fk['foreignField'] . ' AS fkey, ' . $fk['foreignDescription'] . ' AS description FROM ' . $fk['foreignTable'] . ' ORDER BY description';
-                //$stmt = LA::db()->prepare($sql);
-                $stmt = LA::db()->prepare($qb->build());
+                $stmt = DatabaseFactory::getInstance()->prepare($qb->build());
                 $stmt->execute();
 
                 $el = new ElementSelect($key, $key);

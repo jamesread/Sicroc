@@ -70,7 +70,7 @@ class Page
         return $this->page['id'];
     }
 
-    public function getWidgetByType($search): ?object
+    public function getWidgetByType(string $search): ?object
     {
         foreach ($this->widgets as $widget) {
             if (get_class($widget['inst']) == $search) {
@@ -81,7 +81,7 @@ class Page
         return null;
     }
 
-    private function getWidgets($pageId): array
+    private function getWidgets(int $pageId): array
     {
         $sql = 'SELECT wt.viewableController, wi.id, wi.title FROM page_content c JOIN widget_instances wi ON c.widget = wi.id JOIN widget_types wt ON wi.type = wt.id  WHERE c.page = :pageId ORDER BY c.ordinal';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -93,7 +93,7 @@ class Page
         return $widgets;
     }
 
-    private function resolveWidgets($widgets): array
+    private function resolveWidgets(array $widgets): array
     {
         foreach ($widgets as $key => $widget) {
             $widgets[$key] = self::resolveWidget($widget, $this);
@@ -102,7 +102,7 @@ class Page
         return $widgets;
     }
 
-    private function renderWidgets($widgets): array
+    private function renderWidgets(array $widgets): array
     {
         foreach ($widgets as $key => $widget) {
             $widgets[$key] = self::renderWidget($widget);
@@ -111,7 +111,7 @@ class Page
         return $widgets;
     }
 
-    private static function renderWidget($widget): array
+    private static function renderWidget(array $widget): array
     {
         if (!isset($widget['inst'])) {
             return $widget;
@@ -131,7 +131,7 @@ class Page
         return $widget;
     }
 
-    public static function resolveWidget($widget, $page = null): array
+    public static function resolveWidget(array $widget, ?Page $page = null): array
     {
         $widgetRet = $widget;
         $widgetRet['shouldRender'] = true;
@@ -171,7 +171,7 @@ class Page
         return $widgetRet;
     }
 
-    private static function renderWidgetException($e)
+    private static function renderWidgetException(\Exception $e): string
     {
         $html = '';
         $html .= '<div class = "framedBox">';

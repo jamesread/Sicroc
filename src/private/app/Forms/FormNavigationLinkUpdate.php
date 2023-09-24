@@ -29,7 +29,7 @@ class FormSectionUpdate extends Form
         $this->addDefaultButtons('Save');
     }
 
-    private function getElementUsergroup($current)
+    private function getElementUsergroup(string $current): ElementSelect
     {
         $sql = 'SELECT g.title, g.id FROM groups g ORDER by g.title';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -46,7 +46,7 @@ class FormSectionUpdate extends Form
         return $el;
     }
 
-    private function getElementIndexPage($currentIndex)
+    private function getElementIndexPage(int $currentIndex): ElementSelect
     {
         $sql = 'SELECT p.id, p.title FROM pages p ORDER BY p.title ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -63,7 +63,7 @@ class FormSectionUpdate extends Form
         return $el;
     }
 
-    private function getElementMaster($current)
+    private function getElementMaster(string $current): ElementSelect
     {
         $sql = 'SELECT s.id, s.title FROM sections s';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -81,7 +81,7 @@ class FormSectionUpdate extends Form
         return $el;
     }
 
-    private function getSection($id)
+    private function getSection(int $id): array
     {
         $sql = 'SELECT title, master, `index`, ordinal, usergroup FROM sections WHERE id = :id';
         $stmt = LA::stmt($sql);
@@ -91,7 +91,7 @@ class FormSectionUpdate extends Form
         return $stmt->fetchRowNotNull();
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'UPDATE sections SET title = :title, master = :master, `index` = :index, ordinal = :ordinal, usergroup = :usergroup WHERE id = :id';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

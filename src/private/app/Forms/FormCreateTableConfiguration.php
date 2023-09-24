@@ -3,6 +3,7 @@
 namespace Sicroc\Forms;
 
 use Sicroc\BaseDatabaseStructure;
+use Sicroc\ProcessedFormState;
 use libAllure\ElementAlphaNumeric;
 use libAllure\ElementCheckbox;
 use libAllure\Shortcuts as LA;
@@ -23,7 +24,7 @@ class FormCreateTableConfiguration extends \libAllure\Form
         $this->addDefaultButtons('Create');
     }
 
-    public function process()
+    public function process(): void
     {
         if ($this->getElementValue('createTable')) {
             $sql = 'CREATE TABLE ' . $this->getElementValue('db') . '.' . $this->getElementValue('table') . ' (id int not null primary key auto_increment)';
@@ -67,7 +68,7 @@ class FormCreateTableConfiguration extends \libAllure\Form
         }
     }
 
-    public function setupProcessedState($state)
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->redirectIdent('TABLE_CONFIGURATION_LIST');

@@ -11,7 +11,7 @@ use libAllure\ElementNumeric;
 
 class FormTableConditionalFormatting extends Form
 {
-    private $tc;
+    private TableConfiguration $tc;
 
     public function __construct()
     {
@@ -66,7 +66,7 @@ class FormTableConditionalFormatting extends Form
         $this->addDefaultButtons('Create');
     }
 
-    public function process()
+    public function process(): void
     {
         $css = 'background-color: ' . $this->getElementValue('background') . '; color: ' . $this->getElementValue('foreground') . '; ' . $this->getElementValue('css');
 

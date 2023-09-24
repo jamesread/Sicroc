@@ -8,6 +8,7 @@ use libAllure\ElementSelect;
 use libAllure\DatabaseFactory;
 use libAllure\Shortcuts as LA;
 use Sicroc\TableConfiguration;
+use Sicroc\ProcessedFormState;
 
 class FormTableAddColumn extends Form implements \Sicroc\BaseForm
 {
@@ -43,7 +44,7 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Create column');
     }
 
-    public function process()
+    public function process(): void
     {
         $type = $this->getElementValue('type');
 
@@ -53,7 +54,7 @@ class FormTableAddColumn extends Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->redirect('?pageIdent=TABLE_VIEW&tc=' . $this->getElementValue('tc'));

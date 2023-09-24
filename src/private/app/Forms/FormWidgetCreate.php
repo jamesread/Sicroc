@@ -2,6 +2,7 @@
 
 namespace Sicroc\Forms;
 
+use Sicroc\ProcessedFormState;
 use libAllure\ElementInput;
 use libAllure\ElementSelect;
 use libAllure\Form;
@@ -18,7 +19,7 @@ class FormWidgetCreate extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Instanciate');
     }
 
-    private function getElementType()
+    private function getElementType(): ElementSelect
     {
         $el = new ElementSelect('type', 'Type');
 
@@ -29,7 +30,7 @@ class FormWidgetCreate extends Form implements \Sicroc\BaseForm
         return $el;
     }
 
-    private function getAvailableTypes()
+    private function getAvailableTypes(): array
     {
         $sql = 'SELECT wt.id, wt.viewableController FROM widget_types wt';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -38,7 +39,7 @@ class FormWidgetCreate extends Form implements \Sicroc\BaseForm
         return $stmt->fetchAll();
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO widget_instances (type, title) VALUES (:type, :title) ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -49,7 +50,7 @@ class FormWidgetCreate extends Form implements \Sicroc\BaseForm
         $this->redirectUrl = '?pageIdent=WIDGET_INSTANCE_UPDATE&widgetToUpdate=' . DatabaseFactory::getInstance()->lastInsertId();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->redirect($this->redirectUrl);

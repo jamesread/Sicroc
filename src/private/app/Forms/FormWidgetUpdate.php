@@ -2,6 +2,7 @@
 
 namespace Sicroc\Forms;
 
+use Sicroc\ProcessedFormState;
 use Sicroc\Page;
 use libAllure\Form;
 use libAllure\ElementInput;
@@ -52,7 +53,7 @@ class FormWidgetUpdate extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Save widget');
     }
 
-    private function getWidget()
+    private function getWidget(): array
     {
         $id = Sanitizer::getInstance()->filterUint('widgetToUpdate');
         $sql = 'SELECT wi.id, wi.title, wt.viewableController FROM widget_instances wi JOIN widget_types wt ON wi.type = wt.id WHERE wi.id = :id LIMIT 1';
@@ -63,7 +64,7 @@ class FormWidgetUpdate extends Form implements \Sicroc\BaseForm
         return $stmt->fetchRowNotNull();
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'UPDATE widget_instances w SET w.title = :title WHERE w.id = :id ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -82,7 +83,7 @@ class FormWidgetUpdate extends Form implements \Sicroc\BaseForm
         }
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         $state->setProcessedMessage('Widget saved');
     }

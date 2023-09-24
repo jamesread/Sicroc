@@ -7,17 +7,16 @@ use libAllure\ElementPassword;
 use libAllure\Session;
 use libAllure\User;
 use Sicroc\BaseForm;
+use Sicroc\ProcessedFormState;
 
 class FormLogin extends \libAllure\util\FormLogin implements \Sicroc\BaseForm
 {
-    public $alternativeMessage;
-
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->preventRender('You have logged in.');

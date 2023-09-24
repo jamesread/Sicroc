@@ -33,7 +33,7 @@ class FormAddForeignKey extends Form
         $this->addDefaultButtons();
     }
 
-    private function getElementSourceField()
+    private function getElementSourceField(): ElementSelect
     {
         $el = new ElementSelect('sourceField', 'Source field');
 
@@ -46,7 +46,7 @@ class FormAddForeignKey extends Form
         return $el;
     }
 
-    public function process()
+    public function process(): void
     {
         //$sql = 'ALTER TABLE ' . Sanitizer::getInstance()->filterString('table') . ' ADD CONSTRAINT FOREIGN KEY (' . $this->getElementValue('sourceField') . ') REFERENCES ' . $this->getElementValue('foreignTable') . '(' .  $this->getElementValue('foreignField') . ') ';
         /**

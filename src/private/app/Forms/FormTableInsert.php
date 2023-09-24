@@ -8,6 +8,7 @@ use libAllure\Shortcuts as LA;
 use libAllure\Session;
 use Sicroc\TableConfiguration;
 use Sicroc\Utils;
+use Sicroc\ProcessedFormState;
 
 class FormTableInsert extends Form implements \Sicroc\BaseForm
 {
@@ -54,7 +55,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
     }
 
 
-    public function process()
+    public function process(): void
     {
         $fields = Utils::implodeQuoted($this->fields, '`');
         $values = array();
@@ -68,7 +69,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             if (isset($_SESSION['lastTcViewPage'])) {

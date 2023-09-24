@@ -7,6 +7,7 @@ use libAllure\ElementPassword;
 use libAllure\DatabaseFactory;
 use libAllure\AuthBackend;
 use libAllure\User;
+use Sicroc\ProcessedFormState;
 
 class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -21,7 +22,7 @@ class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Register');
     }
 
-    public function validateExtended()
+    public function validateExtended(): void
     {
         $sql = 'SELECT username FROM users WHERE username = :username';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -38,7 +39,7 @@ class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
         }
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'INSERT INTO users (username, password) VALUES (:username, :password) ';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -54,7 +55,7 @@ class FormRegister extends \libAllure\Form implements \Sicroc\BaseForm
         }
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->redirect('?pageIdent=LOGIN');

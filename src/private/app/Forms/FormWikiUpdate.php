@@ -9,7 +9,7 @@ use libAllure\ElementTextbox;
 
 class FormWikiUpdate extends Form
 {
-    private $page;
+    private false|array $page;
 
     public function __construct()
     {
@@ -22,7 +22,7 @@ class FormWikiUpdate extends Form
         $this->addDefaultButtons('Save page');
     }
 
-    private function actualGetPage($page): false|array
+    private function actualGetPage(string $page): false|array
     {
         $sql = 'SELECT w.principle, w.content FROM wiki_content w WHERE w.principle = :principle';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -36,7 +36,7 @@ class FormWikiUpdate extends Form
         }
     }
 
-    private function getPage()
+    private function getPage(): array
     {
         $page = Sanitizer::getInstance()->filterString('pageTitle');
 
@@ -58,7 +58,7 @@ class FormWikiUpdate extends Form
         return $wiki;
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'UPDATE wiki_content SET content = :content WHERE principle = :principle';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

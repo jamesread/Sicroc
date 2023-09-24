@@ -71,7 +71,7 @@ class LayoutManager
         $tpl->display('layout.' . $this->page->getLayout() . '.tpl');
     }
 
-    private function getActionNavigation()
+    private function getActionNavigation(): HtmlLinksCollection
     {
         $links = new HtmlLinksCollection();
         /*

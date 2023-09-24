@@ -6,6 +6,7 @@ use libAllure\Form;
 use libAllure\ElementSelect;
 use libAllure\DatabaseFactory;
 use libAllure\Shortcuts as LA;
+use Sicroc\ProcessedFormState;
 
 class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
 {
@@ -16,7 +17,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Add');
     }
 
-    private function addElementUser()
+    private function addElementUser(): void
     {
         $sql = 'SELECT id, username FROM users ';
         $stmt = LA::db()->prepare($sql);
@@ -32,7 +33,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
         $this->addElement($selectUser);
     }
 
-    private function addElementUserGroup()
+    private function addElementUserGroup(): void
     {
         $sql = 'SELECT id, title FROM groups ';
         $stmt = LA::stmt($sql);
@@ -47,7 +48,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
         $this->addElement($selectGroup);
     }
 
-    public function process()
+    public function process(): void
     {
         $user = $this->getElementValue('user');
         $group = $this->getElementValue('group');
@@ -63,7 +64,7 @@ class FormAddUserToGroup extends Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $state->setProcessedMessage('User added', 'good', false);

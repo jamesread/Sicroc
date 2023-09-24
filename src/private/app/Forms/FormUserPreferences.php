@@ -2,6 +2,7 @@
 
 namespace Sicroc\Forms;
 
+use Sicroc\ProcessedFormState;
 use libAllure\Session;
 use libAllure\ElementCheckbox;
 use libAllure\ElementSelect;
@@ -36,7 +37,7 @@ class FormUserPreferences extends \libAllure\Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Save preferences');
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if (!Session::isLoggedIn()) {
             $state->preventRender('You are not logged in yet.', 'bad');
@@ -46,7 +47,7 @@ class FormUserPreferences extends \libAllure\Form implements \Sicroc\BaseForm
         $state->setProcessedMessage('Preferences saved.');
     }
 
-    public function process()
+    public function process(): void
     {
         $user = Session::getUser();
 

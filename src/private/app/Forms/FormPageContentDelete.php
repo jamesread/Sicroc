@@ -6,6 +6,7 @@ use libAllure\Form;
 use libAllure\Sanitizer;
 use libAllure\DatabaseFactory;
 use libAllure\ElementSelect;
+use Sicroc\ProcessedFormState;
 
 class FormPageContentDelete extends Form implements \Sicroc\BaseForm
 {
@@ -22,14 +23,14 @@ class FormPageContentDelete extends Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Delete widget');
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if (empty($this->widgets)) {
             $state->preventRender('The page is empty.', 'ok');
         }
     }
 
-    private function getElementWidgetSelect($id)
+    private function getElementWidgetSelect(int $id): ElementSelect
     {
         $sql = 'SELECT c.id, w.title FROM page_content c JOIN widget_instances w ON c.widget = w.id WHERE c.page = :pageId';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -50,7 +51,7 @@ class FormPageContentDelete extends Form implements \Sicroc\BaseForm
         return $el;
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'DELETE FROM page_content WHERE id = :contentId';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

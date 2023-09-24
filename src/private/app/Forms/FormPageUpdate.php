@@ -25,7 +25,7 @@ class FormPageUpdate extends Form
         $this->addDefaultButtons();
     }
 
-    private function getPage()
+    private function getPage(): array
     {
         $sanitizer = new Sanitizer();
 
@@ -37,7 +37,7 @@ class FormPageUpdate extends Form
         return $stmt->fetchRowNotNull();
     }
 
-    public function process()
+    public function process(): void
     {
         $sql = 'UPDATE pages SET title = :title WHERE id = :id LIMIT 1';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);

@@ -5,6 +5,7 @@ namespace Sicroc\Forms;
 use Sicroc\TableConfiguration;
 use libAllure\Shortcuts as LA;
 use Sicroc\Utils;
+use Sicroc\ProcessedFormState;
 
 class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
 {
@@ -44,7 +45,7 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
         $this->addDefaultButtons('Save');
     }
 
-    public function process()
+    public function process(): void
     {
         $fields = Utils::implodeQuoted($this->fields, '`');
         $values = array();
@@ -71,7 +72,7 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
         $stmt->execute();
     }
 
-    public function setupProcessedState($state): void
+    public function setupProcessedState(ProcessedFormState $state): void
     {
         if ($state->processed) {
             $redirectTo = $this->getElementValue('redirectTo');
