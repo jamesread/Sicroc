@@ -17,8 +17,6 @@ function sicrocInit()
     }
 
     setupTimezone();
-
-    \libAllure\Sanitizer::getInstance()->enableSearchingPrefixKeys();
 }
 
 /**
@@ -54,13 +52,17 @@ HTML;
 
 function setupLibAllure()
 {
+    $requiredVersion = '^8.1.19';
+
     \Composer\InstalledVersions::satisfies(
         new \Composer\Semver\VersionParser(),
         'jwread/lib-allure',
-        '^8.0.2'
-    ) or trigger_error('libAllure needs to be installed', E_USER_ERROR);
+        $requiredVersion
+    ) or startupError('libAllure needs to be installed with at least version: ' . $requiredVersion);
 
     \libAllure\ErrorHandler::getInstance()->beGreedy();
+
+    \libAllure\Sanitizer::getInstance()->enableSearchingPrefixKeys();
 }
 
 function requireDatabaseVersion(string $requiredMigration): void
