@@ -4,8 +4,6 @@ namespace Sicroc;
 
 use libAllure\DatabaseFactory;
 use libAllure\Element;
-use libAllure\ElementSelect;
-use libAllure\ElementCheckbox;
 use libAllure\Shortcuts as LA;
 
 class Table extends Widget
@@ -88,37 +86,6 @@ class Table extends Widget
             ]);
 
             $this->tpl->display('table.tpl');
-        }
-    }
-
-    public function getArgumentElement(string $name, string $type, mixed $default = 0): Element
-    {
-        switch ($type) {
-            case 'boolean':
-                $el = new ElementCheckbox($name, $name);
-
-                return $el;
-        }
-
-        switch ($name) {
-            case 'table_configuration':
-                $el = new ElementSelect($name, $name);
-                $el->addOption('---', null);
-
-                $sql = 'SELECT tc.id, tc.database, tc.table FROM table_configurations tc ORDER BY tc.database, tc.table';
-
-                $stmt = LA::stmt($sql);
-                $stmt->execute();
-
-                foreach ($stmt->fetchAll() as $tc) {
-                    $el->addOption($tc['database'] . '.' . $tc['table'], $tc['id']);
-                }
-
-                $el->setValue($default);
-
-                return $el;
-            default:
-                return parent::getArgumentElement($name, $type, $default);
         }
     }
 }

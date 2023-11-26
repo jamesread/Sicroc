@@ -43,11 +43,12 @@ class CalendarView extends Widget
                 $this->navigation->add('?page=' . $this->tc->createPageDelegate, $this->tc->createPhrase);
             }
 
-            $this->navigation->add("?page={$this->page->getId()}&start={$this->datePrev}", '&laquo;');
-            $this->navigation->add("?page={$this->page->getId()}&start={$this->dateNext}", '&raquo;');
-
             $now = date_create()->format('Y-m-d');
             $this->navigation->add("?page={$this->page->getId()}&start={$now}", 'Today');
+
+            $this->navigation->add("?page={$this->page->getId()}&start={$this->datePrev}", '&laquo;');
+            $this->navigation->add("?page={$this->page->getId()}&start={$this->dateNext}", '&raquo;');
+            $this->navigation->add('#', $this->currentMonth, null, 'noLink');
 
             $this->navigation->addIf(LayoutManager::get()->getEditMode(), 'dispatcher.php?pageIdent=TABLE_STRUCTURE&amp;tc=' . $this->tc->id, 'Table Structure');
         } else {

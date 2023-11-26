@@ -39,7 +39,11 @@
 				{if $link.url == null}
 				&nbsp;&nbsp;
 				{else}
-				<a class = "button" href = "{$link.url}">{$link.title}</a>
+					{if $link.containerClass == "noLink"}
+					<strong>{$link.title}</strong>
+					{else}
+					<a class = "button" href = "{$link.url}">{$link.title}</a>
+					{/if}
 				{/if}
 			{/foreach}
 			</div>

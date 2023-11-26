@@ -7,6 +7,8 @@ use libAllure\Shortcuts as LA;
 use libAllure\HtmlLinksCollection;
 use libAllure\Template;
 use libAllure\Element;
+use libAllure\ElementSelect;
+use libAllure\ElementCheckbox;
 use Sicroc\Controller;
 
 abstract class Widget
@@ -131,8 +133,35 @@ abstract class Widget
 
     public function getArgumentElement(string $name, string $type, mixed $val = 0): Element
     {
-        $el = new \libAllure\ElementInput($name, $name, $val);
-        $el->setMinMaxLengths(0, 1024);
+        switch ($type) {
+            case 'boolean':
+                $el = new ElementCheckbox($name, $name);
+
+                return $el;
+        }
+
+        switch ($name) {
+            case 'table_configuration':
+                $el = new ElementSelect($name, $name);
+                $el->addOption('---', null);
+
+                $sql = 'SELECT tc.id, tc.database, tc.table FROM table_configurations tc ORDER BY tc.database, tc.table';
+
+                $stmt = LA::stmt($sql);
+                $stmt->execute();
+
+                foreach ($stmt->fetchAll() as $tc) {
+                    $el->addOption($tc['database'] . '.' . $tc['table'], $tc['id']);
+                }
+
+                $el->setValue($val);
+
+                return $el;
+            default:
+                $el = new \libAllure\ElementInput($name, $name, $val);
+                $el->setMinMaxLengths(0, 1024);
+        }
+
         return $el;
     }
 
