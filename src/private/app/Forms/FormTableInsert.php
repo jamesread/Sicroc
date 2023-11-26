@@ -24,7 +24,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
         if (Session::getUser()->getData('showTcOnRowForms')) {
             $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
         } else {
-            $this->addElement(new ElementHidden('tc', $this->tc->id, 'tc'));
+            $this->addElement(new ElementHidden('tc', null, $this->tc->id));
         }
 
         $fields = array();
