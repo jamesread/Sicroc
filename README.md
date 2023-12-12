@@ -11,13 +11,16 @@ Packagist.org link: https://packagist.org/packages/jamesread/sicroc
 
 **Sicroc is a No-Nonsense Open Source project;**
 
-- All code and assets are Open Spurce (AGPL). 
-- No premium, or paid-for extra features. 
-- No SaaS service or "special cloud version". 
-- No user tracking, telemetry or email address collection. 
-- No paid-for support.
+- All code and assets are Open Spurce (AGPL).
+- No company is paying for development, there is no paid-for support from the developers.
+- No separate core and premium version, no plus/pro version or paid-for extra features.
+- No SaaS service or "special cloud version".
+- No "anonymous data collection", usage tracking, user tracking, telemetry or email address collection.
+- No requests for reviews in any "app store" or feedback surveys.
+- No prompts to "upgrade to the latest version".
+- No internet-connection required for any functionality.
 
-**Sicroc gets out of the way of your data;** 
+**Sicroc gets out of the way of your data;**
 
 - Your data is stored in plain old MySQL tables.
 - All Sicroc metadata is stored in a self contained database, meaning your data and tables are clean and safe if you move away from Sicroc. 
