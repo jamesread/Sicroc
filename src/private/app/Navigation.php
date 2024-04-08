@@ -21,12 +21,13 @@ class Navigation
         return null;
     }
 
-    public function getLinks(): HtmlLinksCollection
+    public function getLinks()
     {
-        $links = new HtmlLinksCollection('Navigation');
+        $topLinks = [];
+        $allLinks = [];
 
         if (Session::isLoggedIn()) {
-            $sql = 'SELECT l.title, l.master, l.index_page, l.usergroup FROM navigation_links l ORDER BY l.ordinal, l.title ASC';
+            $sql = 'SELECT l.title, l.master, l2.title AS masterTitle, l.index_page, l.usergroup FROM navigation_links l JOIN navigation_links l2 ON l.master = l2.id ORDER BY l.master, l.ordinal, l.title ASC';
             $stmt = DatabaseFactory::getInstance()->prepare($sql);
             $stmt->execute();
 
@@ -34,11 +35,23 @@ class Navigation
 
             foreach ($stmt->fetchAll() as $link) {
                 if (empty($link['usergroup']) || in_array($link['usergroup'], $usergroupIds)) {
-                    $links->add('?page=' . $link['index_page'], $link['title']);
+                    $newLink = [
+                        'title' => $link['title'],
+                        'url' => '?page=' . $link['index_page'],
+                        'children' => array(),
+                    ];
+
+                    $allLinks[$link['title']] = $newLink;
+
+                    if ($link['master'] == 1) {
+                        $topLinks[$link['title']] = $newLink;
+                    } else {
+                        $topLinks[$link['masterTitle']]['children'][] = $newLink;
+                    }
                 }
             }
         }
 
-        return $links;
+        return $topLinks;
     }
 }

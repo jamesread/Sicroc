@@ -16,40 +16,23 @@
 <body>
 
 <header>
-	<h1><a href = "?">Sicroc</a></h1>
+	<div id = "permaWidget">
+		<button id = "toggleSidebar" onclick = "toggleSidebar()">&raquo;</button>
+		<h1><a href = "?">Sicroc</a> &raquo; {$page.title|default:"Untitled page"}</h1>
+	</div>
 
+	<nav>
 	{if $navigation|@count eq 0}
 		<ul class = "navigation">&nbsp; </ul>
 	{else}
 		<ul class = "navigation">
-		{foreach from = $navigation item = "link"}
-			<li><a href = "{$link.url}"	class = "{if $page.title == $link.title}activeSection{/if}">{$link.title}</a></li>
-		{/foreach}
+		{include file = "links.tpl" links = $navigation}
 		</ul>
 	{/if}
 
-	<div class = "subnav">
-	{if count($actionNavigation) <= 2}
-	{$link = $actionNavigation->getAll()}
-	{foreach from = $actionNavigation item = link}
-	<a href = "{$link.url}" class = "{if $page.title == $link.title}activeSection{/if}">{$link.title}</a>
-	{/foreach}
-
-	{else}
-	<ul id = "sectionActions">
-		<li><span title = "Actions">&#9776;</span>
-			<ul>
-			{foreach from = $actionNavigation item = "link"}
-			{if $link.separator}
-			<li><hr /></li>
-			{else}
-			<li><a href = "{$link.url}">{$link.title}</a></li>
-			{/if}
-			{/foreach}
-			</ul>
-		</li>
+	<ul class = "subnav navigation" id = "sectionActions">
+	{include file = "links.tpl" links = $actionNavigation}
 	</ul>
-	{/if}
-	</div>
+	</nav>
 </header>
 

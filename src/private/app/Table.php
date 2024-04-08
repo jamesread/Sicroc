@@ -65,7 +65,9 @@ class Table extends Widget
 
         $this->navigation->addIf(LayoutManager::get()->getEditMode(), '?pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate=' . $this->widgetId, 'Update widget');
 
-        $_SESSION['lastTcViewPage'] = $this->page->getId();
+        if ($this->page != null) {
+            $_SESSION['lastTcViewPage'] = $this->page->getId();
+        }
     }
 
     public function render(): void

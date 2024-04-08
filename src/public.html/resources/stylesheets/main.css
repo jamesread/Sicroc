@@ -1,5 +1,11 @@
+html {
+  min-height: 100vh;
+}
+
 body {
   background-color: #efefef;
+  min-height: 100vh;
+  padding-top: 3em;
 }
 
 h2 {
@@ -9,7 +15,6 @@ h2 {
   margin-top: 6px;
   margin-bottom: 1em;
   color: #000;
-  position: relative;
 }
 
 body, td, input {
@@ -23,6 +28,13 @@ body, td, input {
 main {
   padding: 2em;
   padding-top: 1em;
+  grid-area: 'main';
+}
+
+div.subnav {
+  position: absolute;
+  top: 1.5em;
+  right: 0;
 }
 
 div.subnav p {
@@ -105,11 +117,21 @@ a:hover {
   text-decoration: underline;
 }
 
-header {
+nav {
+  padding-top: 3.5em;
   background-color: #CDEB8B;
   border-bottom: 1px solid #bbb;
-  display: flex;
-  align-items: center;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  transition: left .3s;
+  overflow: auto;
+}
+
+nav.shown {
+  left: 0px;
 }
 
 div.header img {
@@ -150,9 +172,21 @@ fieldset {
   border: 0;
 }
 
-fieldset.required label:after {
+label.required:after {
   color: red;
   content: ' *';
+}
+
+#permaWidget {
+  padding: .6em;
+  position: fixed;
+  z-index: 99;
+  left: 0;
+  top: 0;
+}
+
+#permaWidget * {
+  display: inline-block;
 }
 
 h1 {
@@ -160,8 +194,7 @@ h1 {
   margin-top: .5em;
   margin-bottom: .5em;
   padding-left: 12px;
-  font-size: 1em;
-  border-right: 1px solid #bbb;
+  font-size: 1.2em;
   padding-right: 1em;
 }
 
@@ -173,13 +206,13 @@ h1 a, h1 a:hover, h1 a:visited, h1 a:active {
 ul.navigation {
   flex-grow: 1;
   margin: 0;
-  padding: 6px;
+  padding: 0;
+  list-style: none;
 }
 
 ul.navigation li, div.subnav > a {
   text-transform: uppercase;
-  display: inline;
-  padding: 0;
+  padding-left: 0;
   margin: 0;
 }
 
@@ -193,13 +226,19 @@ ul.navigation li a, div.subnav > a {
   color: black;
   font-weight: bold;
   padding: 6px;
+  padding-left: 1em;
   margin: 0;
+  display: block;
 }
 
 ul.navigation li a:hover, div.subnav > a:hover {
   background-color: #356AA0;
   background-color: #E6EACB;
   color: black;
+}
+
+ul.navigation ul.navigation {
+  padding-left: 1.5em;
 }
 
 hr {
@@ -365,6 +404,7 @@ th .subtle {
 footer {
   border-top: 1px solid #bbb;
   padding: 1em;
+  grid-area: foot;
 }
 
 footer p {

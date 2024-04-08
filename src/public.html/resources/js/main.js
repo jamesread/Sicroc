@@ -33,3 +33,17 @@ function sortColumn(tbl, th, idx) {
     th.classList.add('sortDesc');
   }
 }
+
+function toggleSidebar() {
+  const nav = document.querySelector('nav')
+  const btn = document.getElementById('toggleSidebar')
+
+  if (nav.classList.contains('shown')) {
+    nav.classList.remove('shown')
+    btn.innerHTML = '&raquo;'
+  } else {
+    nav.classList.add('shown')
+    btn.innerHTML = '&laquo;'
+  }
+}
+
