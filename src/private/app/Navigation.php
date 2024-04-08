@@ -21,7 +21,7 @@ class Navigation
         return null;
     }
 
-    public function getLinks()
+    public function getLinks(): array
     {
         $topLinks = [];
         $allLinks = [];
