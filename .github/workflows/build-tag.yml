@@ -35,7 +35,7 @@ jobs:
         run: make docker-container-image
 
       - name: docker tag
-        run: docker tag localhost/sicroc/sicroc:latest ghcr.io/jamesread/sicroc:{{ $github.ref_name }}
+        run: docker tag localhost/sicroc/sicroc:latest ghcr.io/jamesread/sicroc:${{ github.ref_name }}
 
       - name: docker push
-        run: docker push ghcr.io/jamesread/sicroc:{{ $github.ref_name }}
+        run: docker push ghcr.io/jamesread/sicroc:${{ github.ref_name }}
