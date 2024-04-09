@@ -32,6 +32,13 @@ container-instance:
 	podman create --name sicroc -p 1350:8080 -v /etc/Sicroc/:/etc/Sicroc/ localhost/sicroc/sicroc
 	podman start sicroc
 
+
+docker-container-image-base:
+	docker build -t localhost/sicroc/sicroc-base -f Dockerfile.base .
+
+docker-container-image:
+	docker build -t localhost/sicroc/sicroc:latest -f Dockerfile.app .
+
 phpstan:
 	./src/private/libraries/bin/phpstan analyse -c phpstan.neon
 
