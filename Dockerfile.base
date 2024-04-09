@@ -1,0 +1,22 @@
+FROM docker.io/php:8.3-apache AS base
+
+RUN apt-get update && apt-get install unzip -y
+
+WORKDIR /var/sicroc
+
+COPY --from=docker.io/composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY composer.json composer.json
+COPY composer.lock composer.lock
+RUN composer install --no-dev
+
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
+RUN a2enmod rewrite
+
+RUN docker-php-ext-configure pdo_mysql \
+ && docker-php-ext-install pdo_mysql \
+ && docker-php-ext-enable pdo_mysql
+
+RUN rm -rf /var/www/html && ln -s /var/sicroc/src/public.html/ /var/www/html && mkdir /etc/Sicroc
+
+EXPOSE 8080

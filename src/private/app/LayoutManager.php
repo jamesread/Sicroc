@@ -123,7 +123,6 @@ class LayoutManager
     private function assertPageRenderable(): void
     {
         assert(!empty($this->page));
-        assert(!empty($this->page->page));
-        assert(!empty($this->page->page['layout']));
+        assert(!empty($this->page->getId()));
     }
 }

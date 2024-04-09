@@ -14,7 +14,7 @@ class Config
             'DB_DSN' => 'mysql:dbname=Sicroc',
             'DB_USER' => 'root',
             'DB_PASS' => '',
-            'TEMPLATE_CACHE_DIRECTORY' => '/var/cache/httpd/Sicroc/',
+            'TEMPLATE_CACHE_DIRECTORY' => '/tmp/Sicroc/',
             'TIMEZONE' => 'Europe/London',
         ];
     }

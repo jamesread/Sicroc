@@ -18,14 +18,18 @@ package:
 	zip -r pkg/Sicroc.zip src/public.json
 	zip -r pkg/Sicroc.zip src/private
 
+container-image-base:
+	podman rmi jamesread/sicroc-base || true
+	buildah bud -t localhost/sicroc/sicroc-base -f Dockerfile.base
+
 container-image:
 	podman rmi jamesread/sicroc || true
-	buildah bud -t jamesread/sicroc .
+	buildah bud -t localhost/sicroc/sicroc -f Dockerfile.app
 
 container-instance:
 	podman kill sicroc || true
 	podman rm sicroc || true
-	podman create --name sicroc -p 1340:8080 -v /var/www/html/Sicroc/test:/etc/Sicroc jamesread/sicroc
+	podman create --name sicroc -p 1350:8080 -v /etc/Sicroc/:/etc/Sicroc/ localhost/sicroc/sicroc
 	podman start sicroc
 
 phpstan:

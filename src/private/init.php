@@ -4,8 +4,12 @@ function sicrocInit()
 {
     require_once 'libraries/autoload.php';
 
-    $config = \Sicroc\Config::getInstance();
-    $config->read();
+    try {
+        $config = \Sicroc\Config::getInstance();
+        $config->read();
+    } catch (Exception $e) {
+        startupError('Could not initialize config. ' . $e->getMessage());
+    }
 
     setupTemplateEngine();
     setupLibAllure();
@@ -13,7 +17,7 @@ function sicrocInit()
     try {
         setupDatabase($config);
     } catch (Exception $e) {
-        startupError('Could not intialize database. ' . $e->getMessage());
+        startupError('Could not initialize database. ' . $config->get('DB_DSN') . ' : ' . $e->getMessage());
     }
 
     setupTimezone();
