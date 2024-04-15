@@ -14,7 +14,7 @@ RUN docker-php-ext-configure pdo_mysql \
 
 EXPOSE 8080
 
-RUN rm -rf /var/www/html && ln -s /var/sicroc/src/public.html/ /var/www/html && mkdir /etc/Sicroc && mkdir /var/Sicroc && chown www-data:www-data /var/Sicroc
+RUN rm -rf /var/www/html && ln -s /var/Sicroc/src/public.html/ /var/www/html && mkdir /etc/Sicroc && mkdir /var/Sicroc && chown www-data:www-data /var/Sicroc
 
 #USER www-data
 WORKDIR /var/Sicroc
