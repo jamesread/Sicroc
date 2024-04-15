@@ -9,5 +9,6 @@ VOLUME /etc/Sicroc/
 COPY src/ ./src/
 COPY composer.json composer.json
 COPY composer.lock composer.lock
+RUN mkdir -p ./src/private/libraries/
 RUN composer install --no-dev
 
