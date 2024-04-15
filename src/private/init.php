@@ -114,6 +114,8 @@ function setupTemplateEngine()
         $tplCacheDirectory,
         __DIR__ . '/views/',
     );
+
+    $tpl->registerModifier('count', 'count');
 }
 
 function setupTimezone()

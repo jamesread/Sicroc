@@ -18,7 +18,7 @@
 </h2>
 {/if}
 
-{if $widgets|@count eq 0}
+{if empty($widgets)}
 	<p>This page is empty... <a href = "dispatcher.php?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">Update</a>?</p>
 {else}
 	{foreach from = $widgets item = widget}  
