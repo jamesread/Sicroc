@@ -7,7 +7,14 @@ Build CRUD (Create, Read, Update and Delete) apps around the MySQL Database.
 
 ![var/screenshot.png](var/screenshot.png)
 
-Packagist.org link: https://packagist.org/packages/jamesread/sicroc
+==== Installation
+
+----
+docker pull ghcr.io/jamesread/sicroc:0.0.3
+docker create --name sicroc -p 8080:8080 ghcr.io/jamesread/sicroc:0.0.3
+----
+
+==== Project Overview
 
 **Sicroc is a No-Nonsense Open Source project;**
 
@@ -33,3 +40,7 @@ Packagist.org link: https://packagist.org/packages/jamesread/sicroc
 - **Super cheap to host/run**: Any LAMP server with 512mb of RAM and a MySQL database will work.- millions of hosters can run Sicroc for $3/month.
 - **Very low effort to maintain**: No Kubernetes, docker, services, python libraries or setup is needed. All database changes are migratable. 
 - **Very low dependencies**: Sicroc only really uses libAllure (which is mostly a shim on core PHP features), and a library for OpenID connect. 
+
+==== Misc
+
+Packagist.org link: https://packagist.org/packages/jamesread/sicroc
