@@ -8,10 +8,10 @@ Build CRUD (Create, Read, Update and Delete) apps around the MySQL Database.
 
 ## Installation
 
-----
+```shell
 docker pull ghcr.io/jamesread/sicroc:0.0.3
 docker create --name sicroc -p 8080:8080 ghcr.io/jamesread/sicroc:0.0.3
-----
+```
 
 ## Project Overview
 
