@@ -118,7 +118,6 @@ a:hover {
 }
 
 nav {
-  padding-top: 3.5em;
   background-color: #CDEB8B;
   border-bottom: 1px solid #bbb;
   position: fixed;
@@ -128,6 +127,13 @@ nav {
   width: 250px;
   transition: left .3s;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+nav ul:first-child {
+  margin-top: 3.5em;
+  flex-grow: 1;
 }
 
 nav.shown {
@@ -204,7 +210,6 @@ h1 a, h1 a:hover, h1 a:visited, h1 a:active {
 }
 
 ul.navigation {
-  flex-grow: 1;
   margin: 0;
   padding: 0;
   list-style: none;
