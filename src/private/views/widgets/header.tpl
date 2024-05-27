@@ -22,7 +22,7 @@
 	</div>
 
 	<nav>
-	{if $navigation|@count eq 0}
+	{if empty($navigation)}
 		<ul class = "navigation">&nbsp; </ul>
 	{else}
 		<ul class = "navigation">

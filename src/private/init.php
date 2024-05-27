@@ -114,6 +114,9 @@ function setupTemplateEngine()
         $tplCacheDirectory,
         __DIR__ . '/views/',
     );
+
+    $tpl->registerModifier('count', 'count');
+    $tpl->registerModifier('hasPriv', array('\libAllure\Session', 'hasPriv'));
 }
 
 function setupTimezone()

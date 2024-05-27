@@ -15,14 +15,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@2.30.2
+        with:
+          php-version: '8.3'
+
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3.1.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Login to ghcr
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -34,8 +39,15 @@ jobs:
       - name: make container-image
         run: make docker-container-image
 
-      - name: docker tag
-        run: docker tag localhost/sicroc/sicroc:latest ghcr.io/jamesread/sicroc:{{ $github.ref_name }}
+      - name: docker tag latest
+        run: docker tag localhost/sicroc/sicroc:latest ghcr.io/jamesread/sicroc:${{ github.ref_name }}
 
-      - name: docker push
-        run: docker push ghcr.io/jamesread/sicroc:{{ $github.ref_name }}
+      - name: docker push latest
+        run: docker push ghcr.io/jamesread/sicroc:${{ github.ref_name }}
+
+      - name: docker tag refname
+        run: docker tag localhost/sicroc/sicroc:latest ghcr.io/jamesread/sicroc:latest
+
+      - name: docker push refname
+        run: docker push ghcr.io/jamesread/sicroc:latest
+
