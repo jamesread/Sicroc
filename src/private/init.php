@@ -104,6 +104,11 @@ function setupDatabase($config)
     \libAllure\AuthBackend::setBackend(new \libAllure\AuthBackendDatabase($db));
 }
 
+
+function hasPrivWrapper($a, $b) {
+    var_dump($a, $b); exit;
+}
+
 function setupTemplateEngine()
 {
     global $tpl;
@@ -115,8 +120,13 @@ function setupTemplateEngine()
         __DIR__ . '/views/',
     );
 
+    $tpl->setCaching(Smarty::CACHING_OFF);
+    $tpl->setErrorReporting(E_ALL|E_STRICT);
     $tpl->registerModifier('count', 'count');
-    $tpl->registerModifier('hasPriv', array('\libAllure\Session', 'hasPriv'));
+    $tpl->registerClass('\libAllure\Session', '\libAllure\Session');
+    $tpl->registerModifier('hasPriv', ['\libAllure\Session', 'hasPriv']);
+    $tpl->registerModifier('stripos', 'stripos');
+    $tpl->registerModifier('getUser', '\libAllure\Session::getUser');
 }
 
 function setupTimezone()

@@ -22,12 +22,12 @@ class FormPageUpdate extends Form
         $this->addElement(new ElementInput('title', 'Title', $this->page['title']));
 
         $this->addElement(new ElementHidden('pageToEdit', 'Page to edit', Sanitizer::getInstance()->filterUint('pageToEdit')));
-        $this->addDefaultButtons();
+        $this->addDefaultButtons('Save');
     }
 
     private function getPage(): array
     {
-        $sanitizer = new Sanitizer();
+        $sanitizer = Sanitizer::getInstance();
 
         $sql = 'SELECT p.id, p.title FROM pages p WHERE p.id = :page LIMIT 1';
         $stmt = DatabaseFactory::getInstance()->prepare($sql);
