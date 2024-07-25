@@ -17,7 +17,7 @@ docker create --name sicroc -p 8080:8080 ghcr.io/jamesread/sicroc:0.0.3
 
 ### **Sicroc is a No-Nonsense Open Source project;**
 
-- All code and assets are Open Spurce (AGPL).
+- All code and assets are Open Source (AGPL).
 - No company is paying for development, there is no paid-for support from the developers.
 - No separate core and premium version, no plus/pro version or paid-for extra features.
 - No SaaS service or "special cloud version".
