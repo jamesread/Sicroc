@@ -29,13 +29,7 @@ docker create --name sicroc -p 8080:8080 ghcr.io/jamesread/sicroc
 docker start sicroc
 ```
 
-## Project Overview
-
-### **Sicroc gets out of the way of your data;**
-
-- Your data is stored in plain old MySQL tables.
-- All Sicroc metadata is stored in a self contained database, meaning your data and tables are clean and safe if you move away from Sicroc. 
-- Sicroc doesn't stop you using real data types and real foreign keys, etc. you can bring it to existing databases and it will just work. 
+## Technical Overview
 
 ### **Sicroc has the following design goals;**
 
@@ -44,6 +38,13 @@ docker start sicroc
 - **Super cheap to host/run**: Any LAMP server with 512mb of RAM and a MySQL database will work.- millions of hosters can run Sicroc for $3/month.
 - **Very low effort to maintain**: No Kubernetes, docker, services, python libraries or setup is needed. All database changes are migratable. 
 - **Very low dependencies**: Sicroc only really uses libAllure (which is mostly a shim on core PHP features), and a library for OpenID connect. 
+
+
+### **Sicroc gets out of the way of your data;**
+
+- Your data is stored in plain old MySQL tables.
+- All Sicroc metadata is stored in a self contained database, meaning your data and tables are clean and safe if you move away from Sicroc. 
+- Sicroc doesn't stop you using real data types and real foreign keys, etc. you can bring it to existing databases and it will just work. 
 
 ### **Sicroc is a No-Nonsense Open Source project;**
 
