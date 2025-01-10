@@ -16,6 +16,12 @@ If you're "less old": Think of a Google Spreadsheet, but with with user permissi
 
 ![Sicroc on a Laptop](var/mockupLaptop.png)
 
+## Use casess
+
+- **Simple lists**: Keep track of your books, movies, games, etc.
+- **Calendaring**: keep track of your appointments, events, etc with multiple users and permissions.
+- **Simple CRM**: Keep track of your customers, suppliers, etc.
+
 ## Installation
 
 ```shell
@@ -24,17 +30,6 @@ docker start sicroc
 ```
 
 ## Project Overview
-
-### **Sicroc is a No-Nonsense Open Source project;**
-
-- All code and assets are Open Source (AGPL).
-- No company is paying for development, there is no paid-for support from the developers.
-- No separate core and premium version, no plus/pro version or paid-for extra features.
-- No SaaS service or "special cloud version".
-- No "anonymous data collection", usage tracking, user tracking, telemetry or email address collection.
-- No requests for reviews in any "app store" or feedback surveys.
-- No prompts to "upgrade to the latest version".
-- No internet-connection required for any functionality.
 
 ### **Sicroc gets out of the way of your data;**
 
@@ -50,6 +45,14 @@ docker start sicroc
 - **Very low effort to maintain**: No Kubernetes, docker, services, python libraries or setup is needed. All database changes are migratable. 
 - **Very low dependencies**: Sicroc only really uses libAllure (which is mostly a shim on core PHP features), and a library for OpenID connect. 
 
-## Misc
+### **Sicroc is a No-Nonsense Open Source project;**
 
-Packagist.org link: https://packagist.org/packages/jamesread/sicroc
+- All code and assets are Open Source (AGPL).
+- No company is paying for development, there is no paid-for support from the developers.
+- No separate core and premium version, no plus/pro version or paid-for extra features.
+- No SaaS service or "special cloud version".
+- No "anonymous data collection", usage tracking, user tracking, telemetry or email address collection.
+- No requests for reviews in any "app store" or feedback surveys.
+- No prompts to "upgrade to the latest version".
+- No internet-connection required for any functionality.
+
