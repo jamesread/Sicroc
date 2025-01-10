@@ -1,10 +1,8 @@
 
 <footer>
-	<div class = "right">
+	<div>
 		<p>&copy; James Read</p>
 	</div>
-
-	<div class = "clearer"></div>
 </footer>
 
 </body>

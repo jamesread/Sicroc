@@ -5,7 +5,8 @@ html {
 body {
   background-color: #efefef;
   min-height: 100vh;
-  padding-top: 3em;
+  display: flex;
+  flex-direction: column;
 }
 
 h2 {
@@ -22,13 +23,18 @@ body, td, input {
   font-size: 9pt;
   margin: 0;
   line-height: 1.5;
-  align-self: baseline;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+  padding: .4em;
+  border-radius: .4em;
+  border: 1px solid #ccc;
 }
 
 main {
   padding: 2em;
-  padding-top: 1em;
-  grid-area: 'main';
+  padding-top: 4em;
+  flex-grow: 1;
 }
 
 div.subnav {
@@ -119,6 +125,7 @@ a:hover {
 
 nav {
   background-color: #CDEB8B;
+  box-shadow: 0 0 .5em #9a9a9a;
   border-bottom: 1px solid #bbb;
   position: fixed;
   height: 100vh;
@@ -239,6 +246,7 @@ ul.navigation li a, div.subnav > a {
 ul.navigation li a:hover, div.subnav > a:hover {
   background-color: #356AA0;
   background-color: #E6EACB;
+  background-color: #B1D06E;
   color: black;
 }
 
@@ -410,6 +418,7 @@ footer {
   border-top: 1px solid #bbb;
   padding: 1em;
   grid-area: foot;
+  text-align: center;
 }
 
 footer p {
@@ -421,19 +430,16 @@ footer div.left {
   float: left;
 }
 
-footer div.right {
-  float: right;
-}
-
 table.data tr:hover td {
   background-color: beige;
 }
 
-div.widget {
+section.widget {
   background-color: #fff;
-  border-radius: 1em;
+  border-radius: .4em;
   margin-bottom: 1em;
   padding: 1em;
+  box-shadow: 0 0 .5em #9a9a9a;
 }
 
 h3 {
@@ -474,9 +480,11 @@ button, a.button {
   padding: .6em;
   display: inline-block;
   border: 1px solid #999;
+  border-radius: .4em;
   color: black;
   margin-right: .2em;
   background-color: #efefef;
+  box-shadow: 0 0 .5em #9a9a9a;
 }
 
 button:hover, a.button:hover {
@@ -484,6 +492,16 @@ button:hover, a.button:hover {
   background-color: #356AA0;
   color: white;
   cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: lightgreen;
+  color: black;
+  border: 1px solid limegreen;
+}
+
+button[type="submit"]:hover {
+  background-color: #81e481;
 }
 
 td.keyCol {
@@ -637,17 +655,18 @@ table.calendar li {
 
   main {
     padding: 0;
+    padding-top: 4em;
   }
 
-  div.widget form {
+  section.widget form {
     padding-left: .5em;
   }
 
-  div.widget:first-child {
+  section.widget:first-child {
     margin-top: 0;
   }
 
-  div.widget {
+  section.widget {
     border-radius: 0;
     padding: 0;
     margin-top: 1em;

@@ -22,7 +22,7 @@
 	<p>This page is empty... <a href = "dispatcher.php?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">Update</a>?</p>
 {else}
 	{foreach from = $widgets item = widget}  
-	<div class = "widget">
+	<section class = "widget">
 		<div style = "float: right;">
 			{if $widget.inst->displayEdit}
 				<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
@@ -50,7 +50,7 @@
 		{/if}
 
 		{$widget.content}
-	</div>
+	</section>
 	{/foreach}
 {/if}
 </main>
