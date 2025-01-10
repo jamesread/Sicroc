@@ -1,7 +1,7 @@
 
 <footer>
 	<div>
-		<p>&copy; James Read</p>
+		<p>Powered by <a href = "http://github.com/jamesread/Sicroc">Sicroc</a>
 	</div>
 </footer>
 

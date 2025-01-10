@@ -32,9 +32,12 @@ input[type="text"], input[type="email"], input[type="password"] {
 }
 
 main {
-  padding: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
   padding-top: 4em;
+  padding-bottom: 1em;
   flex-grow: 1;
+  display: flex;
 }
 
 div.subnav {
@@ -441,12 +444,26 @@ table.data tr:hover td {
   background-color: beige;
 }
 
+section.tall {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+section.tall table.calendar {
+  flex-grow: 1;
+}
+
 section.widget {
   background-color: #fff;
   border-radius: .4em;
   margin-bottom: 1em;
   padding: 1em;
   box-shadow: 0 0 .5em #9a9a9a;
+}
+
+section:only-child {
+  margin-bottom: 0;
 }
 
 h3 {

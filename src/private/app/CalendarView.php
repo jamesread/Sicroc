@@ -25,6 +25,8 @@ class CalendarView extends Widget
 
     public function widgetSetupCompleted(): void
     {
+        $this->additionalClasses = 'tall';
+
         $id = (int)$this->getArgumentValue('table_configuration');
 
         if ($this->page == null) {

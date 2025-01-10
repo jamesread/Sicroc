@@ -16,6 +16,7 @@ abstract class Widget
     public HtmlLinksCollection $navigation;
     public int $widgetId;
     public bool $displayEdit = false;
+    public string $additionalClasses = '';
 
     protected ?array $argValues = null;
 
