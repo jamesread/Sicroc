@@ -1,13 +1,17 @@
-# Sicroc
+<div align = "center">
+  <img alt = "project logo" src = "var/logo.png" />
+  <h1>Sicroc</h1>
 
-[![PHP CodeStyle](https://github.com/jamesread/Sicroc/actions/workflows/php-codestyle.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/php-codestyle.yml)
+ A web user interface that extends the usefulness of a real database for users.
 
-A web user interface that extends the usefulness of a real database for users.
+[![Build Tag](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml) [![Discord](https://img.shields.io/discord/846737624960860180?label=Discord%20Server)](https://discord.gg/jhYWWpNJ3v)
 
 If you're older: Think about the usefulness Microsoft Access, but on the web, with a real database and no visual basic.
 If you're less old: Think of a Google Spreadsheet, but with with user permissions and no broken sheets with weird formulas.
 
-![var/mockupLaptop](Sicroc on a Laptop)
+</div>
+
+![var/mockupLaptop.png](Sicroc on a Laptop)
 
 ## Installation
 
