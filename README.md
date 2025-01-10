@@ -2,7 +2,7 @@
   <img alt = "project logo" src = "logo.png" width = "128" />
   <h1>Sicroc</h1>
 
- A web user interface that extends the usefulness of a real database for users.
+ Extend a real database to build your own webapps safely.
 
 [![Build Tag](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml) [![Discord](https://img.shields.io/discord/846737624960860180?label=Discord%20Server)](https://discord.gg/jhYWWpNJ3v)
 
