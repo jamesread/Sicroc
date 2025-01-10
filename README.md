@@ -6,18 +6,21 @@
 
 [![Build Tag](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml) [![Discord](https://img.shields.io/discord/846737624960860180?label=Discord%20Server)](https://discord.gg/jhYWWpNJ3v)
 
-If you're older: Think about the usefulness Microsoft Access, but on the web, with a real database and no visual basic.
-If you're less old: Think of a Google Spreadsheet, but with with user permissions and no broken sheets with weird formulas.
-
 </div>
+
+If you are "old": Think about the usefulness Microsoft Access, but on the web, with a real database and no visual basic.
+
+If you're "less old": Think of a Google Spreadsheet, but with with user permissions and no broken sheets with weird formulas.
+
+## Screenshots
 
 ![Sicroc on a Laptop](var/mockupLaptop.png)
 
 ## Installation
 
 ```shell
-docker pull ghcr.io/jamesread/sicroc:0.0.3
-docker create --name sicroc -p 8080:8080 ghcr.io/jamesread/sicroc:0.0.3
+docker create --name sicroc -p 8080:8080 ghcr.io/jamesread/sicroc
+docker start sicroc
 ```
 
 ## Project Overview
