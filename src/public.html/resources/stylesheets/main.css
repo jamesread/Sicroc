@@ -495,7 +495,7 @@ td {
 
 div.toolbar {
   background-color: #f3f3f3;
-  border: 1px solid #999;
+  border: 1px solid #ccc;
   border-bottom: 0;
   padding: .2em;
 }
@@ -629,7 +629,7 @@ form p {
 .calendar {
   display: grid;
   grid-template-rows: min-content auto auto auto auto auto;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 1px;
   background-color: #c4c4c4;
   border: 1px solid #c4c4c4;
@@ -731,9 +731,13 @@ form p {
     border-right: 0;
   }
 
-  table.calendar td {
-    padding: .2em;
+  .calendar div {
+    padding: 0em;
     font-size: smaller;
+  }
+
+  .calendar li {
+    border-radius: 0;
   }
 
   .hideThin {
