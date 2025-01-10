@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-color: #efefef;
+  background-color: #dee3e7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -384,13 +384,20 @@ table {
   border: 1px solid black;
 }
 
-th, th a {
-  background-color: #555;
-  color: white;
+th {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  color: black;
+  padding: .5em;
+  text-align: left;
 }
 
-th, td {
-  border: 1px solid #666;
+th a {
+  color: black;
+}
+
+td {
+  border: 1px solid #c4c4c4;
   padding: .5em;
   text-align: left;
 }
@@ -470,10 +477,16 @@ td {
 }
 
 div.toolbar {
-  background-color: lightgray;
-  border: 1px solid #666;
+  background-color: #f3f3f3;
+  border: 1px solid #999;
   border-bottom: 0;
   padding: .2em;
+}
+
+div.toolbar a.button {
+  background-color: white;
+  box-shadow: none;
+  border-color: #d3d3d3;
 }
 
 button, a.button {
@@ -487,7 +500,7 @@ button, a.button {
   box-shadow: 0 0 .5em #9a9a9a;
 }
 
-button:hover, a.button:hover {
+button:hover, a.button:hover, div.toolbar a.button:hover {
   text-decoration: none;
   background-color: #356AA0;
   color: white;
@@ -672,6 +685,11 @@ table.calendar li {
     margin-top: 1em;
     padding-top: 1em;
     padding-bottom: 1em;
+  }
+
+  div.toolbar {
+    border-left: 0;
+    border-right: 0;
   }
 
   table {
