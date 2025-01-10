@@ -38,6 +38,7 @@ main {
   padding-bottom: 1em;
   flex-grow: 1;
   display: flex;
+  flex-direction: column;
 }
 
 div.subnav {
@@ -425,8 +426,7 @@ th .subtle {
 }
 
 footer {
-  border-top: 1px solid #bbb;
-  padding: 1em;
+  padding-bottom: 1em;
   grid-area: foot;
   text-align: center;
 }
@@ -444,13 +444,13 @@ table.data tr:hover td {
   background-color: beige;
 }
 
-section.tall {
+main.tall section:only-child {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
 }
 
-section.tall table.calendar {
+main.tall .calendar {
   flex-grow: 1;
 }
 
@@ -626,47 +626,57 @@ form p {
   background-color: #E6EACB;
 }
 
-table.calendar td {
-  min-height: 100px;
-  vertical-align: top;
-  width: 200px;
+.calendar {
+  display: grid;
+  grid-template-rows: min-content auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  gap: 1px;
+  background-color: #c4c4c4;
+  border: 1px solid #c4c4c4;
 }
 
-table.calendar th {
+.calendar div {
+  padding: .5em;
+  background-color: white;
+}
+
+
+.calendar div.header {
   text-align: center;
+  color: black;
 }
 
-table.calendar p.dayTitle {
+.calendar p.dayTitle {
   text-align: center;
   padding: 0;
   margin: 0;
   font-size: smaller;
 }
 
-table.calendar a {
+.calendar a {
   color: black;
 }
 
-table.calendar td.weekend {
+.calendar div.weekend {
   background-color: #efefef;
 }
 
-table.calendar td.anotherMonth p.dayTitle a {
+.calendar div.anotherMonth p.dayTitle a {
   color: gray;
 }
 
-table.calendar td.today {
+.calendar div.today {
   background-color: beige;
   font-weight: bold;
 }
 
-table.calendar ul {
+.calendar ul {
   list-style: none;
   margin: none;
   padding: 0;
 }
 
-table.calendar li {
+.calendar li {
   padding: .2em;
   padding-left: .6em;
   background-color: #CDEB8B;

@@ -25,8 +25,6 @@ class CalendarView extends Widget
 
     public function widgetSetupCompleted(): void
     {
-        $this->additionalClasses = 'tall';
-
         $id = (int)$this->getArgumentValue('table_configuration');
 
         if ($this->page == null) {
@@ -162,6 +160,9 @@ class CalendarView extends Widget
 
     public function render(): void
     {
+        $lm = LayoutManager::get();
+        $lm->additionalClasses = 'tall';
+
         $this->tpl->assign('weeks', $this->days);
         $this->tpl->assign('currentMonth', $this->currentMonth);
         $this->tpl->assign('tc', $this->tc);

@@ -13,6 +13,7 @@ class LayoutManager
 {
     private Page $page;
     private ?Navigation $nav;
+    public string $additionalClasses = '';
 
     private static ?LayoutManager $inst = null;
 
@@ -68,6 +69,7 @@ class LayoutManager
         $tpl->assign('page', $this->page->getForTpl());
         $tpl->assign('widgets', $this->page->getWidgetsForTpl());
 
+        $tpl->assign('additionalClasses', $this->additionalClasses);
         $tpl->display('layout.' . $this->page->getLayout() . '.tpl');
     }
 
