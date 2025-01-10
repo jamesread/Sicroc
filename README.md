@@ -2,9 +2,12 @@
 
 [![PHP CodeStyle](https://github.com/jamesread/Sicroc/actions/workflows/php-codestyle.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/php-codestyle.yml)
 
-Build CRUD (Create, Read, Update and Delete) apps around the MySQL Database.
+A web user interface that extends the usefulness of a real database for users.
 
-![var/screenshot.png](var/screenshot.png)
+If you're older: Think about the usefulness Microsoft Access, but on the web, with a real database and no visual basic.
+If you're less old: Think of a Google Spreadsheet, but with with user permissions and no broken sheets with weird formulas.
+
+![var/mockupLaptop](Sicroc on a Laptop)
 
 ## Installation
 
