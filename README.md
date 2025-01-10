@@ -1,5 +1,5 @@
 <div align = "center">
-  <img alt = "project logo" src = "var/logo.png" />
+  <img alt = "project logo" src = "logo.png" />
   <h1>Sicroc</h1>
 
  A web user interface that extends the usefulness of a real database for users.
@@ -11,7 +11,7 @@ If you're less old: Think of a Google Spreadsheet, but with with user permission
 
 </div>
 
-![var/mockupLaptop.png](Sicroc on a Laptop)
+![Sicroc on a Laptop](var/mockupLaptop.png)
 
 ## Installation
 
