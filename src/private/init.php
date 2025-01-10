@@ -105,8 +105,10 @@ function setupDatabase($config)
 }
 
 
-function hasPrivWrapper($a, $b) {
-    var_dump($a, $b); exit;
+function hasPrivWrapper($a, $b) 
+{
+    var_dump($a, $b);
+    exit;
 }
 
 function setupTemplateEngine()
@@ -121,7 +123,7 @@ function setupTemplateEngine()
     );
 
     $tpl->setCaching(Smarty::CACHING_OFF);
-    $tpl->setErrorReporting(E_ALL|E_STRICT);
+    $tpl->setErrorReporting(E_ALL | E_STRICT);
     $tpl->registerModifier('count', 'count');
     $tpl->registerClass('\libAllure\Session', '\libAllure\Session');
     $tpl->registerModifier('hasPriv', ['\libAllure\Session', 'hasPriv']);
