@@ -1,5 +1,5 @@
 <div align = "center">
-  <img alt = "project logo" src = "logo.png" />
+  <img alt = "project logo" src = "logo.png" width = "128" />
   <h1>Sicroc</h1>
 
  A web user interface that extends the usefulness of a real database for users.
