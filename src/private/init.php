@@ -105,7 +105,7 @@ function setupDatabase($config)
 }
 
 
-function hasPrivWrapper($a, $b) 
+function hasPrivWrapper($a, $b)
 {
     var_dump($a, $b);
     exit;

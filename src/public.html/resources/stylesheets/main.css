@@ -643,7 +643,11 @@ form p {
 
 .calendar div.header {
   text-align: center;
+  background-color: #f3f3f3;
   color: black;
+  padding: .5em;
+  text-align: center;
+  font-weight: bold;
 }
 
 .calendar p.dayTitle {
