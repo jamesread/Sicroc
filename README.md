@@ -2,7 +2,7 @@
   <img alt = "project logo" src = "logo.png" width = "128" />
   <h1>Sicroc</h1>
 
-Build nocode data based webapps on a real databases.
+Build nocode data based webapps on real databases.
 
 [![Build Tag](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml/badge.svg)](https://github.com/jamesread/Sicroc/actions/workflows/build-tag.yml) [![Discord](https://img.shields.io/discord/846737624960860180?label=Discord%20Server)](https://discord.gg/jhYWWpNJ3v)
 
@@ -16,7 +16,7 @@ If you're "less old": Think of a Google Spreadsheet, but with with user permissi
 
 ![Sicroc on a Laptop](var/mockupLaptop.png)
 
-## Use casess
+## Use cases
 
 - **Simple lists**: Keep track of your books, movies, games, etc.
 - **Calendaring**: keep track of your appointments, events, etc with multiple users and permissions.
