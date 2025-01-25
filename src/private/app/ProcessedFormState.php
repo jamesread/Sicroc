@@ -20,6 +20,7 @@ class ProcessedFormState
     public function setProcessedMessage(string $msg, string $messageClass = 'neutral', bool $shouldRender = true): void
     {
         $this->message = $msg;
+        $this->messageClass = $messageClass;
         $this->shouldRender = $shouldRender;
     }
 
