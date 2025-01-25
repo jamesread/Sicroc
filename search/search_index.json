@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Welcome to Sicroc!","text":"<p>Sicroc empowers you to build nocode data based webapps on real databases. </p> <p>This project code is now quite stable, but the docs are primitive so far! </p>"}]}
