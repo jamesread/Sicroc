@@ -38,6 +38,7 @@ theme:
 
 
 plugins:
+  - social:
   - search:
   - tags:
 
@@ -46,7 +47,7 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/jamesread/Sicroc
 
-    - icon: fontawesome/brands/bluesky
+    - icon: fontawesome/brands/bsky
       link: https://bsky.app/profile/jamesread.bsky.social
 
     - icon: fontawesome/brands/mastodon
