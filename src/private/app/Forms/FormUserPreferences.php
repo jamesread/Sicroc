@@ -44,7 +44,7 @@ class FormUserPreferences extends \libAllure\Form implements \Sicroc\BaseForm
             return;
         }
 
-        $state->setProcessedMessage('Preferences saved.');
+        $state->setProcessedMessage('Preferences saved.', 'good');
     }
 
     public function process(): void
