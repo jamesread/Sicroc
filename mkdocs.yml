@@ -47,8 +47,8 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/jamesread/Sicroc
 
-    - icon: fontawesome/brands/bsky
-      link: https://bsky.app/profile/jamesread.bsky.social
+#    - icon: fontawesome/brands/bsky
+#      link: https://bsky.app/profile/jamesread.bsky.social
 
     - icon: fontawesome/brands/mastodon
       link: https://mastodon.social/@jamesread
