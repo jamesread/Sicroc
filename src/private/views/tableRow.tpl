@@ -5,7 +5,7 @@
 
 	<tr>
 		<td class = "keyCol">{$cellName}:</td>
-		<td>{$cellValue}</td>
+		<td>{$cellValue|htmlentities}</td>
 	</tr>
 	{/foreach}
 </table>

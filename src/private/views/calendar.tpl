@@ -15,7 +15,7 @@
 
 		<ul>
 		{foreach from = $day.events item = event}
-			<li><a href = "{$event.url}">{$event.title}</a></li>
+			<li><a href = "{$event.url}">{$event.title|htmlentities}</a></li>
 		{/foreach}
 		</ul>
 	</div>

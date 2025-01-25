@@ -129,6 +129,7 @@ function setupTemplateEngine()
     $tpl->registerModifier('hasPriv', ['\libAllure\Session', 'hasPriv']);
     $tpl->registerModifier('stripos', 'stripos');
     $tpl->registerModifier('getUser', '\libAllure\Session::getUser');
+    $tpl->registerModifier('htmlentities', 'htmlentities');
 }
 
 function setupTimezone()

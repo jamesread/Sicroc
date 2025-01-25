@@ -51,24 +51,29 @@ class FormTableEditRow extends \libAllure\Form implements \Sicroc\BaseForm
         $values = array();
         unset($this->fields[0]);
 
+
         $sql = 'UPDATE ' . $this->tc->database . '.' . $this->tc->table . ' SET ';
 
         foreach ($this->fields as $field) {
-            $val = $this->getElementValue($field);
-
-            if (empty($val)) {
-                $val = ' null';
-            } else {
-                $val = ' "' . $val .  '"';
-            }
-
-            $sql .= '`' . $field . '` = ' . $val . ', ';
+            $sql .= '`' . $field . '` = :' . $field . ', ';
         }
 
         $sql .= $this->tc->keycol . ' = ' . $this->tc->keycol;
         $sql .= ' WHERE ' . $this->tc->keycol . ' = ' . $this->getElementValue($this->tc->keycol);
 
         $stmt = LA::db()->prepare($sql);
+
+        foreach ($this->fields as $field) {
+            $val = $this->getElement($field)->getValue();
+
+            if (empty($val)) {
+                $stmt->bindValue(':' . $field, '', \PDO::PARAM_NULL);
+            } else {
+                var_dump($field, $val);
+                $stmt->bindValue(':' . $field, $val);
+            }
+        }
+
         $stmt->execute();
     }
 
