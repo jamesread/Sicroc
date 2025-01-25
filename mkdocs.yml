@@ -1,7 +1,7 @@
 ---
 site_url: https://jamesread.github.io/Sicroc/
-site_name: Sicroc Docs
-site_description: Documentation for Sicroc.
+site_name: Sicroc Documentation Site
+site_description: Build nocode data based webapps on real databases. 
 repo_url: https://github.com/jamesread/Sicroc
 repo_name: jamesread/Sicroc
 edit_uri: edit/main/docs
