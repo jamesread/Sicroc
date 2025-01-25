@@ -162,6 +162,7 @@ class Page
             }
 
             $widgetRet['inst']->widgetSetupCompleted();
+            $widgetRet['shouldRender'] = $widgetRet['inst']->shouldRender();
         } catch (\Exception $e) {
             $widgetRet['inst']->displayEdit = true;
             $widgetRet['shouldRender'] = false;

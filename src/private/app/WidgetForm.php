@@ -17,7 +17,11 @@ class WidgetForm extends Widget
 
         $this->state = new \Sicroc\ProcessedFormState();
 
-        if (!empty($formClass)) {
+        if ($formClass == 'SicrocFormsFormLogin') {
+            $formClass = "\Sicroc\Forms\FormLogin";
+        }
+
+        if (!empty($formClass) && class_exists($formClass)) {
             /**
             if (!@include_once 'app/'CONTROLLERS_DIR . $formClass . '.php') {
                 throw new Exception('Could not include PHP class for form: ' . CONTROLLERS_DIR . $formClass . '.php');
@@ -58,6 +62,12 @@ class WidgetForm extends Widget
         return $args;
     }
 
+    public function shouldRender(): bool
+    {
+
+        return $this->state->shouldRender;
+    }
+
     public function render(): void
     {
         if ($this->state->processed) {
@@ -84,7 +94,7 @@ class WidgetForm extends Widget
             $this->tpl->assignForm($this->f);
             $this->tpl->display('form.tpl');
         } else {
-            $this->simpleMessage('This widget is assigned with a form controller, but no form has been constructed, possibly due to some sort of error. Sorry that this message is mostly useless.');
+            $this->simpleMessage('This widget is assigned with a form controller, but no form has been constructed, possibly due to some sort of error. Sorry that this message is mostly useless.', 'bad');
         }
     }
 

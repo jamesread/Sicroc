@@ -2,26 +2,14 @@
 
 <main class = "{$additionalClasses}">
 
-{if count($widgets) != 1}
-<h2>
-	{if $editMode}
-	<abbr title = "{$page.id}">Page</abbr>: 
-	{/if}
-	{$page.title|default:"Untitled page"} 
-
-	{if $page.isSystem}
-		&#9888;
-	{/if}
-	{if $editMode}
-	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
-	{/if}
-</h2>
-{/if}
-
 {if empty($widgets)}
 	<p>This page is empty... <a href = "dispatcher.php?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">Update</a>?</p>
 {else}
 	{foreach from = $widgets item = widget}  
+
+	{if !$widget.inst->shouldRender()}
+		{continue}
+	{/if}
 	<section class = "widget">
 		<div style = "float: right;">
 			{if $widget.inst->displayEdit}
@@ -53,6 +41,24 @@
 	</section>
 	{/foreach}
 {/if}
+
+{if count($widgets) != 1}
+<div style = "float: right">
+	{if $editMode}
+	<abbr title = "Page ID: {$page.id}">Page</abbr>: 
+
+	{if $page.isSystem}
+		<span title = "System page">&#9881;</span>
+	{/if}
+
+	{/if}
+
+	{if $editMode}
+	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
+	{/if}
+</div>
+{/if}
+
 </main>
 
 {include file = "widgets/footer.tpl"}
