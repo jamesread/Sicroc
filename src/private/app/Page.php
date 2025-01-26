@@ -124,7 +124,8 @@ class Page
                 $widget['inst']->render();
                 $widget['content'] .= ob_get_clean();
             } catch (\Exception $e) {
-                $widgetRet['content'] = self::renderWidgetException($e);
+                $widget['shouldRender'] = true;
+                $widget['content'] = self::renderWidgetException($e);
             }
         }
 
@@ -165,7 +166,7 @@ class Page
             $widgetRet['shouldRender'] = $widgetRet['inst']->shouldRender();
         } catch (\Exception $e) {
             $widgetRet['inst']->displayEdit = true;
-            $widgetRet['shouldRender'] = false;
+            $widgetRet['shouldRender'] = true;
             $widgetRet['content'] = self::renderWidgetException($e);
         }
 
