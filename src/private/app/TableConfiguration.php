@@ -79,7 +79,7 @@ class TableConfiguration
         $this->orderDirection = ($fields->orderAsc ? 'ASC' : 'DESC');
         $this->createPhrase = ($fields->createPhrase ? $fields->createPhrase : 'Insert');
         $this->createPageDelegate = $fields->createPageDelegate;
-        $this->listPhrase = ($fields->createPhrase ? $fields->listPhrase : 'List');
+        $this->listPhrase = ($fields->listPhrase ? $fields->listPhrase : 'List');
         $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
         $this->editPageDelegate = $fields->editPageDelegate;
         $this->loadTable();
