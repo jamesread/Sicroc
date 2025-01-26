@@ -12,7 +12,7 @@ class TableRowDelete extends Widget
         $tc = new TableConfiguration(LA::san()->filterUint('tc'));
         $id = LA::san()->filterUint('primaryKey');
 
-        $sql = 'DELETE FROM ' . $tc->table . ' WHERE id = :id';
+        $sql = 'DELETE FROM `' . $tc->database . '`.`' . $tc->table . '` WHERE id = :id';
         $stmt = LA::db()->prepare($sql);
         $stmt->execute([
             'id' => $id,
