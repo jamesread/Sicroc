@@ -50,6 +50,8 @@ class TableConfiguration
 
     public bool $loaded = false;
 
+    private QueryBuilder $qb;
+
     public function __construct(int $tcId, int $singleRowId = null)
     {
         $this->id = $tcId;
@@ -82,22 +84,23 @@ class TableConfiguration
         $this->listPhrase = ($fields->listPhrase ? $fields->listPhrase : 'List');
         $this->editPhrase = ($fields->editPhrase ? $fields->editPhrase : 'Edit');
         $this->editPageDelegate = $fields->editPageDelegate;
-        $this->loadTable();
 
-        $this->loaded = true;
+        $this->foreignKeys = $this->getForeignKeys();
+        $this->conditionalFormatting = $this->getConditionalFormatting();
+
+        $this->loaded = false;
     }
 
     public function loadTable(): void
     {
-        $this->foreignKeys = $this->getForeignKeys();
-        $this->conditionalFormatting = $this->getConditionalFormatting();
-
         $this->rows = $this->getRowData();
         $this->applyConditionalFormatting();
 
         $this->headers = $this->getHeadersFromRowData();
 
         $this->addForeignKeyDescriptions();
+
+        $this->loaded = true;
     }
 
     private function getConditionalFormatting(): array
@@ -144,7 +147,7 @@ class TableConfiguration
         return $ret;
     }
 
-    private function queryRowDataQb(): string
+    public function getQbForRowData(): \libAllure\QueryBuilder
     {
         if (!$this->table) {
             $this->error = 'Table is not set.';
@@ -169,18 +172,27 @@ class TableConfiguration
             $qb->orderBy($this->order . ' ' . $this->orderDirection);
         }
 
-        return $qb->build();
+        $this->qb = $qb;
+
+        return $qb;
+    }
+
+    public function setRowDataQb(QueryBuilder $qb): void
+    {
+        $this->qb = $qb;
     }
 
     private function getRowData(): array
     {
-        $sqlQb = $this->queryRowDataQb();
-        $sqlHacky = $this->queryRowDataHacky();
+        if (!isset($this->qb)) {
+            $this->qb = $this->getQbForRowData();
+        }
 
-        $this->lastQuery = $sqlQb;
-//        \libAllure\Shortcuts::vde($sqlQb, $sqlHacky);
+        $sql = $this->qb->build();
+        $this->lastQuery = $sql;
 
-        $sql = $sqlQb;
+        $sql = $this->qb->build();
+        $this->lastQuery = $sql;
 
         try {
             $this->stmt = \libAllure\DatabaseFactory::getInstance()->prepare($sql);
@@ -347,6 +359,10 @@ class TableConfiguration
 
     public function getRows(): array
     {
+        if (!$this->loaded) {
+            $this->loadTable();
+        }
+
         return $this->rows;
     }
 
