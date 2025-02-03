@@ -659,6 +659,7 @@ form p {
 
 .calendar a {
   color: black;
+  display: block;
 }
 
 .calendar div.weekend {
