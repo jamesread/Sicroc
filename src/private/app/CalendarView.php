@@ -78,15 +78,24 @@ class CalendarView extends Widget
                 throw new \Exception('Got a row, but it did not have the expected date or title fields. Are they set correctly?');
             }
 
-            $eventDay = date_create($row[$dtfield]);
-            $eventDay = $eventDay->format('Y-m-d');
+            $eventDt = date_create($row[$dtfield]);
+            $eventDay = $eventDt->format('Y-m-d');
 
             if (!isset($this->events[$eventDay])) {
                 $this->events[$eventDay] = [];
             }
 
+            $datetime = $eventDt->format('H:i');
+
+            if ($datetime == '00:00') {
+                $datetime = '';
+            } else {
+                $datetime = $datetime . ' ';
+            }
+
             $this->events[$eventDay][] = [
                 'title' => $row[$titleField],
+                'datetime' => $datetime,
                 'url' => '?pageIdent=TABLE_ROW&tc=' . $this->tc->id . '&primaryKey=' . $row['id'],
             ];
         }
