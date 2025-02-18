@@ -52,7 +52,7 @@ class TableConfiguration
 
     private QueryBuilder $qb;
 
-    public function __construct(int $tcId, int $singleRowId = null)
+    public function __construct(int $tcId, int $singleRowId = null, $loadDefault = true)
     {
         $this->id = $tcId;
 
@@ -89,6 +89,10 @@ class TableConfiguration
         $this->conditionalFormatting = $this->getConditionalFormatting();
 
         $this->loaded = false;
+
+        if ($loadDefault) {
+            $this->loadTable();
+        }
     }
 
     public function loadTable(): void

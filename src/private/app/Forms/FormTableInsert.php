@@ -20,6 +20,7 @@ class FormTableInsert extends Form implements \Sicroc\BaseForm
         parent::__construct('formTableInsert', 'Insert into table');
 
         $this->tc = new TableConfiguration(LA::san()->filterUint('tc'));
+        $this->tc->loadTable();
 
         if (Session::getUser()->getData('showTcOnRowForms')) {
             $this->addElementReadOnly('Table Configuration', $this->tc->id, 'tc');
