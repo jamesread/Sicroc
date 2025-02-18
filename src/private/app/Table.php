@@ -33,7 +33,6 @@ class Table extends Widget
 
         if ($tc != null) {
             $this->tc = new TableConfiguration($tc);
-            $this->tc->loadTable();
 
             if (!$this->tc->loaded) {
                 $this->tc = null;
