@@ -177,7 +177,8 @@ abstract class Widget
         $this->simpleMessage($message, 'bad');
     }
 
-    public function shouldRender(): bool {
+    public function shouldRender(): bool
+    {
         return true;
     }
 }

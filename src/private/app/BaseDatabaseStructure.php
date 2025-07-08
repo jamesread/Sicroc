@@ -228,9 +228,9 @@ class BaseDatabaseStructure
 
             if ($row == null) {
                 throw new \Exception('Page ID not found: ' . $ident);
-			}
+            }
 
-			return $row['id'];
+            return $row['id'];
         }
     }
 

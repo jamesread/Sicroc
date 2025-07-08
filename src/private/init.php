@@ -3,8 +3,8 @@
 function sicrocInit()
 {
     require_once 'libraries/autoload.php';
-	
-	ini_set('session.gc_maxlifetime', '525960');
+
+    ini_set('session.gc_maxlifetime', '525960');
 
     try {
         $config = \Sicroc\Config::getInstance();
