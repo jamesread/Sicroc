@@ -8,7 +8,7 @@ use libAllure\Shortcuts as LA;
 
 class TableRow extends Widget
 {
-    private ?array $rows = [];
+    private array $rows = [];
     private ?int $id;
     private TableConfiguration $tc;
 

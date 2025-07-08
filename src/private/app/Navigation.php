@@ -8,7 +8,7 @@ use libAllure\Session;
 
 class Navigation
 {
-    public function lastPage(int $pageId = null): int|null
+    public function lastPage(?int $pageId = null): int|null
     {
         if ($pageId !== null) {
             $_SESSION['pageId'] = $pageId;

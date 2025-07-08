@@ -12,7 +12,7 @@ use libAllure\HtmlLinksCollection;
 class LayoutManager
 {
     private Page $page;
-    private ?Navigation $nav;
+    private Navigation $nav;
     public string $additionalClasses = '';
 
     private static ?LayoutManager $inst = null;
@@ -113,7 +113,7 @@ class LayoutManager
             $links->addIfPriv('ADMIN', '?pageIdent=PAGE_UPDATE&pageToEdit=' . $this->page->getId(), 'Page update');
             $links->addSeparator();
             $links->add('?pageIdent=USER_PREFERENCES', 'Preferences');
-            $links->add('?pageIdent=LOGOUT', 'Logout');
+            $links->add('?pageIdent=LOGOUT', 'Logout', 'mdi:home');
         } else {
             $links->addIf(!Utils::getSiteSetting('disable_registration'), '?pageIdent=REGISTER', 'Register');
             $links->add('?pageIdent=LOGIN', 'Login');
