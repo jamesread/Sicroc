@@ -217,21 +217,21 @@ class BaseDatabaseStructure
     {
         $sql = 'SELECT p.id FROM pages p WHERE p.ident = :ident LIMIT 1';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([
+        $res = $stmt->execute([
             ':ident' => $ident,
         ]);
 
-        if ($stmt == false) {
+        if ($res == false) {
             throw new \Exception('Page ID not found: ' . $ident);
         } else {
             $row = $stmt->fetch();
 
             if ($row == null) {
                 throw new \Exception('Page ID not found: ' . $ident);
-            }
-        }
+			}
 
-        return $row['id'];
+			return $row['id'];
+        }
     }
 
     public function ensurePageExists(array $page): ?int

@@ -32,7 +32,7 @@ input[type="text"], input[type="email"], input[type="password"] {
 }
 
 main {
-  padding-left: 2em;
+  padding-left: 5em;
   padding-right: 2em;
   padding-top: 4em;
   padding-bottom: 1em;
@@ -40,6 +40,7 @@ main {
   display: flex;
   flex-direction: column;
 }
+
 
 div.subnav {
   position: absolute;
@@ -86,7 +87,7 @@ div.subnav ul li ul li {
   text-align: left;
 }
 
-div.subnav ul li {
+div.subnav ul a {
   display: block;
   padding: .4em;
   width: 12em;
@@ -94,17 +95,17 @@ div.subnav ul li {
   margin: 0;
 }
 
-div.subnav ul li a, div.subnav ul li a:visited {
+div.subnav ul a, div.subnav ul a:visited {
   padding: .4em;
   display: block;
   color: white;
 }
 
-div.subnav ul li ul li a, div.subnav ul li ul li a:visited {
+div.subnav ul li ul a, div.subnav ul li ul a:visited {
   color: black; 
 }
 
-div.subnav ul li ul li a:hover {
+div.subnav ul li ul a:hover {
   background-color: #356AA0;
   background-color: #E6EACB;
   color: black;
@@ -134,21 +135,35 @@ nav {
   position: fixed;
   height: 100vh;
   top: 0;
-  left: -250px;
-  width: 250px;
-  transition: left .3s;
+  left: 0px;
+  width: 4em;
+  transition: width .3s;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 nav ul:first-child {
   margin-top: 3.5em;
-  flex-grow: 1;
 }
 
-nav.shown {
-  left: 0px;
+nav ul:last-child {
+}
+
+nav ul {
+  word-wrap: none;
+  width: 250px;
+}
+
+
+nav.shown, nav:hover {
+  width: 250px;
+}
+
+.icon-holder {
+  display: inline-block;
+  padding-right: 1em;
 }
 
 div.header img {
@@ -224,9 +239,11 @@ ul.navigation {
   margin: 0;
   padding: 0;
   list-style: none;
+  align-items: center;
+  gap: 1em;
 }
 
-ul.navigation li, div.subnav > a {
+ul.navigation a, ul.navigation a:visited, div.subnav > a {
   text-transform: uppercase;
   padding-left: 0;
   margin: 0;
@@ -237,17 +254,19 @@ ul.navigation li a.activeSection, div.subnav > a.activeSection {
   color: white;
 }
 
-ul.navigation li a, div.subnav > a {
+ul.navigation a, ul.navigation a:visited, div.subnav > a {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  padding: 6px;
-  padding-left: 1em;
   margin: 0;
   display: block;
+  padding: 6px;
+  padding-left: 1em;
+  display: flex;
+  align-items: center;
 }
 
-ul.navigation li a:hover, div.subnav > a:hover {
+ul.navigation a:hover, div.subnav > a:hover {
   background-color: #356AA0;
   background-color: #E6EACB;
   background-color: #B1D06E;
@@ -687,6 +706,10 @@ form p {
   background-color: #CDEB8B;
   border-radius: .4em;
   margin-bottom: 2px;
+}
+
+#toggleSidebar {
+  width: 2.7em;
 }
 
 @media only screen and (max-width: 600px) {

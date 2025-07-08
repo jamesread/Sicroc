@@ -10,6 +10,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="#673000">
 
+	<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+
 	<script type = "text/javascript" src = "resources/js/main.js"></script>
 </head>
 

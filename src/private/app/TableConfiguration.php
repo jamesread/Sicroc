@@ -52,7 +52,7 @@ class TableConfiguration
 
     private QueryBuilder $qb;
 
-    public function __construct(int $tcId, int $singleRowId = null, $loadDefault = true)
+    public function __construct(int $tcId, ?int $singleRowId = null, bool $loadDefault = true)
     {
         $this->id = $tcId;
 
@@ -153,12 +153,12 @@ class TableConfiguration
 
     public function getQbForRowData(): \libAllure\QueryBuilder
     {
-        if (!$this->table) {
-            $this->error = 'Table is not set.';
-            return 'SELECT version()';
-        }
+		$qb = new \libAllure\QueryBuilder();
 
-        $qb = new \libAllure\QueryBuilder();
+        if (!$this->table) {
+			$this->error = 'Table is not set.';
+			return $qb;
+        }
 
         $qb->from($this->table, null, $this->database);
         $qb->fields('*')->groupBy('id');
@@ -272,50 +272,6 @@ class TableConfiguration
         }
 
         return false;
-    }
-
-    private function queryRowDataHacky(): string
-    {
-        $table = $this->table;
-
-        if ($table == null) {
-            $this->keycol = null;
-            $this->stmt = null;
-            return 'SELECT version()';
-        };
-
-        $sql = 'SELECT ' . $table . '.*';
-
-        $ftables = array();
-        if (!empty($this->foreignKeys)) {
-            $sql .= ', ';
-
-            foreach ($this->foreignKeys as $key) {
-                $sql .= $key['foreignTable'] . '.' . $key['foreignDescription'] . ' AS ' . $key['sourceField'] . '_fk,';
-                $ftables[] = $key['foreignTable'];
-            }
-            $sql[strlen($sql) - 1] = ' ';
-        }
-
-        $sql .= ' FROM `' . $this->database . '`.`' . $table . '`';
-
-        if (count($ftables) > 0) {
-            foreach ($this->foreignKeys as $fk) {
-                $sql .= ' LEFT JOIN ' . $fk['foreignTable'] . ' ON ' . $fk['foreignTable'] . '.' . $fk['foreignField'] . ' = ' . $fk['sourceField'];
-            }
-        }
-
-        if (isset($this->singleRowId)) {
-            $sql .= ' WHERE ' . $table . '.id = ' . $this->singleRowId . ' ';
-        }
-
-        $sql .= ' GROUP BY ' . $table . '.id';
-
-        if (!empty($this->order)) {
-            $sql .= ' ORDER BY ' . $this->order . ' DESC';
-        }
-
-        return $sql;
     }
 
     public function getHeadersOfType(): array

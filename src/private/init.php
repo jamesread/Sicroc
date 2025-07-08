@@ -3,6 +3,8 @@
 function sicrocInit()
 {
     require_once 'libraries/autoload.php';
+	
+	ini_set('session.gc_maxlifetime', '525960');
 
     try {
         $config = \Sicroc\Config::getInstance();
@@ -130,6 +132,7 @@ function setupTemplateEngine()
     $tpl->registerModifier('stripos', 'stripos');
     $tpl->registerModifier('getUser', '\libAllure\Session::getUser');
     $tpl->registerModifier('htmlentities', 'htmlentities');
+    $tpl->registerModifier('var_dump', 'var_dump');
 }
 
 function setupTimezone()
