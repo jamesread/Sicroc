@@ -7,6 +7,7 @@
 	<link rel = "stylesheet" href = "resources/stylesheets/main.css" type = "text/css" />
 	<link rel = "shortcut icon" href = "resources/images/sicroc-favicon.png" type = "image/png" />
 
+    <meta charset = "UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="#673000">
 

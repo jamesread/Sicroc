@@ -64,12 +64,25 @@ class WidgetForm extends Widget
 
     public function shouldRender(): bool
     {
+        if ($this->state->processed) {
+            if (!$this->state->shouldRender) {
+                return false;
+            }
+        }
 
-        return $this->state->shouldRender;
+        if (!$this->state->shouldRender) {
+            if (!empty($this->state->message)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function render(): void
-    {
+    { 
         if ($this->state->processed) {
             if ($this->state->redirectUrl != null) {
                 $redirectMessage = 'FIXME Redirect message';
@@ -79,15 +92,12 @@ class WidgetForm extends Widget
             }
 
             $this->simpleMessage($this->state->message, $this->state->messageClass);
-
-            if (!$this->state->shouldRender) {
-                return;
-            }
+            return;
         }
 
-        if (!$this->state->shouldRender) {
-            $this->simpleMessage('nrm: ' . $this->state->message, $this->state->messageClass);
-            return;
+        if (!$this->state->shouldRender && !empty($this->state->message)) {
+                $this->simpleMessage('nrm: ' . $this->state->message, $this->state->messageClass);
+                return;
         }
 
         if ($this->f != null) {

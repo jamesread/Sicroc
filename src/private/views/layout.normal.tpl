@@ -42,7 +42,6 @@
 	{/foreach}
 {/if}
 
-{if count($widgets) != 1}
 <div style = "float: right">
 	{if $editMode}
 	<abbr title = "Page ID: {$page.id}">Page</abbr>: 
@@ -57,7 +56,6 @@
 	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
 	{/if}
 </div>
-{/if}
 
 </main>
 

@@ -45,7 +45,7 @@ class Navigation
 
                     if ($link['master'] == 1) {
                         $topLinks[$link['title']] = $newLink;
-                    } else {
+                    } else if ($link['masterTitle'] != $link['title']) { // Check, because it's otherwise possible to create loops.
                         $topLinks[$link['masterTitle']]['children'][] = $newLink;
                     }
                 }

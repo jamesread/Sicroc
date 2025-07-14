@@ -2,7 +2,9 @@
 
 function sicrocInit()
 {
-    require_once 'libraries/autoload.php';
+	require_once 'libraries/autoload.php';
+
+	header('Content-Type: text/html; charset=UTF-8');
 
     try {
         $config = \Sicroc\Config::getInstance();

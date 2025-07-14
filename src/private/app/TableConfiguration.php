@@ -95,10 +95,13 @@ class TableConfiguration
         }
     }
 
-    public function loadTable(): void
+    public function loadTable($conditionalFormatting = true): void
     {
-        $this->rows = $this->getRowData();
-        $this->applyConditionalFormatting();
+		$this->rows = $this->getRowData();
+
+		if ($conditionalFormatting) {
+			$this->applyConditionalFormatting();
+		}
 
         $this->headers = $this->getHeadersFromRowData();
 

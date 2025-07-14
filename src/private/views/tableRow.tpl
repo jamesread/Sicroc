@@ -5,7 +5,11 @@
 
 	<tr>
 		<td class = "keyCol">{$cellName}:</td>
-		<td>{$cellValue|htmlentities}</td>
+		<td>
+		{if !empty($cellValue)}
+			{$cellValue|htmlentities}
+		{/if}
+		</td>
 	</tr>
 	{/foreach}
 </table>

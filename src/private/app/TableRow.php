@@ -15,7 +15,8 @@ class TableRow extends Widget
     public function widgetSetupCompleted(): void
     {
         $this->id = LA::san()->filterUint('primaryKey');
-        $this->tc = new TableConfiguration(LA::san()->filterString('tc'), $this->id);
+		$this->tc = new TableConfiguration(LA::san()->filterString('tc'), $this->id, false);
+		$this->tc->loadTable(false);
 
         $this->navigation->add('?pageIdent=TABLE_VIEW&amp;tc=' . $this->tc->id, $this->tc->listPhrase);
         $this->navigation->add('?pageIdent=TABLE_ROW_EDIT&amp;tc=' . $this->tc->id . '&amp;primaryKey=' . $this->id, 'Edit');
