@@ -1,0 +1,711 @@
+html {
+  min-height: 100vh;
+}
+
+body {
+  background-color: #dee3e7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  font-family: sans-serif;
+  font-size: 1.6em;
+  font-weight: 100;
+  margin-top: 6px;
+  margin-bottom: 1em;
+  color: #000;
+}
+
+body, td, input {
+  font-family: Sans-Serif;
+  font-size: 9pt;
+  margin: 0;
+  line-height: 1.5;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+  padding: .4em;
+  border-radius: .4em;
+  border: 1px solid #ccc;
+}
+
+main {
+  padding-left: 5em;
+  padding-right: 2em;
+  padding-top: 4em;
+  padding-bottom: 1em;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+div.subnav {
+  position: absolute;
+  top: 1.5em;
+  right: 0;
+}
+
+div.subnav p {
+  color: #999;
+  margin: 0; 
+  padding: .2em; 
+  padding-left: 1em;
+  display: inline-block; 
+}  
+
+div.subnav ul {
+  display: inline-block; 
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+div.subnav ul li ul {
+  display: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+div.subnav > * {
+  margin-right: .5em !important;
+}
+
+div.subnav > ul > li {
+  padding: 0; 
+  margin: 0;
+  border: 0;
+  text-align: right;
+} 
+
+div.subnav ul li ul li {
+  background-color: #fff;
+  text-align: left;
+}
+
+div.subnav ul a {
+  display: block;
+  padding: .4em;
+  width: 12em;
+  text-decoration: none;
+  margin: 0;
+}
+
+div.subnav ul a, div.subnav ul a:visited {
+  padding: .4em;
+  display: block;
+  color: white;
+}
+
+div.subnav ul li ul a, div.subnav ul li ul a:visited {
+  color: black; 
+}
+
+div.subnav ul li ul a:hover {
+  background-color: #356AA0;
+  background-color: #E6EACB;
+  color: black;
+  text-decoration: none;
+}
+
+div.subnav ul li:hover ul {
+  display: block;
+  position: absolute;
+  z-index: 99;
+  border: 1px solid #bbb;
+  box-shadow: 0 0 5px 0 #bbb;;
+} 
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  background-color: #CDEB8B;
+  box-shadow: 0 0 .5em #9a9a9a;
+  border-bottom: 1px solid #bbb;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0px;
+  width: 4em;
+  transition: width .3s;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+nav ul:first-child {
+  margin-top: 3.5em;
+}
+
+nav ul:last-child {
+}
+
+nav ul {
+  word-wrap: none;
+  width: 250px;
+}
+
+
+nav.shown, nav:hover {
+  width: 250px;
+}
+
+.icon-holder {
+  display: inline-block;
+  padding-right: 1em;
+}
+
+div.header img {
+  float: right;
+}
+
+div.header {
+  background-color: #111;
+  color: white;
+}
+
+div.header table {
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0;
+}
+
+div.header td {
+  background-image: url('../images/block.png');
+  background-repeat: repeat-x;
+  color: white; 
+  padding: 6px;
+}
+
+fieldset.box legend {
+  font-family: Serif;
+  font-size: 1.6em;
+  margin-top: 6px;
+  margin-bottom: 0;
+  color: #5D7CBA;
+  position: relative;
+}
+
+fieldset {
+  margin: 0;
+  margin-bottom: 1em;
+  padding: 0;
+  border: 0;
+}
+
+label.required:after {
+  color: red;
+  content: ' *';
+}
+
+#permaWidget {
+  padding: .6em;
+  position: fixed;
+  z-index: 99;
+  left: 0;
+  top: 0;
+}
+
+#permaWidget * {
+  display: inline-block;
+}
+
+h1 {
+  margin: 0;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  padding-left: 12px;
+  font-size: 1.2em;
+  padding-right: 1em;
+}
+
+h1 a, h1 a:hover, h1 a:visited, h1 a:active {
+  text-transform: uppercase;
+  color: black;
+}
+
+ul.navigation {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-items: center;
+  gap: 1em;
+}
+
+ul.navigation a, ul.navigation a:visited, div.subnav > a {
+  text-transform: uppercase;
+  padding-left: 0;
+  margin: 0;
+}
+
+ul.navigation li a.activeSection, div.subnav > a.activeSection {
+  background-color: black;
+  color: white;
+}
+
+ul.navigation a, ul.navigation a:visited, div.subnav > a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  margin: 0;
+  display: block;
+  padding: 6px;
+  padding-left: 1em;
+  display: flex;
+  align-items: center;
+}
+
+ul.navigation a:hover, div.subnav > a:hover {
+  background-color: #356AA0;
+  background-color: #E6EACB;
+  background-color: #B1D06E;
+  color: black;
+}
+
+ul.navigation ul.navigation {
+  padding-left: 1.5em;
+}
+
+hr {
+  background-color: black;
+  height: 0;
+  border: 0;
+  border-top: 1px solid black;
+  margin: 0;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+ul hr {
+  border-top: 1px solid #bbb;
+}
+
+div.content {
+  margin: auto;
+  padding-top: 6px;
+  padding-bottom: 12px;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+form table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid black;
+}
+
+form table td {
+  background-color: #EFEFD7;
+  padding: 12px;
+}
+
+input, textarea {
+  border: 1px solid #bbb;
+  padding: 2px;
+  text-align: left;
+}
+
+textarea {
+  width: 100%;
+  height: 300px;
+}
+
+input[type='submit'] {
+  min-width: 10em;
+  background-color: #9EFF66;
+}
+
+input[type='reset'] {
+  min-width: 10em;
+  background-color: #FF422D;
+}
+
+ul.table {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  display: block;
+  clear: both;
+}
+
+ul.table li {
+  float: left;
+  display: block;
+  border: 1px solid #999;
+  width: 6em;
+  height: 6em; 
+  text-align: center;
+  margin: 6px;
+  padding: 0;
+  text-decoration: none;
+  color: black;
+  overflow: hidden;
+}
+
+ul.table li a {
+  display: block;
+  height: 100%;
+  padding: 2px;
+}
+
+ul.table li a:hover {
+  background-color: #EFEFD7;
+}
+
+div.clearer {
+  clear: both;
+  display: block;
+}
+
+#user {
+  position: absolute;
+  right: 6px;
+}
+
+div.box {
+}
+
+div.box ul {
+  display: inline;
+  padding: 0;
+}
+
+div.box ul li { 
+  display: inline;
+}
+
+.contentBox {
+  background-color: #EFEFD7;
+  padding: 12px;
+  border: 1px solid black;
+  margin-bottom: 4em;
+}
+
+legend {
+  position: relative;
+  right: 12px;
+}
+
+abbr {
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+th {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  color: black;
+  padding: .5em;
+  text-align: left;
+}
+
+th a {
+  color: black;
+}
+
+td {
+  border: 1px solid #c4c4c4;
+  padding: .5em;
+  text-align: left;
+}
+
+div.labelHolder, div.elementHolder {
+  display: inline-block;
+}
+
+label {
+  font-weight: bold;
+  display: inline-block;
+  min-width: 12em;
+}
+
+th .subtle {
+  display: block;
+  font-size: x-small;
+}
+
+.subtle {
+  color: #999;
+}
+
+footer {
+  padding-bottom: 1em;
+  grid-area: foot;
+  text-align: center;
+}
+
+footer p {
+  padding: 0; 
+  margin: 0;
+}
+
+footer div.left {
+  float: left;
+}
+
+table.data tr:hover td {
+  background-color: beige;
+}
+
+main.tall section:only-child {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main.tall .calendar {
+  flex-grow: 1;
+}
+
+section.widget {
+  background-color: #fff;
+  border-radius: .4em;
+  margin-bottom: 1em;
+  padding: 1em;
+  box-shadow: 0 0 .5em #9a9a9a;
+}
+
+section:only-child {
+  margin-bottom: 0;
+}
+
+h3 {
+  margin-top: 0;
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+.formSection {
+  margin-top: 0;
+  font-size: 10pt;
+  border-bottom: 1px solid lightgray;
+  font-weight: bold;
+}
+
+.formValidationError {
+  color: red;
+}
+
+#sectionActions li strong {
+  display: block;
+  background-color: darkgray;
+  padding: .2em;
+}
+
+td {
+  background-color: white;
+}
+
+div.toolbar {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  padding: .2em;
+}
+
+div.toolbar a.button {
+  background-color: white;
+  box-shadow: none;
+  border-color: #d3d3d3;
+}
+
+button, a.button {
+  padding: .6em;
+  display: inline-block;
+  border: 1px solid #999;
+  border-radius: .4em;
+  color: black;
+  margin-right: .2em;
+  background-color: #efefef;
+  box-shadow: 0 0 .5em #9a9a9a;
+}
+
+button:hover, a.button:hover, div.toolbar a.button:hover {
+  text-decoration: none;
+  background-color: #356AA0;
+  color: white;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: lightgreen;
+  color: black;
+  border: 1px solid limegreen;
+}
+
+button[type="submit"]:hover {
+  background-color: #81e481;
+}
+
+td.keyCol {
+  width: 1%;
+  font-weight: bold;
+  text-align: right;
+}
+
+table.transparent, table.transparent td {
+  border: 0;
+  background-color: transparent;
+}
+
+p.description {
+  display: inline-block;
+}
+
+.wikiPage {
+  background-color: white;
+  padding: 6px;
+}
+
+.wikiPage p:first-child {
+  margin-top: 0;
+}
+
+.wikiPage p:last-child {
+  margin-bottom: 0;
+}
+
+.bad {
+  background-color: salmon;
+  padding: 1em;
+}
+
+.good {
+  background-color: #DBFFB0;
+  padding: 1em;
+}
+
+.neutral {
+  padding: 1em;
+}
+
+.framedBox {
+  border: 1px solid black;
+  background-color: white;
+}
+
+.framedBox .bad {
+  margin-top: 0;
+}
+
+.framedBox p {
+  padding: 1em;
+}
+
+span.dummyLink {
+  color: blue;
+  cursor: pointer;
+}
+
+form {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  gap: 1em;
+}
+
+form > * {
+  justify-self: left;
+}
+
+form > div {
+  align-self: center;
+}
+
+form p {
+  margin: 0;
+  padding: 0;
+}
+
+.controlPanel a {
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: .6em;
+  padding: 1em;
+  border: 1px solid #bbb;
+  border-radius: .2em;
+}
+
+.controlPanel a:hover {
+  background-color: #E6EACB;
+}
+
+#toggleSidebar {
+  width: 2.7em;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    display: none;
+  }
+
+  h2 {
+    padding-left: .5em;
+  }
+
+  main {
+    padding: 0;
+    padding-top: 4em;
+  }
+
+  section.widget form {
+    padding-left: .5em;
+  }
+
+  section.widget:first-child {
+    margin-top: 0;
+  }
+
+  section.widget {
+    border-radius: 0;
+    padding: 0;
+    margin-top: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  div.toolbar {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  table {
+    border: 0;
+  }
+
+  table td:first-child {
+    border-left: 0;
+  }
+
+  table td:last-child {
+    border-right: 0;
+  }
+
+  .calendar div {
+    padding: 0em;
+    font-size: smaller;
+  }
+
+  .calendar li {
+    border-radius: 0;
+  }
+
+  .hideThin {
+    display: none;
+  }
+}

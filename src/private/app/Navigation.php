@@ -27,7 +27,7 @@ class Navigation
         $allLinks = [];
 
         if (Session::isLoggedIn()) {
-            $sql = 'SELECT l.title, l.master, l2.title AS masterTitle, l.index_page, l.usergroup FROM navigation_links l JOIN navigation_links l2 ON l.master = l2.id ORDER BY l.master, l.ordinal, l.title ASC';
+            $sql = 'SELECT l.title, l.master, l2.title AS masterTitle, l.index_page, l.usergroup, l.icon FROM navigation_links l JOIN navigation_links l2 ON l.master = l2.id ORDER BY l.master, l.ordinal, l.title ASC';
             $stmt = DatabaseFactory::getInstance()->prepare($sql);
             $stmt->execute();
 
@@ -39,6 +39,7 @@ class Navigation
                         'title' => $link['title'],
                         'url' => '?page=' . $link['index_page'],
                         'children' => array(),
+						'iconUrl' => $link['icon'] ?? null,
                     ];
 
                     $allLinks[$link['title']] = $newLink;

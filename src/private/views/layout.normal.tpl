@@ -1,5 +1,6 @@
 {include file = "widgets/header.tpl"}
 
+<div id = "content">
 <main class = "{$additionalClasses}">
 
 {if empty($widgets)}
@@ -62,3 +63,4 @@
 </main>
 
 {include file = "widgets/footer.tpl"}
+</div>

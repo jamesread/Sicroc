@@ -6,7 +6,7 @@
 
 			<li>
 				<a href = "{$link.url}"	class = "{if $page.title == $link.title}activeSection{/if}">
-					<div class = "icon-holder">
+					<div class = "inline-icon">
 						{if isset($link.iconUrl)}
 							<iconify-icon icon="{$link.iconUrl}" width="24" height="24"></iconify-icon>
 						{else}
