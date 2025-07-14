@@ -3,6 +3,8 @@ default: test package
 test:
 	phpunit tests/Test*
 
+lint: phpcs
+
 phpcs:
 	src/private/libraries/bin/phpcs
 

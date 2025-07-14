@@ -153,11 +153,11 @@ class TableConfiguration
 
     public function getQbForRowData(): \libAllure\QueryBuilder
     {
-		$qb = new \libAllure\QueryBuilder();
+        $qb = new \libAllure\QueryBuilder();
 
         if (!$this->table) {
-			$this->error = 'Table is not set.';
-			return $qb;
+            $this->error = 'Table is not set.';
+            return $qb;
         }
 
         $qb->from($this->table, null, $this->database);
