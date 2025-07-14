@@ -39,14 +39,14 @@ class Navigation
                         'title' => $link['title'],
                         'url' => '?page=' . $link['index_page'],
                         'children' => array(),
-						'iconUrl' => $link['icon'] ?? null,
+                        'iconUrl' => $link['icon'] ?? null,
                     ];
 
                     $allLinks[$link['title']] = $newLink;
 
                     if ($link['master'] == 1) {
                         $topLinks[$link['title']] = $newLink;
-                    } else if ($link['masterTitle'] != $link['title']) { // Check, because it's otherwise possible to create loops.
+                    } elseif ($link['masterTitle'] != $link['title']) { // Check, because it's otherwise possible to create loops.
                         $topLinks[$link['masterTitle']]['children'][] = $newLink;
                     }
                 }
