@@ -13,7 +13,7 @@ use Sicroc\ProcessedFormState;
 class FormTableInsert extends Form implements \Sicroc\BaseForm
 {
     private array $fields;
-    private ?\Sicroc\TableConfiguration $tc;
+    private \Sicroc\TableConfiguration $tc;
 
     public function __construct()
     {

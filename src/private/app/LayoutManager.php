@@ -12,7 +12,7 @@ use libAllure\HtmlLinksCollection;
 class LayoutManager
 {
     private Page $page;
-    private ?Navigation $nav;
+    private Navigation $nav;
     public string $additionalClasses = '';
 
     private static ?LayoutManager $inst = null;
@@ -108,15 +108,15 @@ class LayoutManager
          */
 
         if (Session::isLoggedIn()) {
-            $links->addIfPriv('ADMIN', '?pageIdent=CONTROL_PANEL', 'Control Panel');
+            $links->addIfPriv('ADMIN', '?pageIdent=CONTROL_PANEL', 'Control Panel', 'hugeicons:settings-01');
             $links->addSeparator();
-            $links->addIfPriv('ADMIN', '?pageIdent=PAGE_UPDATE&pageToEdit=' . $this->page->getId(), 'Page update');
+            $links->addIfPriv('ADMIN', '?pageIdent=PAGE_UPDATE&pageToEdit=' . $this->page->getId(), 'Page update', 'hugeicons:edit-03');
             $links->addSeparator();
-            $links->add('?pageIdent=USER_PREFERENCES', 'Preferences');
-            $links->add('?pageIdent=LOGOUT', 'Logout');
+            $links->add('?pageIdent=USER_PREFERENCES', 'Preferences', 'hugeicons:preference-horizontal');
+            $links->add('?pageIdent=LOGOUT', 'Logout', 'hugeicons:logout-circle-01');
         } else {
             $links->addIf(!Utils::getSiteSetting('disable_registration'), '?pageIdent=REGISTER', 'Register');
-            $links->add('?pageIdent=LOGIN', 'Login');
+            $links->add('?pageIdent=LOGIN', 'Login', 'hugeicons:login-circle-01');
         }
 
         return $links;

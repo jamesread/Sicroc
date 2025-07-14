@@ -1,0 +1,74 @@
+name: Release Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [
+          8.4,
+          8.3,
+          8.2,
+          8.1
+        ]
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    name: PHP${{ matrix.php }} - ${{ matrix.dependency-version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
+
+      - name: Setup Problem Matches
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+
+      - name: Run phpstan
+        run: make phpstan
+
+      - name: Run phpcs
+        run: make lint
+
+      - name: Run test suite
+        run: make tests
+
+  release:
+     runs-on: ubuntu-latest
+     needs: [build]
+     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: release
+        uses: cycjimmy/semantic-release-action@v4.2.0
+        with:
+          semantic_version: 24.2.3 # https://github.com/cycjimmy/semantic-release-action/issues/243
+
+        env:
+          GH_TOKEN: ${{ secrets.CONTAINER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CONTAINER_TOKEN }}

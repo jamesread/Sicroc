@@ -11,7 +11,7 @@ class CalendarView extends Widget
     private string $currentMonth = 'month';
     private string $dateNext = 'next';
     private string $datePrev = 'prev';
-    private ?array $days = [];
+    private array $days = [];
 
     public function getArguments(): array
     {

@@ -9,7 +9,7 @@ use libAllure\ElementTextbox;
 
 class FormWikiUpdate extends Form
 {
-    private false|array $page;
+    private array $page;
 
     public function __construct()
     {

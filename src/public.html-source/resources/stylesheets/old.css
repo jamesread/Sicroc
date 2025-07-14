@@ -645,69 +645,6 @@ form p {
   background-color: #E6EACB;
 }
 
-.calendar {
-  display: grid;
-  grid-template-rows: min-content auto auto auto auto auto;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 1px;
-  background-color: #c4c4c4;
-  border: 1px solid #c4c4c4;
-}
-
-.calendar div {
-  padding: .5em;
-  background-color: white;
-}
-
-
-.calendar div.header {
-  text-align: center;
-  background-color: #f3f3f3;
-  color: black;
-  padding: .5em;
-  text-align: center;
-  font-weight: bold;
-}
-
-.calendar p.dayTitle {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  font-size: smaller;
-}
-
-.calendar a {
-  color: black;
-  display: block;
-}
-
-.calendar div.weekend {
-  background-color: #efefef;
-}
-
-.calendar div.anotherMonth p.dayTitle a {
-  color: gray;
-}
-
-.calendar div.today {
-  background-color: beige;
-  font-weight: bold;
-}
-
-.calendar ul {
-  list-style: none;
-  margin: none;
-  padding: 0;
-}
-
-.calendar li {
-  padding: .2em;
-  padding-left: .6em;
-  background-color: #CDEB8B;
-  border-radius: .4em;
-  margin-bottom: 2px;
-}
-
 #toggleSidebar {
   width: 2.7em;
 }

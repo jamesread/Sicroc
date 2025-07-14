@@ -17,7 +17,6 @@
 			
 			{$element->render()}
 
-			<div>
 				{if !empty($element->description)}
 				<p class = "description">{$element->description}</p>
 				{/if}
@@ -33,7 +32,6 @@
 				{if $element->getValidationError() ne ''}
 				<p class = "formValidationError">{$element->getValidationError()}</p>
 				{/if}
-			</div>
 		{/if}
 	{/if}
 {/foreach}

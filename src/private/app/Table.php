@@ -25,7 +25,7 @@ class Table extends Widget
 
     public function widgetSetupCompleted(): void
     {
-        $tc = $this->getArgumentValue('table_configuration');
+        $tc = intval($this->getArgumentValue('table_configuration'));
 
         if ($tc == null) {
             $tc = LA::san()->filterUint('tc');
