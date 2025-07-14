@@ -95,7 +95,7 @@ class TableConfiguration
         }
     }
 
-    public function loadTable($conditionalFormatting = true): void
+    public function loadTable(bool $conditionalFormatting = true): void
     {
 		$this->rows = $this->getRowData();
 
