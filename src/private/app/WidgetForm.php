@@ -82,7 +82,7 @@ class WidgetForm extends Widget
     }
 
     public function render(): void
-    { 
+    {
         if ($this->state->processed) {
             if ($this->state->redirectUrl != null) {
                 $redirectMessage = 'FIXME Redirect message';
