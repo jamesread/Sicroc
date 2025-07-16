@@ -12,15 +12,18 @@
 		{continue}
 	{/if}
 	<section class = "widget">
-		<div style = "float: right;">
+		<div class = "section-header">
+			<div class = "fg1">
+				<h2 title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</h2>
+			</div>
+
+			<div role = "toolbar">
 			{if $widget.inst->displayEdit}
 				<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
 			{/if}
 		</div>
 
-		{if count($widgets) != 1}
-		<h3 title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</h3>
-		{/if}
+		</div>
 
 		{if isset($widget.inst->navigation) && $widget.inst->navigation->hasLinks()}
 			<div class = "toolbar">
@@ -54,7 +57,10 @@
 	{/if}
 
 	{if $editMode}
-	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}">&#x270E;</a>
+	<a href = "?pageIdent=PAGE_UPDATE&amp;pageToEdit={$page.id}" class = "button">
+		Edit Page
+		<iconify-icon icon = "hugeicons:edit-03"></iconify-icon>
+	</a>
 	{/if}
 </div>
 

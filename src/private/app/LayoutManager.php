@@ -109,9 +109,6 @@ class LayoutManager
 
         if (Session::isLoggedIn()) {
             $links->addIfPriv('ADMIN', '?pageIdent=CONTROL_PANEL', 'Control Panel', 'hugeicons:settings-01');
-            $links->addSeparator();
-            $links->addIfPriv('ADMIN', '?pageIdent=PAGE_UPDATE&pageToEdit=' . $this->page->getId(), 'Page update', 'hugeicons:edit-03');
-            $links->addSeparator();
             $links->add('?pageIdent=USER_PREFERENCES', 'Preferences', 'hugeicons:preference-horizontal');
             $links->add('?pageIdent=LOGOUT', 'Logout', 'hugeicons:logout-circle-01');
         } else {

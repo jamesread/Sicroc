@@ -135,6 +135,7 @@ function setupTemplateEngine()
     $tpl->registerModifier('getUser', '\libAllure\Session::getUser');
     $tpl->registerModifier('htmlentities', 'htmlentities');
     $tpl->registerModifier('var_dump', 'var_dump');
+    $tpl->registerModifier('strtolower', 'strtolower');
 }
 
 function setupTimezone()

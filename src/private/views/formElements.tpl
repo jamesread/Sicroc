@@ -4,7 +4,7 @@
 		{include file = "formElements.tpl" elements=$element}
 	{else}
 		{if $element->getType() eq 'hidden'}
-			<input type = "hidden" name = "{$element->getName()}" value = "{$element->getValue()}" />
+			<input type = "hidden" name = "{$element->getName()}" value = "{$element->getValue()}" placeholder = "{$element->getName()}" />
 		{elseif $element->getType() eq 'html'}
 			{$element->getValue()}
 		{elseif $element->getType() eq 'ElementButton'}
@@ -17,6 +17,7 @@
 			
 			{$element->render()}
 
+			<div class = "extra">
 				{if !empty($element->description)}
 				<p class = "description">{$element->description}</p>
 				{/if}
@@ -32,6 +33,7 @@
 				{if $element->getValidationError() ne ''}
 				<p class = "formValidationError">{$element->getValidationError()}</p>
 				{/if}
+			</div>
 		{/if}
 	{/if}
 {/foreach}

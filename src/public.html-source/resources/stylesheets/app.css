@@ -15,7 +15,7 @@ a.button {
 	border: 1px solid #ccc;
 	margin-right: 0.5em;
 	margin-bottom: 1em;
-	padding: 0.2em .4em;
+	padding: 0.4em .4em;
 	border-radius: 6px;
 	display: inline-block;
 	color: #333;
@@ -93,3 +93,30 @@ main.tall .calendar {
 }
 
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1em;
+}
+
+form {
+	grid-template-columns: minmax(0,max-content) minmax(0,600px) minmax(0, 600px);
+	justify-items: left;
+}
+
+form button {
+    max-width: 220px;
+}
+
+.level2-nav {
+	padding-left: 1.2em;
+}
+
+table.hover tr:hover td {
+  background-color: beige;
+  color: black;
+}
+
+a.activeSection {
+	background-color: #bec3c7;
+}

@@ -1,4 +1,4 @@
-<table class = "data">
+<table class = "data hover">
 	<thead>
 		<tr>
 		{foreach from = $headers item = "header" key = key name = headers} 
@@ -8,6 +8,7 @@
 			<th>
 				<a href = "#" onclick = "javascript:sortColumn(this.closest('table'), this.closest('th'), '{$smarty.foreach.headers.index}')">{$header.name}</a>
 				{if $showTypes}
+				<br />
 				<span class = "subtle">{if isset($header.native_type)}{$header.native_type}{else}???{/if}</span>
 				{/if}
 			</th>

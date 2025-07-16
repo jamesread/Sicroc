@@ -19,10 +19,17 @@
 <body>
 
 <header id = "sidebar">
-	<div class = "logo-and-title">
+	<div class = "logo-and-title fg1">
 		<img src = "resources/images/sicroc-favicon.png" alt = "Sicroc logo" class = "logo" />
-		<h1><a href = "?">Sicroc</a> &raquo; {$page.title|default:"Untitled page"}</h1>
+		<h1><a href = "?">Sicroc</a>
+		&raquo; {$page.title|default:"Untitled page"}</h1>
 	</div>
+
+	<nav class = "">
+		<ul role = "menubar" id = "sectionActions">
+		{include file = "links.tpl" links = $actionNavigation}
+		</ul>
+	</nav>
 </header>
 
 <div id = "layout">
@@ -38,8 +45,5 @@
 
 	<div class = "fg1"></div>
 
-	<ul class = "subnav navigation" id = "sectionActions">
-	{include file = "links.tpl" links = $actionNavigation}
-	</ul>
 </aside>
 
