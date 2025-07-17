@@ -19,11 +19,12 @@
 <body>
 
 <header id = "sidebar">
-	<div class = "logo-and-title fg1">
+	<div class = "logo-and-title" id = "sidebar-button">
 		<img src = "resources/images/sicroc-favicon.png" alt = "Sicroc logo" class = "logo" />
-		<h1><a href = "?">Sicroc</a>
-		&raquo; {$page.title|default:"Untitled page"}</h1>
+		<h1><a href = "?">Sicroc</a></h1>
 	</div>
+
+	<div class = "fg1"><h1>{$page.title|default:"Untitled page"}</h1></div>
 
 	<nav class = "">
 		<ul role = "menubar" id = "sectionActions">
