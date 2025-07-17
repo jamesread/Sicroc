@@ -27,7 +27,14 @@
 
 	<nav class = "">
 		<ul role = "menubar" id = "sectionActions">
-		{include file = "links.tpl" links = $actionNavigation}
+			<li>
+				<span>{$username}</span>
+				<div class = "user-dropdown">
+					<ul>
+					{include file = "links.tpl" links = $actionNavigation}
+					</ul>
+				</div>
+			</li>
 		</ul>
 	</nav>
 </header>

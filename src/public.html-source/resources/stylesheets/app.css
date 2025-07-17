@@ -120,3 +120,7 @@ table.hover tr:hover td {
 a.activeSection {
 	background-color: #bec3c7;
 }
+
+.user-dropdown {
+	right: 1em;
+}
