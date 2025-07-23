@@ -63,15 +63,15 @@ class LayoutManager
 
         $tpl->assign('navigation', $this->nav->getLinks());
         $tpl->assign('actionNavigation', $this->getActionNavigation());
-		$tpl->assign('editMode', $this->getEditMode());
+        $tpl->assign('editMode', $this->getEditMode());
 
-		if (Session::isLoggedIn()) {
-			$tpl->assign('isLoggedIn', true);
-			$tpl->assign('username', Session::getUser()->getUsername());
-		} else {
-			$tpl->assign('isLoggedIn', false);
-			$tpl->assign('username', 'guest');
-		}
+        if (Session::isLoggedIn()) {
+            $tpl->assign('isLoggedIn', true);
+            $tpl->assign('username', Session::getUser()->getUsername());
+        } else {
+            $tpl->assign('isLoggedIn', false);
+            $tpl->assign('username', 'guest');
+        }
 
         $tpl->assign('page', $this->page->getForTpl());
         $tpl->assign('widgets', $this->page->getWidgetsForTpl());
