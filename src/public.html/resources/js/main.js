@@ -35,9 +35,6 @@ function sortColumn(tbl, th, idx) {
 }
 
 function toggleSidebar() {
-  window.alert("Toggle Sidebar");
-
-  /*
   const sidebar = document.getElementById('sidebar');
 
   if (sidebar.classList.contains('shown')) {
@@ -45,6 +42,5 @@ function toggleSidebar() {
   } else {
     sidebar.classList.add('shown');
   }
-  */
 }
 
