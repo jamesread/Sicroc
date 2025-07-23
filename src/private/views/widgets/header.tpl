@@ -18,10 +18,10 @@
 
 <body>
 
-<header id = "sidebar">
-	<div class = "logo-and-title" id = "sidebar-button">
+<header>
+	<div class = "logo-and-title" id = "sidebar-button" onclick = "toggleSidebar()">
 		<img src = "resources/images/sicroc-favicon.png" alt = "Sicroc logo" class = "logo" />
-		<h1><a href = "?">Sicroc</a></h1>
+		<h1 class = "fg1"><a href = "?">Sicroc</a></h1>
 	</div>
 
 	<div class = "fg1"><h1>{$page.title|default:"Untitled page"}</h1></div>
@@ -42,7 +42,10 @@
 
 <div id = "layout">
 
-<aside class = "shown stuck" id = "sidebar">
+<aside class = "shown" id = "sidebar">
+	<button onclick = "document.getElementById('sidebar').classList.remove('shown')" class = "sidebar-close" style = "padding: 1em;" title = "Close sidebar">
+		<iconify-icon icon = "mdi:close" style = "color: var(--fg-color);"></iconify-icon>
+	</button>
 	{if empty($navigation)}
 		<ul class = "navigation">&nbsp; </ul>
 	{else}

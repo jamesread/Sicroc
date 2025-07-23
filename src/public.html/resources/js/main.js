@@ -3,7 +3,7 @@ function sortColumn(tbl, th, idx) {
   let rows = [];
 
   const asc = th.classList.contains('sortDesc');
-  
+
   for (const tr of tbody.querySelectorAll('tr')) {
     rows.push(tr);
     tr.remove();
@@ -35,15 +35,16 @@ function sortColumn(tbl, th, idx) {
 }
 
 function toggleSidebar() {
-  const nav = document.querySelector('nav')
-  const btn = document.getElementById('toggleSidebar')
+  window.alert("Toggle Sidebar");
 
-  if (nav.classList.contains('shown')) {
-    nav.classList.remove('shown')
-    btn.innerHTML = '&raquo;'
+  /*
+  const sidebar = document.getElementById('sidebar');
+
+  if (sidebar.classList.contains('shown')) {
+    sidebar.classList.remove('shown');
   } else {
-    nav.classList.add('shown')
-    btn.innerHTML = '&laquo;'
+    sidebar.classList.add('shown');
   }
+  */
 }
 
