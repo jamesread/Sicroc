@@ -38,7 +38,7 @@ class Navigation
                     $newLink = [
                         'title' => $link['title'],
                         'url' => '?page=' . $link['index_page'],
-						'pageId' => $link['index_page'],
+                        'pageId' => $link['index_page'],
                         'children' => array(),
                         'iconUrl' => $link['icon'] ?? null,
                     ];
