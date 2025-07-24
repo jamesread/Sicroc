@@ -10,6 +10,21 @@ aside {
   flex-direction: column;
 }
 
+header button {
+	background-color: transparent;
+	color: white;
+	border: none;
+}
+
+header button:hover {
+	background-color: #555;
+}
+
+#sidebar-button:hover {
+	background-color: #444;
+	cursor: default;
+}
+
 a.button {
 	text-decoration: none;
 	border: 1px solid #ccc;
@@ -123,4 +138,16 @@ a.activeSection {
 
 .user-dropdown {
 	right: 1em;
+}
+
+@media only screen and (max-width: 600px) {
+  .calendar div {
+    padding: 0em;
+    font-size: smaller;
+  }
+
+  .calendar li {
+    border-radius: 0;
+  }
+
 }

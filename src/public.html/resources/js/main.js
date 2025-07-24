@@ -38,9 +38,65 @@ function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
 
   if (sidebar.classList.contains('shown')) {
+    setSidebarSticky(false);
     sidebar.classList.remove('shown');
   } else {
     sidebar.classList.add('shown');
   }
 }
 
+function toggleSidebarStuck() {
+  const sidebar = document.getElementById('sidebar');
+
+  if (sidebar.classList.contains('stuck')) {
+    setSidebarSticky(false);
+  } else {
+    setSidebarSticky(true);
+  }
+}
+
+function loadInitialSidebarState() {
+  const state = window.localStorage.getItem('sidebarState');
+
+  const sidebar = document.getElementById('sidebar');
+
+  if (state === 'stuck') {
+    setSidebarSticky(true);
+  } else {
+    setSidebarSticky(false);
+  }
+
+  if (window.innerWidth > 800) {
+    sidebar.classList.add('shown');
+  }
+}
+
+function main() {
+  loadInitialSidebarState();
+}
+
+function setSidebarSticky(setStuck) {
+  const sidebar = document.getElementById('sidebar');
+
+  const stickButton = document.getElementById('stick-icon');
+  stickButton.innerHTML = '';
+
+  const domIcon = document.createElement('iconify-icon');
+  domIcon.setAttribute('width', '24');
+  domIcon.setAttribute('height', '24');
+
+  if (setStuck) {
+    sidebar.classList.add('shown');
+    sidebar.classList.add('stuck');
+    domIcon.setAttribute('icon', 'mdi:pin');
+
+    window.localStorage.setItem('sidebarState', 'stuck');
+  } else {
+    sidebar.classList.remove('stuck');
+    domIcon.setAttribute('icon', 'mdi:pin-outline');
+
+    window.localStorage.setItem('sidebarState', 'unstuck');
+  }
+
+  stickButton.appendChild(domIcon);
+}

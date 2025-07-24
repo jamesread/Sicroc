@@ -19,9 +19,14 @@
 <body>
 
 <header>
-	<div class = "logo-and-title" id = "sidebar-button" onclick = "toggleSidebar()">
-		<img src = "resources/images/sicroc-favicon.png" alt = "Sicroc logo" class = "logo" />
-		<h1 class = "fg1"><a href = "?">Sicroc</a></h1>
+	<div class = "logo-and-title" id = "sidebar-button">
+		<a href = "/" class = "fg1 flex-row">
+			<img src = "resources/images/sicroc-favicon.png" alt = "Sicroc logo" class = "logo" />
+			<h1>Sicroc</h1>
+		</a>
+		<button class = "sidebar-toggle" title = "Toggle sidebar" id = "toggle-icon" onclick = "toggleSidebar()">
+			<iconify-icon icon = "mdi:menu" width = "24" height = "24"></iconify-icon>
+		</button>
 	</div>
 
 	<div class = "fg1"><h1>{$page.title|default:"Untitled page"}</h1></div>
@@ -42,10 +47,11 @@
 
 <div id = "layout">
 
-<aside class = "shown" id = "sidebar">
-	<button onclick = "document.getElementById('sidebar').classList.remove('shown')" class = "sidebar-close" style = "padding: 1em;" title = "Close sidebar">
-		<iconify-icon icon = "mdi:close" style = "color: var(--fg-color);"></iconify-icon>
+<aside class = "" id = "sidebar">
+	<button onclick = "toggleSidebarStuck()" class = "sidebar-toggle" style = "text-align: right;" title = "Toggle sidebar" id = "stick-icon">
+		<iconify-icon icon = "mdi:pin-outline" width = "24" height = "24"></iconify-icon>
 	</button>
+
 	{if empty($navigation)}
 		<ul class = "navigation">&nbsp; </ul>
 	{else}
@@ -53,8 +59,8 @@
 		{include file = "links.tpl" links = $navigation}
 		</ul>
 	{/if}
-
-	<div class = "fg1"></div>
-
 </aside>
 
+<script>
+main();
+</script>
