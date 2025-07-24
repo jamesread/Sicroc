@@ -19,7 +19,10 @@
 
 			<div role = "toolbar">
 			{if $widget.inst->displayEdit}
-				<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}">&#x270E;</a>
+				<a href = "?controller=Page&amp;pageIdent=WIDGET_INSTANCE_UPDATE&amp;widgetToUpdate={$widget.id}" class = "button" title = "Edit this widget">
+					<span class = "hide-sm">Edit Widget</span>
+					<iconify-icon icon = "hugeicons:edit-03"></iconify-icon>
+				</a>
 			{/if}
 		</div>
 

@@ -66,7 +66,7 @@ function loadInitialSidebarState() {
     setSidebarSticky(false);
   }
 
-  if (window.innerWidth > 800) {
+  if (window.innerWidth > 800 && sidebar.querySelectorAll('a').length > 0) {
     sidebar.classList.add('shown');
   }
 }

@@ -20,6 +20,10 @@ header button:hover {
 	background-color: #555;
 }
 
+aside button {
+	border: none;
+}
+
 #sidebar-button:hover {
 	background-color: #444;
 	cursor: default;
@@ -38,6 +42,10 @@ a.button {
 
 a.button:hover {
 	background-color: #f0f0f0;
+}
+
+a.button:last-child {
+	margin-right: 0;
 }
 
 main.tall .calendar {
@@ -140,6 +148,16 @@ a.activeSection {
 	right: 1em;
 }
 
+input {
+	justify-self: normal;
+}
+
+input[type="datetime-local"] {
+	padding: 1em;
+	border: 1px solid #ccc;
+	border-radius: .4em;
+}
+
 @media only screen and (max-width: 600px) {
   .calendar div {
     padding: 0em;
@@ -150,4 +168,12 @@ a.activeSection {
     border-radius: 0;
   }
 
+  .hide-sm {
+	display: none;
+  }
+
+  form {
+	grid-template-columns: 1fr;
+  }
 }
+

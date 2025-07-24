@@ -4,7 +4,7 @@
 
         <style type = "text/css">
         body {
-            font-family: Verdana;
+            font-family: Verdana, sans-serif;
             font-size: 9pt;
         }
         </style>

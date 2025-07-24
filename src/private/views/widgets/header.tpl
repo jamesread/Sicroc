@@ -48,9 +48,13 @@
 <div id = "layout">
 
 <aside class = "" id = "sidebar">
-	<button onclick = "toggleSidebarStuck()" class = "sidebar-toggle" style = "text-align: right;" title = "Toggle sidebar" id = "stick-icon">
-		<iconify-icon icon = "mdi:pin-outline" width = "24" height = "24"></iconify-icon>
-	</button>
+	<div class = "flex-row" style = "padding-top: .5em;">
+		<div class = "fg1"></div>
+
+		<button onclick = "toggleSidebarStuck()" class = "sidebar-toggle" style = "text-align: right;" title = "Toggle sidebar" id = "stick-icon">
+			<iconify-icon icon = "mdi:pin-outline" width = "24" height = "24"></iconify-icon>
+		</button>
+	</div>
 
 	{if empty($navigation)}
 		<ul class = "navigation">&nbsp; </ul>

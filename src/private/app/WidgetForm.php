@@ -70,15 +70,7 @@ class WidgetForm extends Widget
             }
         }
 
-        if (!$this->state->shouldRender) {
-            if (!empty($this->state->message)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->state->shouldRender;
     }
 
     public function render(): void
@@ -96,7 +88,7 @@ class WidgetForm extends Widget
         }
 
         if (!$this->state->shouldRender && !empty($this->state->message)) {
-                $this->simpleMessage('nrm: ' . $this->state->message, $this->state->messageClass);
+//                $this->simpleMessage('nrm: ' . $this->state->message, $this->state->messageClass);
                 return;
         }
 
