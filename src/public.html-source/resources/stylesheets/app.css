@@ -120,6 +120,13 @@ main.tall .calendar {
   display: flex;
   justify-content: space-between;
   padding-bottom: 1em;
+  border-bottom: 1px solid #d6d6d6;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.section-content {
+  padding-top: 0 !important;
 }
 
 form {
@@ -156,6 +163,11 @@ input[type="datetime-local"] {
 	padding: 1em;
 	border: 1px solid #ccc;
 	border-radius: .4em;
+}
+
+.padded {
+	padding: 1em;
+	padding-bottom: 0;
 }
 
 @media only screen and (max-width: 600px) {

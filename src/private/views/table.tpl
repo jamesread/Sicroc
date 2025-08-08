@@ -59,3 +59,5 @@
 	{/foreach}
 	</tbody>
 </table>
+
+<p>{sizeof($rows)} rows</p>

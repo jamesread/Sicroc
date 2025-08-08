@@ -11,7 +11,7 @@
 	{if !$widget.inst->shouldRender()}
 		{continue}
 	{/if}
-	<section class = "widget">
+	<section class = "widget with-header-and-content">
 		<div class = "section-header">
 			<div class = "fg1">
 				<h2 title = "ID: {$widget.id}. VC: {$widget.viewableController}">{$widget.title|default:"Untitled widget"}</h2>
@@ -24,12 +24,11 @@
 					<iconify-icon icon = "hugeicons:edit-03"></iconify-icon>
 				</a>
 			{/if}
-		</div>
-
+			</div>
 		</div>
 
 		{if isset($widget.inst->navigation) && $widget.inst->navigation->hasLinks()}
-			<div class = "toolbar">
+			<div class = "toolbar padded">
 			{foreach from = $widget.inst->navigation item = link}
 				{if $link.url == null}
 				&nbsp;&nbsp;
@@ -44,7 +43,9 @@
 			</div>
 		{/if}
 
+		<div class = "section-content">
 		{$widget.content}
+		</div>
 	</section>
 	{/foreach}
 {/if}
