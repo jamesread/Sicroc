@@ -10,7 +10,7 @@
   "description": "",
   "dependencies": {
     "femtocrank": "^2.0.1",
-    "vite": "^7.1.5"
+    "vite": "^7.1.11"
   },
   "devDependencies": {
     "npm-check-updates": "^18.0.2"
